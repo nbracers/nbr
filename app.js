@@ -19,9 +19,12 @@ var secret = require('./config/secret');
 var path = require('path');
 
 var auth = function (req, res, next) {
-
-    if ( req.headers.authorization == "Bearer camenbert")
-     next();
+    if ( req.headers.authorization == "Bearer "+secret.secretToken) {
+        next();
+    }
+    else {
+        return res.status(401).end();
+    }
 };
 
 app.use(bodyParser.json());
