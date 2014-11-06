@@ -3,9 +3,18 @@
  */
 
 
-nbrAppControllers.controller("MainCtrl", function ($scope, $location) {
+nbrAppControllers.controller("MainCtrl", function ($scope, $location, $timeout, $mdSidenav) {
         console.log('--> main started');
 
+        $scope.toggleLeft = function() {
+            $mdSidenav('left').toggle();
+        };
 
     }
 );
+
+nbrAppControllers.controller('LeftCtrl', function ($scope, $timeout, $mdSidenav) {
+    $scope.close = function() {
+        $mdSidenav('left').close();
+    };
+})
