@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 var CompetitionSchema = new Schema({
     competition_date:   { type: Date },
     description:        { type: String },
-    racetype:           { type: String }
+    racetype:           { type: Schema.Types.ObjectId, ref: 'Racetype', default: null }
 });
 
 // Export Models

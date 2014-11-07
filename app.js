@@ -44,8 +44,14 @@ app.all('*', function(req, res, next) {
 
 /********* routes *********/
 var routes = {};
-routes.racetypes =  require('./routes/racetypes.js');
-routes.seasons =    require('./routes/seasons.js');
+routes.competitions =   require('./routes/competitions.js');
+routes.racetypes =      require('./routes/racetypes.js');
+routes.seasons =        require('./routes/seasons.js');
+
+/********* competition routes *********/
+app.get('/competition',         auth,   routes.competitions.getAllCompetitions());
+app.post('/competition',        auth,   routes.competitions.createCompetition());
+app.delete('/competition/:id',  auth,   routes.competitions.deleteCompetition());
 
 /********* racetype routes *********/
 app.get('/racetype',            auth,   routes.racetypes.getAllRacetypes());
