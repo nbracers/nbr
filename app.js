@@ -14,7 +14,7 @@ var app = express();
 var jwt = require('express-jwt');
 var bodyParser = require('body-parser'); //bodyparser + json + urlencoder
 var morgan  = require('morgan'); // logger
-//var db = require('./config/mongo_database');
+var db = require('./config/mongo_database');
 var secret = require('./config/secret');
 var path = require('path');
 
@@ -23,7 +23,7 @@ var auth = function (req, res, next) {
         next();
     }
     else {
-        return res.status(401).end();
+        res.status(401).end();
     }
 };
 
@@ -42,13 +42,22 @@ app.all('*', function(req, res, next) {
     next();
 });
 
-/********* start the server *********/
-var server = app.listen(port);
 
 /********* routes *********/
 var routes = {};
 routes.default =     require('./routes/default.js');
+routes.racetypes =   require('./routes/racetypes.js');
 
+/********* default routes *********/
 app.get('/te', auth, routes.default.testEnc());
 
+/********* racetype routes *********/
+app.get('/racetype',            auth,   routes.racetypes.getAllRacetypes());
+app.post('/racetype',           auth,   routes.racetypes.createRacetype());
+app.put('/racetype',            auth,   routes.racetypes.updateRacetype());
+app.delete('/racetype/:id',     auth,   routes.racetypes.deleteRacetype());
+
+
+/********* start the server *********/
+var server = app.listen(port);
 console.log('NBR services is starting on port '+port);
