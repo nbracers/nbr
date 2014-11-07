@@ -45,6 +45,7 @@ app.all('*', function(req, res, next) {
 /********* routes *********/
 var routes = {};
 routes.competitions =   require('./routes/competitions.js');
+routes.heros =          require('./routes/heros.js');
 routes.racetypes =      require('./routes/racetypes.js');
 routes.seasons =        require('./routes/seasons.js');
 
@@ -52,6 +53,13 @@ routes.seasons =        require('./routes/seasons.js');
 app.get('/competition',         auth,   routes.competitions.getAllCompetitions());
 app.post('/competition',        auth,   routes.competitions.createCompetition());
 app.delete('/competition/:id',  auth,   routes.competitions.deleteCompetition());
+
+/********* hero routes *********/
+app.get('/hero',                        auth,   routes.heros.getAllHeros());
+app.post('/hero',                       auth,   routes.heros.createHero());
+app.put('/hero/:id/addcompetition',     auth,   routes.heros.addCompetitionToHero());
+app.put('/hero/:id/removecompetition',  auth,   routes.heros.removeCompetitionFromHero());
+app.delete('/hero/:id',                 auth,   routes.heros.deleteHero());
 
 /********* racetype routes *********/
 app.get('/racetype',            auth,   routes.racetypes.getAllRacetypes());

@@ -101,22 +101,22 @@ exports.deleteSeason = function() {
 
         var id = req.params.id;
         if (id == null || id == '') {
-            return res.status(400).end();
+            res.status(400).end();
         }
 
         var query = Season.findOne({_id: id});
         query.exec(function(err, result) {
             if (err) {
-                return res.status(400).end();
+                res.status(400).end();
             }
 
             if (result != null) {
                 result.remove();
                 console.log('--> season ('+id+') deleted');
-                return res.status(200).end();
+                res.status(200).end();
             }
             else {
-                return res.status(400).end();
+                res.status(400).end();
             }
 
         });
