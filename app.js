@@ -1,8 +1,7 @@
 /**
- * Created by jeremyt on 10/09/14.
+ * Created by jeremyt on 07/11/14.
  */
 //this is needed to read environment vars locally
-//variables needed for the app are: AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, REDISTOGO_URL, SECRET_TOKEN
 var dotenv = require('dotenv');
 dotenv.load();
 
@@ -45,11 +44,8 @@ app.all('*', function(req, res, next) {
 
 /********* routes *********/
 var routes = {};
-routes.default =     require('./routes/default.js');
-routes.racetypes =   require('./routes/racetypes.js');
-
-/********* default routes *********/
-app.get('/te', auth, routes.default.testEnc());
+routes.racetypes =  require('./routes/racetypes.js');
+routes.seasons =    require('./routes/seasons.js');
 
 /********* racetype routes *********/
 app.get('/racetype',            auth,   routes.racetypes.getAllRacetypes());
@@ -57,6 +53,11 @@ app.post('/racetype',           auth,   routes.racetypes.createRacetype());
 app.put('/racetype',            auth,   routes.racetypes.updateRacetype());
 app.delete('/racetype/:id',     auth,   routes.racetypes.deleteRacetype());
 
+/********* season routes *********/
+app.get('/season',              auth,   routes.seasons.getAllSeasons());
+app.post('/season',             auth,   routes.seasons.createSeason());
+app.put('/season',              auth,   routes.seasons.updateSeason());
+app.delete('/season/:id',       auth,   routes.seasons.deleteSeason());
 
 /********* start the server *********/
 var server = app.listen(port);
