@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 // Space schema
 var RacetypeSchema = new Schema({
-    label:           { type: String }
+    label:           { type: String, unique: true }
 });
 
 // Export Models
