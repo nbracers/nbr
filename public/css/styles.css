@@ -1,12 +1,28 @@
 footer {
     height: 100px;
-    background-color: #000000;
+    background-color: #333333;
     color: #FFFFFF;
 }
 
-.menuButton {
+.headerButton {
     width: 40px;
     height: 40px;
     background-color: transparent;
     border: none;
+}
+
+.menuButton {
+    border-radius: 0 !important;
+    margin-bottom: 16px;
+    color: #FFFFFF;
+}
+
+.menuButton.selected {
+    background-color: #FF5722 !important;
+    color: #333333;
+}
+
+.sectionHeader {
+    margin: 10px;
+    color: #FFFFFF;
 }
