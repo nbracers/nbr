@@ -26,3 +26,40 @@ footer {
     margin: 10px;
     color: #FFFFFF;
 }
+
+.trophyGold {
+    color: #FF5722;
+}
+
+.trophySilver {
+    color: #9E9E9E;
+}
+
+.trophyBronze {
+    color: #4E342E;
+}
+
+.leaderboardHeader {
+    color: #FFFFFF;
+    /*border: 1px solid #FF5722;*/
+    height: 3em;
+}
+
+.leaderboardList {
+    border: 1px solid #FF5722;
+}
+
+.competitionCompleted {
+    text-decoration: line-through;
+    color: #999999;
+}
+
+.listMain {
+    margin: 40px;
+}
+
+@media (max-width: 600px) {
+    .listMain {
+        margin: 10px;
+    }
+}
