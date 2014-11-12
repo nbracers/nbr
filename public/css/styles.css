@@ -1,5 +1,12 @@
 footer {
-    height: 150px;
+    height: 100px;
     background-color: #000000;
     color: #FFFFFF;
+}
+
+.menuButton {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
 }

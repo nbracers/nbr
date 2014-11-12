@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" >
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.min.css">
     <link rel="stylesheet" href="bower_components/angular-material/themes/orange-theme.css">
+    <link rel="stylesheet" href="bower_components/angular-material/themes/deep-orange-theme.css">
+    <link rel="stylesheet" href="bower_components/angular-material/themes/grey-theme.css">
     <link rel="stylesheet" href="css/styles.css">
 
     <!-- Framework libraries -->
@@ -24,7 +26,30 @@
     <script type="text/javascript" src="js/directives.js"></script>
     <script type="text/javascript" src="js/services.js"></script>
 </head>
-<body>
-    <div ng-view layout="vertical" layout-fill></div>
+<body layout="horizontal" ng-controller="NavCtrl">
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" component-id="left" layout="vertical" style="background-color: #000000" is-locked-open="$media('md')">
+
+        <md-toolbar md-theme="deep-orange">
+            <h1 class="md-toolbar-tools">Meny</h1>
+        </md-toolbar>
+        <md-content class="md-padding" ng-controller="LeftCtrl" layout="vertical" flex style="background-color: #000000">
+
+        </md-content>
+
+    </md-sidenav>
+
+    <div layout="vertical" flex style="background-color: #333333">
+
+        <md-toolbar md-theme="deep-orange" layout-align="center center" >
+            <div layout="horizontal" layout-fill layout-align="center center">
+                <div hide-md  style="margin-left: 10px"><md-button class="menuButton" ng-click="toggleLeft()"><i class="fa fa-bars"></i></md-button></div>
+                <div flex style="margin-left: 10px">Nittedal Banket Racers</div>
+            </div>
+        </md-toolbar>
+
+        <div ng-view layout="vertical" flex></div>
+
+    </div>
+
 </body>
 </html>
