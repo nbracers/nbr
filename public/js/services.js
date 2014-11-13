@@ -29,6 +29,10 @@ nbrAppServices.factory('NbrService', function ($http) {
 
         getRacersWithSeasonId: function (data) {
             return $http.get(options.api.base_url + '/racer/'+data);
+        },
+
+        getRacerPodiumWithSeasonId: function (data) {
+            return $http.get(options.api.base_url + '/racer/podium/'+data);
         }
     }
 });

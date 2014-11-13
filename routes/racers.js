@@ -30,7 +30,29 @@ exports.getRacersBySeason = function() {
 
         var query = Racer.find();
         query.where({season: id});
-        query.sort('-total')
+        query.sort('-total');
+        query.exec(function(err, results) {
+            if (err) {
+                res.status(400).end();
+            }
+
+            res.status(200).json(results);
+        });
+    };
+};
+
+exports.getRacerPodiumBySeason  = function() {
+    return function (req, res) {
+
+        var id = req.params.seasonId;
+        if (id == null || id == '') {
+            res.status(400).end();
+        }
+
+        var query = Racer.find();
+        query.where({season: id});
+        query.limit(3);
+        query.sort('-total');
         query.exec(function(err, results) {
             if (err) {
                 res.status(400).end();

@@ -73,19 +73,14 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
             scope variables
          */
         $scope.footerText = "main";
-        $scope.racers = [
-            {name: 'Geir Skari', points: 3000, position: 1},
-            {name: 'Kjetil Ask', points: 2999, position: 2},
-            {name: 'Frode Nilsen', points: 2998, position: 3}
-        ];
-
+        $scope.racers = [];
         $scope.competitions = [];
 
         /*
             trophy color based on position
          */
-        $scope.getTrophyColor = function(racer) {
-            return NbrUtils.getTrophyColor(racer.position);
+        $scope.getTrophyColor = function(position) {
+            return NbrUtils.getTrophyColor(position);
         };
 
         $scope.getCompetitionStatus = function(dateString) {
@@ -113,6 +108,11 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
                 console.log('--> this years hero: '+data._id);
                 $scope.competitions = (data.competitions).sort(NbrUtils.sortCompetitionArray);
                 console.log('--> nbr competitions : '+$scope.competitions.length);
+            });
+
+            var podiumPromise = NbrService.getRacerPodiumWithSeasonId($scope.currentSeason._id);
+            podiumPromise.success(function(data) {
+                $scope.racers = data;
             });
 
         };
