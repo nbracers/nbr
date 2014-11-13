@@ -20,6 +20,27 @@ exports.getAllRacers = function() {
     };
 };
 
+exports.getRacersBySeason = function() {
+    return function (req, res) {
+
+        var id = req.params.seasonId;
+        if (id == null || id == '') {
+            res.status(400).end();
+        }
+
+        var query = Racer.find();
+        query.where({season: id});
+        query.sort('-total')
+        query.exec(function(err, results) {
+            if (err) {
+                res.status(400).end();
+            }
+
+            res.status(200).json(results);
+        });
+    };
+};
+
 exports.createRacer = function() {
 
     return function (req, res) {
@@ -44,7 +65,6 @@ exports.createRacer = function() {
                         res.status(500).end();
                     }
 
-                    console.log('--> racer ('+racer.name+') created');
                     res.status(200).json(racer);
                 });
 
@@ -75,12 +95,25 @@ exports.addResultToRacer = function() {
             }
 
             if (result != null) {
-                Racer.update({_id: id}, {$push: {results: result._id}}, function(err, racer) {
+                var query = Racer.findOne({_id: id});
+                query.exec(function(err, racer) {
                     if (err) {
-                        console.log(err);
-                        return res.status(500).end();
+                        res.status(400).end();
                     }
-                    return res.status(200).json(racer);
+
+                    if (racer != null) {
+                        racer.results.push(result._id);
+                        racer.total = racer.total + result.point;
+                        racer.save(function(err, racer) {
+                            if (err) {
+                                res.status(500).end();
+                            }
+
+                            res.status(200).json(racer);
+                        });
+                    } else {
+                        res.status(400).end();
+                    }
                 });
 
             } else {

@@ -79,31 +79,13 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
             {name: 'Frode Nilsen', points: 2998, position: 3}
         ];
 
-        $scope.competitions = [
-            {name: 'Triathlon', date: '25/08/2014', location: 'Sørli sletta', completed: true},
-            {name: 'Distance running', date: '15/09/2014', location: 'Sørli sletta', completed: true},
-            {name: 'Uphill running', date: '27/10/2014', location: 'Sørli sletta', completed: true},
-            {name: 'Bankett', date: '31/10/2014', location: 'Xing-Xing', completed: true},
-            {name: 'Swimming', date: '01/12/2014', location: 'Libadet', completed: false}
-        ];
+        $scope.competitions = [];
 
         /*
             trophy color based on position
          */
         $scope.getTrophyColor = function(racer) {
-            switch(racer.position) {
-                case 1:
-                    return 'trophyGold';
-                    break;
-                case 2:
-                    return 'trophySilver';
-                    break;
-                case 3:
-                    return 'trophyBronze';
-                    break;
-                default:
-                    return '';
-            }
+            return NbrUtils.getTrophyColor(racer.position);
         };
 
         $scope.getCompetitionStatus = function(dateString) {
@@ -137,7 +119,7 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
     }
 );
 
-nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location, $timeout, $mdSidenav) {
+nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location, $timeout, $mdSidenav, NbrService, NbrUtils) {
         /*
             on activate, fires MENU_CHANGED with correct index
          */
@@ -147,5 +129,29 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             scope variables
          */
         $scope.footerText = "hero";
+        $scope.selectedIndex = 0;
+        $scope.racers = [];
+
+        /*
+         trophy color based on position
+         */
+        $scope.getTrophyColor = function(position) {
+            return NbrUtils.getTrophyColor(position);
+        };
+
+        $scope.announceSelected = function(ind) {
+            initHero(ind);
+        };
+
+        initHero($scope.selectedIndex);
+        function initHero(ind) {
+
+            var heroPromise = NbrService.getRacersWithSeasonId($scope.allseasons[ind]._id);
+            heroPromise.success(function(data) {
+                $scope.racers = data;
+                console.log('--> nbr racers : '+$scope.racers.length);
+            });
+
+        };
     }
 );

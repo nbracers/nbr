@@ -25,6 +25,10 @@ nbrAppServices.factory('NbrService', function ($http) {
 
         getHeroWithSeasonId: function (data) {
             return $http.get(options.api.base_url + '/hero/'+data);
+        },
+
+        getRacersWithSeasonId: function (data) {
+            return $http.get(options.api.base_url + '/racer/'+data);
         }
     }
 });
@@ -45,6 +49,22 @@ nbrAppServices.factory('NbrUtils', function () {
             if (a.competition_date > b.competition_date)
                 return 1;
             return 0;
+        },
+
+        getTrophyColor: function(position) {
+            switch(position) {
+                case 1:
+                    return 'trophyGold';
+                    break;
+                case 2:
+                    return 'trophySilver';
+                    break;
+                case 3:
+                    return 'trophyBronze';
+                    break;
+                default:
+                    return '';
+            }
         }
     }
 });

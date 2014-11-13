@@ -58,6 +58,14 @@ footer {
     margin: 40px;
 }
 
+md-tabs.md-grey-theme md-tabs-ink-bar {
+    background: #FF5722 !important;
+}
+
+md-tabs.md-grey-theme md-tab.active {
+    background-color: #777777 !important;
+}
+
 @media (max-width: 600px) {
     .listMain {
         margin: 10px;

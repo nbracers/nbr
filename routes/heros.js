@@ -251,6 +251,7 @@ exports.removeCompetitionFromHero = function() {
                                     console.log(err);
                                     return res.status(500).end();
                                 }
+
                                 return res.status(200).json(updatedHero);
                             });
 
