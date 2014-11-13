@@ -20,7 +20,6 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $location, $timeout, $
          */
         $scope.$on('MENU_CHANGED', function (event, ind) {
             $scope.menuSelectedIndex = ind;
-            $scope.$apply();
         });
 
         /*
