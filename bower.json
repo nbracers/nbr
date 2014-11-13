@@ -2,8 +2,8 @@
   "name": "NbrClient",
   "version": "0.0.1",
   "authors": [
-      "Dominique Ribeau <domribautt@gmail.com>",
-        "Jeremy Toussaint <jeremyt@uio.im>"
+    "Dominique Ribeau <domribautt@gmail.com>",
+    "Jeremy Toussaint <jeremyt@uio.im>"
   ],
   "description": "NBR super app",
   "dependencies": {
@@ -14,6 +14,7 @@
     "hammerjs": "~2.0.2",
     "angular-material": "~0.5.1",
     "socket.io-client": "~1.2.0",
-    "font-awesome": "~4.2.0"
+    "font-awesome": "~4.2.0",
+    "moment": "~2.8.3"
   }
 }

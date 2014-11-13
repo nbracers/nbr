@@ -2,7 +2,7 @@
  * Created by jeremyt on 10/10/14.
  */
 
-nbrAppControllers.controller("NavCtrl", function ($scope, $location, $timeout, $mdSidenav) {
+nbrAppControllers.controller("NavCtrl", function ($scope, $location, $timeout, $mdSidenav, NbrService, NbrUtils) {
 
         /*
             scope variables
@@ -14,6 +14,32 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $location, $timeout, $
             {label: 'President finder', target: '#/president', disabled: true},
             {label: 'About', target: '#/about', disabled: true}
         ];
+        $scope.allseasons = [];
+        $scope.currentSeason = null;
+
+        initNav();
+        function initNav() {
+            /*
+                let's get all seasons and current season at the top level controller
+             */
+            var d = new Date();
+            var thisyear = d.getFullYear();
+
+            console.log('--> this year: '+thisyear);
+            var allseasonsPromise = NbrService.getAllSeasons();
+            allseasonsPromise.success(function(data) {
+                console.log('--> number of seasons: '+data.length);
+
+                /*
+                    seasons get ordered from newest to oldest
+                 */
+                $scope.allseasons = data.sort(NbrUtils.sortSeasonArray).reverse();
+                $scope.currentSeason = $scope.allseasons[0];
+
+                console.log('--> current season: '+$scope.currentSeason.label);
+            });
+
+        };
 
         /*
             listener for menu change events
@@ -32,12 +58,12 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $location, $timeout, $
         $scope.close = function() {
             $mdSidenav('left').close();
         };
-
     }
 );
 
 
-nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location, $timeout, $mdSidenav) {
+nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location, $timeout, $mdSidenav, NbrService, NbrUtils) {
+
         /*
             on activate, fires MENU_CHANGED with correct index
          */
@@ -61,8 +87,14 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
             {name: 'Swimming', date: '01/12/2014', location: 'Libadet', completed: false}
         ];
 
+        /*
+            trophy color based on position
+         */
         $scope.getTrophyColor = function(racer) {
             switch(racer.position) {
+                case 1:
+                    return 'trophyGold';
+                    break;
                 case 2:
                     return 'trophySilver';
                     break;
@@ -70,18 +102,38 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
                     return 'trophyBronze';
                     break;
                 default:
-                    return 'trophyGold';
+                    return '';
             }
         };
 
-        $scope.getCompetitionStatus = function(competition) {
-            if(competition.completed) {
+        $scope.getCompetitionStatus = function(dateString) {
+            var momentDate = moment(dateString);
+            var momentNow = moment();
+
+            if(momentNow.diff(momentDate) > 0) {
                 return 'competitionCompleted';
             }
             else {
                 return '';
             }
-        }
+        };
+
+        $scope.getFormattedDate = function(dateString) {
+            var momentDate = moment(dateString);
+            return momentDate.format('DD/MM/YYYY');
+        };
+
+        initMain();
+        function initMain() {
+
+            var heroPromise = NbrService.getHeroWithSeasonId($scope.currentSeason._id);
+            heroPromise.success(function(data) {
+                console.log('--> this years hero: '+data._id);
+                $scope.competitions = (data.competitions).sort(NbrUtils.sortCompetitionArray);
+                console.log('--> nbr competitions : '+$scope.competitions.length);
+            });
+
+        };
     }
 );
 

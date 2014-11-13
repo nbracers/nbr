@@ -29,15 +29,15 @@
                 <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
                     Calendar
                 </md-whiteframe>
-                <md-item ng-repeat="competition in competitions" layout="horizontal" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0" ng-class="getCompetitionStatus(competition)">
+                <md-item ng-repeat="competition in competitions" layout="horizontal" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0" ng-class="getCompetitionStatus(competition.competition_date)">
                     <div flex=30 class="md-tile-left" layout="vertical" layout-align="center start">
-                        <h4>{{competition.date}}</h4>
+                        <h4>{{getFormattedDate(competition.competition_date)}}</h4>
                     </div>
-                    <div flex layout="vertical" layout-align="end start">
-                        <h4>{{competition.name}}</h4>
+                    <div flex="30" layout="vertical" layout-align="center start">
+                        <h4>{{competition.racetype.label}}</h4>
                     </div>
-                    <div flex=30 layout="vertical" layout-align="end end">
-                        <h4>{{competition.location}}</h4>
+                    <div flex layout="vertical" layout-align="center start" style="text-align: justify">
+                        <h4>{{competition.description}}</h4>
                     </div>
                 </md-item>
             </md-list>
