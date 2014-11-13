@@ -1,5 +1,65 @@
 footer {
-    height: 150px;
-    background-color: #000000;
+    height: 100px;
+    background-color: #333333;
     color: #FFFFFF;
+}
+
+.headerButton {
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+}
+
+.menuButton {
+    border-radius: 0 !important;
+    margin-bottom: 16px;
+    color: #FFFFFF;
+}
+
+.menuButton.selected {
+    background-color: #FF5722 !important;
+    color: #333333;
+}
+
+.sectionHeader {
+    margin: 10px;
+    color: #FFFFFF;
+}
+
+.trophyGold {
+    color: #FF5722;
+}
+
+.trophySilver {
+    color: #9E9E9E;
+}
+
+.trophyBronze {
+    color: #4E342E;
+}
+
+.leaderboardHeader {
+    color: #FFFFFF;
+    /*border: 1px solid #FF5722;*/
+    height: 3em;
+}
+
+.leaderboardList {
+    border: 1px solid #FF5722;
+}
+
+.competitionCompleted {
+    text-decoration: line-through;
+    color: #999999;
+}
+
+.listMain {
+    margin: 40px;
+}
+
+@media (max-width: 600px) {
+    .listMain {
+        margin: 10px;
+    }
 }

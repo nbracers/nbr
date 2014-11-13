@@ -20,6 +20,10 @@ nbrApp.config(['$locationProvider', '$routeProvider',
                 templateUrl: 'partials/main.html',
                 controller: 'MainCtrl'
             }).
+            when('/hero', {
+                templateUrl: 'partials/hero.html',
+                controller: 'HeroCtrl'
+            }).
             otherwise({
                 redirectTo: '/'
             });
