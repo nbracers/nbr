@@ -70,6 +70,19 @@ exports.createResult = function() {
             res.status(400).end();
         }
 
+        /*
+
+         {
+             "competitionId" : "54652351f1f12a49e570df57",
+             "point": "1030",
+             "hour":	"0",
+             "minute":"44",
+             "second":"05"
+         }
+
+
+         */
+
         var m = moment.duration({seconds: second, minutes: minute, hours: hour});
         console.log(m.humanize()+' - in ms: '+m.asMilliseconds());
 

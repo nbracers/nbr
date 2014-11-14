@@ -79,6 +79,43 @@ function getPopulatedCompetitions(popHero) {
     );
 };
 
+
+
+exports.getHeroWithSeasonId = function() {
+    return function (req, res) {
+
+        var sid = req.params.seasonId;
+        if (sid == null || sid == '') {
+            res.status(400).end();
+        }
+
+        var query = Hero.findOne();
+        query.where({season: sid});
+        query.populate({
+            path: 'season',
+            model: Season
+        });
+        query.populate({
+            path: 'competitions',
+            model: Competition
+        });
+        query.exec(function (err, popHero) {
+
+            if (err) {
+                reject(err);
+            }
+
+            var competitionPromise = getPopulatedCompetitions(popHero);
+            competitionPromise.then(function(finishedPopulatedHero) {
+                res.status(200).json(finishedPopulatedHero);
+            }).catch(function(err) {
+                //something went wrong with the promises, return 400
+                res.status(400).end();
+            });;
+        });
+    };
+};
+
 exports.createHero = function() {
 
     return function (req, res) {
@@ -214,6 +251,7 @@ exports.removeCompetitionFromHero = function() {
                                     console.log(err);
                                     return res.status(500).end();
                                 }
+
                                 return res.status(200).json(updatedHero);
                             });
 

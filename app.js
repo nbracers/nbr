@@ -59,6 +59,7 @@ app.delete('/competition/:id',          auth,   routes.competitions.deleteCompet
 
 /********* hero routes *********/
 app.get('/hero',                        auth,   routes.heros.getAllHeros());
+app.get('/hero/:seasonId',              auth,   routes.heros.getHeroWithSeasonId());
 app.post('/hero',                       auth,   routes.heros.createHero());
 app.put('/hero/:id/addcompetition',     auth,   routes.heros.addCompetitionToHero());
 app.put('/hero/:id/removecompetition',  auth,   routes.heros.removeCompetitionFromHero());
@@ -74,6 +75,8 @@ app.delete('/member/:id',               auth,   routes.members.deleteMember());
 
 /********* racer routes *********/
 app.get('/racer',                       auth,   routes.racers.getAllRacers());
+app.get('/racer/:seasonId',             auth,   routes.racers.getRacersBySeason());
+app.get('/racer/podium/:seasonId',      auth,   routes.racers.getRacerPodiumBySeason());
 app.post('/racer',                      auth,   routes.racers.createRacer());
 app.put('/racer',                       auth,   routes.racers.updateRacer());
 app.put('/racer/:id/addResult',         auth,   routes.racers.addResultToRacer());

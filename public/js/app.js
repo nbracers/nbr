@@ -28,3 +28,7 @@ nbrApp.config(['$locationProvider', '$routeProvider',
                 redirectTo: '/'
             });
     }]);
+
+nbrApp.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('TokenInterceptor');
+});

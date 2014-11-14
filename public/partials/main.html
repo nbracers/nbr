@@ -6,20 +6,20 @@
         <section layout="vertical">
             <md-list class="listMain">
                 <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
-                    Leaderboard
+                    Leaderboard - {{ currentSeason.label }}
                 </md-whiteframe>
                 <md-item ng-repeat="racer in racers" layout="horizontal" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0">
                     <div flex=10 class="md-tile-left" layout="vertical" layout-align="center start">
-                        <h3>{{racer.position}}</h3>
+                        <h3>{{$index+1}}</h3>
                     </div>
                     <div flex=10 class="md-tile-left" layout="vertical" layout-align="center start">
-                        <i class="fa fa-2x fa-trophy" ng-class="getTrophyColor(racer)"></i>
+                        <i class="fa fa-2x fa-trophy" ng-class="getTrophyColor($index+1)"></i>
                     </div>
                     <div flex layout="vertical" layout-align="end start">
                         <h3>{{racer.name}}</h3>
                     </div>
                     <div flex=30 layout="vertical" layout-align="end end">
-                        <h3>{{racer.points}} pts</h3>
+                        <h3>{{racer.total}} pts</h3>
                     </div>
                 </md-item>
             </md-list>
@@ -27,17 +27,17 @@
         <section layout="vertical" flex>
             <md-list class="listMain">
                 <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
-                    Calendar
+                    Calendar - {{ currentSeason.label }}
                 </md-whiteframe>
-                <md-item ng-repeat="competition in competitions" layout="horizontal" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0" ng-class="getCompetitionStatus(competition)">
+                <md-item ng-repeat="competition in competitions" layout="horizontal" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0" ng-class="getCompetitionStatus(competition.competition_date)">
                     <div flex=30 class="md-tile-left" layout="vertical" layout-align="center start">
-                        <h4>{{competition.date}}</h4>
+                        <h4>{{getFormattedDate(competition.competition_date)}}</h4>
                     </div>
-                    <div flex layout="vertical" layout-align="end start">
-                        <h4>{{competition.name}}</h4>
+                    <div flex="30" layout="vertical" layout-align="center start">
+                        <h4>{{competition.racetype.label}}</h4>
                     </div>
-                    <div flex=30 layout="vertical" layout-align="end end">
-                        <h4>{{competition.location}}</h4>
+                    <div flex layout="vertical" layout-align="center start" style="text-align: justify">
+                        <h4>{{competition.description}}</h4>
                     </div>
                 </md-item>
             </md-list>
