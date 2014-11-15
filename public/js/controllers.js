@@ -263,23 +263,23 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $locatio
 
     $scope.$on('mapInitialized', function(event, map) {
 
+        var presInfowindow = new google.maps.InfoWindow();
         var image = 'img/pres.png';
         var presPos = new google.maps.LatLng(60.055447, 10.869426);
         var presMarker = new google.maps.Marker({position: presPos, map: map, icon: image});
         map.panTo(presPos);
         google.maps.event.addListener(presMarker, 'click', (function(presMarker) {
             return function() {
-                var infowindow = new google.maps.InfoWindow();
-                infowindow.setContent('Président');
-                infowindow.open(map, presMarker);
+                presInfowindow.setContent('Président');
+                presInfowindow.open(map, presMarker);
             }
         })(presMarker));
 
+        var infowindow = new google.maps.InfoWindow();
         var initPos = new google.maps.LatLng(0,0);
         var marker = new google.maps.Marker({position: initPos, map: map});
         google.maps.event.addListener(marker, 'click', (function(marker) {
             return function() {
-                var infowindow = new google.maps.InfoWindow();
                 infowindow.setContent('Me');
                 infowindow.open(map, marker);
             }
