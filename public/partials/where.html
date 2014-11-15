@@ -2,8 +2,11 @@
     <md-whiteframe class="md-whiteframe-z1">
         <div class="sectionHeader">Where is the president?</div>
     </md-whiteframe>
+    <div layout="horizontal" layout-padding>
+        <h4>Your distance to the president: {{ distance }} meters</h4>
+    </div>
     <div style="overflow: auto; background-color: #777777" flex layout="vertical" layout-padding>
-       <map center="0,0" zoom="15" ></map>
+       <map center="0,0" zoom="12" style="height: 400px !important" ></map>
     </div>
 
 </div>

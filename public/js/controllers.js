@@ -259,8 +259,21 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $locatio
      */
     $rootScope.$broadcast('MENU_CHANGED', 2);
 
+    $scope.distance = 0;
+
     $scope.$on('mapInitialized', function(event, map) {
 
+        var image = 'img/pres.png';
+        var presPos = new google.maps.LatLng(60.055447, 10.869426);
+        var presMarker = new google.maps.Marker({position: presPos, map: map, icon: image});
+        map.panTo(presPos);
+        google.maps.event.addListener(presMarker, 'click', (function(presMarker) {
+            return function() {
+                var infowindow = new google.maps.InfoWindow();
+                infowindow.setContent('Président');
+                infowindow.open(map, presMarker);
+            }
+        })(presMarker));
 
         var initPos = new google.maps.LatLng(0,0);
         var marker = new google.maps.Marker({position: initPos, map: map});
@@ -276,20 +289,17 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $locatio
             var pos = new google.maps.LatLng(position.coords.latitude,
                 position.coords.longitude);
             marker.setPosition(pos);
-            map.panTo(pos);
+
+            var bounds = new google.maps.LatLngBounds();
+            bounds.extend( presMarker.getPosition() );
+            bounds.extend( marker.getPosition() );
+
+            map.fitBounds(bounds);
+
+            $scope.distance = Math.floor(google.maps.geometry.spherical.computeDistanceBetween(presPos, pos));
+            $scope.$apply();
         });
 
-        var image = 'img/pres.png';
-        var presPos = new google.maps.LatLng(60.055447, 10.869426);
-        var presMarker = new google.maps.Marker({position: presPos, map: map, icon: image});
-        map.panTo(presPos);
-        google.maps.event.addListener(presMarker, 'click', (function(presMarker) {
-            return function() {
-                var infowindow = new google.maps.InfoWindow();
-                infowindow.setContent('Président');
-                infowindow.open(map, presMarker);
-            }
-        })(presMarker));
     });
 
 });
