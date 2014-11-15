@@ -91,6 +91,7 @@ app.delete('/racetype/:id',             auth,   routes.racetypes.deleteRacetype(
 
 /********* result routes *********/
 app.get('/result',                      auth,   routes.results.getAllResults());
+app.get('/result/:id',                  auth,   routes.results.getResultById());
 app.post('/result',                     auth,   routes.results.createResult());
 app.delete('/result/:id',               auth,   routes.results.deleteResult());
 

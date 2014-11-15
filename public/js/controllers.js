@@ -11,7 +11,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $location, $timeout, $
         $scope.menuButtonObject = [
             {label: 'Main', target: '#/', disabled: false},
             {label: 'Multihero', target: '#/hero', disabled: false},
-            {label: 'President finder', target: '#/president', disabled: true},
+            {label: 'President finder', target: '#/where', disabled: false},
             {label: 'About', target: '#/about', disabled: true}
         ];
         $scope.allseasons = [];
@@ -62,7 +62,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $location, $timeout, $
 );
 
 
-nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location, $timeout, $mdSidenav, NbrService, NbrUtils) {
+nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location, $window, $timeout, $mdSidenav, NbrService, NbrUtils) {
 
         /*
             on activate, fires MENU_CHANGED with correct index
@@ -83,6 +83,9 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
             return NbrUtils.getTrophyColor(position);
         };
 
+        /*
+            return correct class if competition date is over
+         */
         $scope.getCompetitionStatus = function(dateString) {
             var momentDate = moment(dateString);
             var momentNow = moment();
@@ -95,9 +98,18 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
             }
         };
 
+        /*
+            navigate to hero page
+         */
+        $scope.gotoHero = function() {
+            $window.location.href = $scope.menuButtonObject[1].target;
+        };
+
+        /*
+            return a pretty date
+         */
         $scope.getFormattedDate = function(dateString) {
-            var momentDate = moment(dateString);
-            return momentDate.format('DD/MM/YYYY');
+            return NbrUtils.prettyFormatFullDate(dateString);
         };
 
         initMain();
@@ -131,6 +143,8 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
         $scope.footerText = "hero";
         $scope.selectedIndex = 0;
         $scope.racers = [];
+        $scope.lastSelectedRacer = {};
+        $scope.selectedUserResults = [];
 
         /*
          trophy color based on position
@@ -139,8 +153,91 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             return NbrUtils.getTrophyColor(position);
         };
 
+        /*
+            refresh the racers based on the tab clicked
+         */
         $scope.announceSelected = function(ind) {
             initHero(ind);
+        };
+
+        /*
+            return correct class for racer
+         */
+        $scope.getRacerStyle = function(racer) {
+            if(racer.selected) {
+                return 'racerItemSelect';
+            }
+            else {
+                return 'racerItem';
+            }
+        };
+
+        /*
+            sets the current selected racer (unsets previous one)
+         */
+        $scope.changeSelected = function(racer) {
+            $scope.lastSelectedRacer.selected = false;
+            $scope.lastSelectedRacer = racer;
+            $scope.lastSelectedRacer.selected = true;
+            getRacerResults($scope.lastSelectedRacer);
+        };
+
+
+        function getRacerResults(racer) {
+            var resultsServicePromises = [];
+
+            racer.results.forEach(function(result) {
+                resultsServicePromises.push(getResultObject(result))
+            });
+
+            Promise.all(resultsServicePromises).then(function(resultsArray) {
+                console.log('--> successfully retrieved: '+resultsArray.length+' results');
+                $scope.selectedUserResults = resultsArray;
+                $scope.$apply();
+            }).catch(function(err) {
+                console.log('heros all promise error: '+err);
+            });
+        };
+
+        function getResultObject(result) {
+            return new Promise(function(resolve, reject) {
+
+                var service = NbrService.getResultWithId(result);
+                service.success(function(retrievedResult) {
+                    resolve(retrievedResult);
+                });
+                service.error(function(err) {
+                    reject(err);
+                });
+            })
+        };
+
+        /*
+            return a pretty date
+         */
+        $scope.getFormattedDate = function(dateString) {
+            return NbrUtils.prettyFormatFullDate(dateString);
+        };
+
+        $scope.getFormattedTime = function(t) {
+            var d = moment.duration(t, 'milliseconds');
+            var hours = String(Math.floor(d.asHours()));
+            var mins = String(Math.floor(d.asMinutes()) - hours * 60);
+            var secs = String(Math.floor(d.asSeconds()) - hours * 60 - mins * 60);
+
+            if(hours.length == 1 ) {
+                hours = '0'+hours;
+            }
+
+            if(mins.length == 1) {
+                mins = '0'+mins;
+            }
+
+            if(secs.length == 1) {
+                secs = '0'+secs;
+            }
+
+            return hours + ":" + mins + ":" + secs ;
         };
 
         initHero($scope.selectedIndex);
@@ -155,3 +252,44 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
         };
     }
 );
+
+nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $location, $timeout, $mdSidenav, NbrService, NbrUtils) {
+    /*
+     on activate, fires MENU_CHANGED with correct index
+     */
+    $rootScope.$broadcast('MENU_CHANGED', 2);
+
+    $scope.$on('mapInitialized', function(event, map) {
+
+
+        var initPos = new google.maps.LatLng(0,0);
+        var marker = new google.maps.Marker({position: initPos, map: map});
+        google.maps.event.addListener(marker, 'click', (function(marker) {
+            return function() {
+                var infowindow = new google.maps.InfoWindow();
+                infowindow.setContent('Me');
+                infowindow.open(map, marker);
+            }
+        })(marker));
+
+        navigator.geolocation.watchPosition(function(position) {
+            var pos = new google.maps.LatLng(position.coords.latitude,
+                position.coords.longitude);
+            marker.setPosition(pos);
+            map.panTo(pos);
+        });
+
+        var image = 'img/pres.png';
+        var presPos = new google.maps.LatLng(60.055447, 10.869426);
+        var presMarker = new google.maps.Marker({position: presPos, map: map, icon: image});
+        map.panTo(presPos);
+        google.maps.event.addListener(presMarker, 'click', (function(presMarker) {
+            return function() {
+                var infowindow = new google.maps.InfoWindow();
+                infowindow.setContent('Président');
+                infowindow.open(map, presMarker);
+            }
+        })(presMarker));
+    });
+
+});

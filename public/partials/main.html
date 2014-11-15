@@ -8,7 +8,7 @@
                 <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
                     Leaderboard - {{ currentSeason.label }}
                 </md-whiteframe>
-                <md-item ng-repeat="racer in racers" layout="horizontal" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0">
+                <md-item class="racerItem" ng-repeat="racer in racers" layout="horizontal" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0" ng-click="gotoHero()">
                     <div flex=10 class="md-tile-left" layout="vertical" layout-align="center start">
                         <h3>{{$index+1}}</h3>
                     </div>

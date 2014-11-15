@@ -11,18 +11,38 @@
                 <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
                     Leaderboard - {{ allseasons[selectedIndex].label }}
                 </md-whiteframe>
-                <md-item ng-repeat="racer in racers" layout="horizontal" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0">
-                    <div flex=10 class="md-tile-left" layout="vertical" layout-align="center start">
-                        <h3>{{$index+1}}</h3>
+                <md-item ng-repeat="racer in racers" ng-class="getRacerStyle(racer)" layout="vertical" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0" ng-click="changeSelected(racer)">
+                    <div layout="horizontal" flex layout-align="center">
+                        <div flex=10 class="md-tile-left" layout="vertical" layout-align="center start">
+                            <h3>{{$index+1}}</h3>
+                        </div>
+                        <div flex=10 class="md-tile-left" layout="vertical" layout-align="center start">
+                            <i class="fa fa-2x fa-trophy" ng-class="getTrophyColor($index+1)"></i>
+                        </div>
+                        <div flex layout="vertical" layout-align="end start">
+                            <h3>{{racer.name}}</h3>
+                        </div>
+                        <div flex=30 layout="vertical" layout-align="end end">
+                            <h3>{{racer.total}} pts</h3>
+                        </div>
                     </div>
-                    <div flex=10 class="md-tile-left" layout="vertical" layout-align="center start">
-                        <i class="fa fa-2x fa-trophy" ng-class="getTrophyColor($index+1)"></i>
-                    </div>
-                    <div flex layout="vertical" layout-align="end start">
-                        <h3>{{racer.name}}</h3>
-                    </div>
-                    <div flex=30 layout="vertical" layout-align="end end">
-                        <h3>{{racer.total}} pts</h3>
+                    <div ng-show="racer.selected" style="background-color: #BBBBBB; min-height: 200px;">
+                        <md-list>
+                            <md-item ng-repeat="result in selectedUserResults" layout="horizontal" layout-align="center" layout-padding style="color: #333333;">
+                                <div flex layout="vertical">
+                                    {{getFormattedDate(result.competition.competition_date)}}
+                                </div>
+                                <div flex layout="vertical">
+                                    {{result.competition.racetype.label}}
+                                </div>
+                                <div flex layout="vertical" layout-align="end end">
+                                    {{getFormattedTime(result.time)}}
+                                </div>
+                                <div flex layout="vertical" layout-align="end end">
+                                    {{result.point}} pts
+                                </div>
+                            </md-item>
+                        </md-list>
                     </div>
                 </md-item>
             </md-list>

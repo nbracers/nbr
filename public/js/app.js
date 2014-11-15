@@ -2,7 +2,7 @@
  * Created by jeremyt on 10/10/14.
  */
 
-var nbrApp = angular.module('NbrApp', ['ngRoute', 'ngAnimate', 'ngMaterial', 'NbrAppControllers', 'NbrAppServices', 'NbrAppDirectives']);
+var nbrApp = angular.module('NbrApp', ['ngRoute', 'ngAnimate', 'ngMaterial', 'NbrAppControllers', 'NbrAppServices', 'NbrAppDirectives', 'ngMap']);
 
 var nbrAppControllers = angular.module('NbrAppControllers', []);
 var nbrAppServices = angular.module('NbrAppServices', []);
@@ -23,6 +23,10 @@ nbrApp.config(['$locationProvider', '$routeProvider',
             when('/hero', {
                 templateUrl: 'partials/hero.html',
                 controller: 'HeroCtrl'
+            }).
+            when('/where', {
+                templateUrl: 'partials/where.html',
+                controller: 'WhereCtrl'
             }).
             otherwise({
                 redirectTo: '/'

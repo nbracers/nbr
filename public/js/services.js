@@ -33,6 +33,10 @@ nbrAppServices.factory('NbrService', function ($http) {
 
         getRacerPodiumWithSeasonId: function (data) {
             return $http.get(options.api.base_url + '/racer/podium/'+data);
+        },
+
+        getResultWithId: function (data) {
+            return $http.get(options.api.base_url + '/result/'+data);
         }
     }
 });
@@ -69,6 +73,11 @@ nbrAppServices.factory('NbrUtils', function () {
                 default:
                     return '';
             }
+        },
+
+        prettyFormatFullDate: function(d) {
+            var momentDate = moment(d);
+            return momentDate.format('DD/MM/YYYY');
         }
     }
 });

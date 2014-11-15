@@ -57,6 +57,35 @@ function getExpandedResult(result) {
     })
 }
 
+exports.getResultById = function() {
+    return function (req, res) {
+
+        var id = req.params.id;
+        if (id == null || id == '') {
+            res.status(400).end();
+        }
+
+        var query = Result.findOne({_id: id});
+        query.populate({
+            path: 'competition',
+            model: Competition
+        });
+        query.exec(function(err, result) {
+            if (err) {
+                res.status(400).end();
+            }
+
+            getExpandedResult(result)
+                .then(function(expandedResult) {
+                    res.status(200).json(expandedResult);
+                })
+                .catch(function(err) {
+                    res.status(400).end();
+                });
+
+        });
+    };
+};
 
 exports.createResult = function() {
 
