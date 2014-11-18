@@ -192,7 +192,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
 
             Promise.all(resultsServicePromises).then(function(resultsArray) {
                 console.log('--> successfully retrieved: '+resultsArray.length+' results');
-                $scope.selectedUserResults = resultsArray;
+                $scope.selectedUserResults = resultsArray.sort(NbrUtils.sortCompetitionArray);;
                 $scope.$apply();
             }).catch(function(err) {
                 console.log('heros all promise error: '+err);
@@ -259,7 +259,22 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $locatio
      */
     $rootScope.$broadcast('MENU_CHANGED', 2);
 
+    var pars = $location.$$search;
+    console.log('--> params: '+pars.president);
+
     $scope.distance = 0;
+    $scope.presLat = 0;
+    $scope.presLong = 0;
+
+    if(pars.president) {
+        setInterval(updatePresidentCoords, 30000);
+    }
+
+    function updatePresidentCoords() {
+        if($scope.presLat > 0 && $scope.presLong > 0) {
+            NbrService.updatePresidentCoordinates({lat: $scope.presLat, long: $scope.presLong});
+        }
+    };
 
     $scope.$on('mapInitialized', function(event, map) {
 
@@ -286,6 +301,9 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $locatio
         })(marker));
 
         navigator.geolocation.watchPosition(function(position) {
+            $scope.presLat = position.coords.latitude;
+            $scope.presLong = position.coords.longitude;
+
             var pos = new google.maps.LatLng(position.coords.latitude,
                 position.coords.longitude);
             marker.setPosition(pos);

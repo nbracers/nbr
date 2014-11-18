@@ -37,6 +37,10 @@ nbrAppServices.factory('NbrService', function ($http) {
 
         getResultWithId: function (data) {
             return $http.get(options.api.base_url + '/result/'+data);
+        },
+
+        updatePresidentCoordinates: function (data) {
+            return $http.put(options.api.base_url + '/presidentCoordinates', data);
         }
     }
 });
