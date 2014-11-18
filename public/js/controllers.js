@@ -259,21 +259,21 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $locatio
      */
     $rootScope.$broadcast('MENU_CHANGED', 2);
 
-    var pars = $location.$$search;
-    console.log('--> params: '+pars.president);
 
     $scope.distance = 0;
     $scope.presLat = 0;
     $scope.presLong = 0;
 
-    if(pars.president) {
-        setInterval(updatePresidentCoords, 30000);
-    }
-
     function updatePresidentCoords() {
         if($scope.presLat > 0 && $scope.presLong > 0) {
             NbrService.updatePresidentCoordinates({lat: $scope.presLat, long: $scope.presLong});
         }
+    };
+
+    function getPresidentCoords() {
+        NbrService.getPresidentCoordinates().success(function(data) {
+
+        });
     };
 
     $scope.$on('mapInitialized', function(event, map) {
@@ -289,6 +289,16 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $locatio
                 presInfowindow.open(map, presMarker);
             }
         })(presMarker));
+
+        var pars = $location.$$search;
+        console.log('--> params: '+pars.president);
+        if(pars.president) {
+            setInterval(updatePresidentCoords, 30000);
+        }
+        else {
+            setInterval(getPresidentCoords, 30000);
+        }
+
 
         var infowindow = new google.maps.InfoWindow();
         var initPos = new google.maps.LatLng(0,0);
