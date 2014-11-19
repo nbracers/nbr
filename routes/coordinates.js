@@ -11,15 +11,20 @@ exports.getCoordinates = function() {
         redisClient.hmget('prescoords', 'lat', 'long', 'date', function (err, reply) {
             if (err) {
                 console.log(err);
-                return res.status(500);
+                return res.status(500).end();
             }
 
-            var coords = {};
-            coords.lat = Number(reply[0]);
-            coords.long = Number(reply[1]);
-            coords.dat = Number(reply[2]);
+            if(reply != null) {
+                var coords = {};
+                coords.lat = Number(reply[0]);
+                coords.long = Number(reply[1]);
+                coords.dat = Number(reply[2]);
 
-            res.status(200).json(coords);
+                res.status(200).json(coords);
+            }
+            else {
+                return res.status(400).end();
+            }
         });
 
     };
@@ -28,8 +33,6 @@ exports.getCoordinates = function() {
 exports.updateCoordinates = function() {
 
     return function (req, res) {
-        var coords = {};
-
         var lat = req.body.lat || '';
         var long = req.body.long || '';
         if (lat == '' || long == '') {

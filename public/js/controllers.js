@@ -258,7 +258,6 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
      on activate, fires MENU_CHANGED with correct index
      */
     $rootScope.$broadcast('MENU_CHANGED', 2);
-    $scope.$on('mapInitialized', placeRelevantPOIsOnMap);
 
     /*
         variables
@@ -284,6 +283,7 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
         maximumAge: 0
     };
 
+    $scope.$on('mapInitialized', placeRelevantPOIsOnMap);
 
     //check for URL params: http://xxxx/xx?param
     var pars = $location.$$search;
