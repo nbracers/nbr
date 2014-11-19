@@ -2,11 +2,13 @@
     <md-whiteframe class="md-whiteframe-z1">
         <div class="sectionHeader">Where is the president?</div>
     </md-whiteframe>
-    <div layout="horizontal" layout-padding>
-        <h4>Your distance to the president: {{ distance }} meters</h4>
+    <div layout="horizontal" layout-padding ng-switch="isRacerPresident">
+        <h5 ng-switch-when="false">Your last known* (updated: {{lastUpdated}}) distance to the president: {{ distance }} meter(s)</h5>
+        <h5 ng-switch-when="true">Your currently updating the president's coordinates</h5>
     </div>
     <div style="overflow: auto; background-color: #777777" flex layout="vertical" layout-padding>
        <map center="0,0" zoom="12" style="height: 400px !important" ></map>
+<span style="font-size: small">* president's position updates every 30s</span>
     </div>
 
 </div>

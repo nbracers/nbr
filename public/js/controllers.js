@@ -259,56 +259,74 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $locatio
      */
     $rootScope.$broadcast('MENU_CHANGED', 2);
 
-
     $scope.distance = 0;
     $scope.presLat = 0;
     $scope.presLong = 0;
+    $scope.isRacerPresident = false;
+    $scope.lastUpdated = null;
+
+    var pars = $location.$$search;    //check for URL params: http://xxxx/xx?param
+
+    if(pars.president) {
+        $scope.isRacerPresident = true;
+    }
+
+    var infowindow = new google.maps.InfoWindow();
+    var initPos = new google.maps.LatLng(0,0);
+    var presMarker;
+    var racerMarker;
+    var presPos;
 
     function updatePresidentCoords() {
+        console.log('--> updating president position');
         if($scope.presLat > 0 && $scope.presLong > 0) {
             NbrService.updatePresidentCoordinates({lat: $scope.presLat, long: $scope.presLong});
         }
     };
 
     function getPresidentCoords() {
+        console.log('--> fetching president position');
         NbrService.getPresidentCoordinates().success(function(data) {
-
+            $scope.lastUpdated = moment(Number(data[2])).fromNow();
+            presPos = new google.maps.LatLng(data[0],
+                data[1]);
+            presMarker.setPosition(presPos);
         });
     };
 
     $scope.$on('mapInitialized', function(event, map) {
 
+        /*
+            we place the president's POI
+         */
         var presInfowindow = new google.maps.InfoWindow();
         var image = 'img/pres.png';
-        var presPos = new google.maps.LatLng(60.055447, 10.869426);
-        var presMarker = new google.maps.Marker({position: presPos, map: map, icon: image});
-        map.panTo(presPos);
+        presPos = new google.maps.LatLng(60.055447, 10.869426);   //set to Dominique's default home location
+        presMarker = new google.maps.Marker({position: presPos, map: map, icon: image});
+        getPresidentCoords();
         google.maps.event.addListener(presMarker, 'click', (function(presMarker) {
             return function() {
-                presInfowindow.setContent('Président');
+                presInfowindow.setContent('President');
                 presInfowindow.open(map, presMarker);
             }
         })(presMarker));
 
-        var pars = $location.$$search;
-        console.log('--> params: '+pars.president);
-        if(pars.president) {
+        if($scope.isRacerPresident) {              //if url contains param 'president'
+            //i am the president, therefore I update my coords
             setInterval(updatePresidentCoords, 30000);
         }
         else {
+            //i am just a simple racer, therefore I look for the president's position
+            racerMarker = new google.maps.Marker({position: initPos, map: map});
+            google.maps.event.addListener(racerMarker, 'click', (function(racerMarker) {
+                return function() {
+                    infowindow.setContent('Me');
+                    infowindow.open(map, racerMarker);
+                }
+            })(racerMarker));
+
             setInterval(getPresidentCoords, 30000);
         }
-
-
-        var infowindow = new google.maps.InfoWindow();
-        var initPos = new google.maps.LatLng(0,0);
-        var marker = new google.maps.Marker({position: initPos, map: map});
-        google.maps.event.addListener(marker, 'click', (function(marker) {
-            return function() {
-                infowindow.setContent('Me');
-                infowindow.open(map, marker);
-            }
-        })(marker));
 
         navigator.geolocation.watchPosition(function(position) {
             $scope.presLat = position.coords.latitude;
@@ -316,16 +334,24 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $locatio
 
             var pos = new google.maps.LatLng(position.coords.latitude,
                 position.coords.longitude);
-            marker.setPosition(pos);
 
-            var bounds = new google.maps.LatLngBounds();
-            bounds.extend( presMarker.getPosition() );
-            bounds.extend( marker.getPosition() );
+            if($scope.isRacerPresident) {              //if url contains param 'president'
+                presMarker.setPosition(pos);
+                map.panTo(pos);
+            }
+            else {
+                racerMarker.setPosition(pos);
 
-            map.fitBounds(bounds);
+                var bounds = new google.maps.LatLngBounds();
+                bounds.extend( presMarker.getPosition() );
+                bounds.extend( racerMarker.getPosition() );
 
-            $scope.distance = Math.floor(google.maps.geometry.spherical.computeDistanceBetween(presPos, pos));
-            $scope.$apply();
+                map.fitBounds(bounds);
+
+                $scope.distance = Math.floor(google.maps.geometry.spherical.computeDistanceBetween(presPos, pos));
+                $scope.$apply();
+            }
+
         });
 
     });

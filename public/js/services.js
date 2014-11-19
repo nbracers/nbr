@@ -17,7 +17,7 @@ nbrAppServices.factory('TokenInterceptor', function ($q, $window, $location, $ro
     };
 });
 
-nbrAppServices.factory('NbrService', function ($http) {
+nbrAppServices.factory('NbrService', function ($http, NbrUtils) {
     return {
         getAllSeasons: function () {
             return $http.get(options.api.base_url + '/season');
@@ -40,7 +40,7 @@ nbrAppServices.factory('NbrService', function ($http) {
         },
 
         getPresidentCoordinates: function () {
-            return $http.get(options.api.base_url + '/presidentCoordinates');
+            return $http.get(options.api.base_url + '/presidentCoordinates?nocache='+NbrUtils.guid());
         },
 
         updatePresidentCoordinates: function (data) {
@@ -86,6 +86,17 @@ nbrAppServices.factory('NbrUtils', function () {
         prettyFormatFullDate: function(d) {
             var momentDate = moment(d);
             return momentDate.format('DD/MM/YYYY');
+        },
+
+        guid: function() {
+            function s4() {
+                return Math.floor((1 + Math.random()) * 0x10000)
+                    .toString(16)
+                    .substring(1);
+            }
+
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                    s4() + '-' + s4() + s4() + s4();
         }
     }
 });
