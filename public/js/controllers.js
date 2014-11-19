@@ -336,10 +336,7 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
             var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
             if($scope.isRacerPresident) {              //if url contains param 'president'
-                NbrService.updatePresidentCoordinates({lat: position.coords.latitude, long: position.coords.longitude}).success(function() {
-                    presMarker.setPosition(pos);
-                    gmap.panTo(pos);
-                });
+                updatePresidentCoords(position.coords.latitude, position.coords.longitude, pos);
             }
             else {
                 racerMarker.setPosition(pos);
@@ -352,10 +349,7 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
             var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
             if($scope.isRacerPresident) {              //if url contains param 'president'
-                NbrService.updatePresidentCoordinates({lat: position.coords.latitude, long: position.coords.longitude}).success(function() {
-                    presMarker.setPosition(pos);
-                    gmap.panTo(pos);
-                });
+                updatePresidentCoords(position.coords.latitude, position.coords.longitude, pos);
             }
             else {
                 racerMarker.setPosition(pos);
@@ -414,6 +408,14 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
             presPos = new google.maps.LatLng(data.lat, data.long);
             presMarker.setPosition(presPos);
             fitAllIn();
+        });
+    };
+
+    function updatePresidentCoords(la, lo, pos) {
+        console.log('--> updating president position');
+        NbrService.updatePresidentCoordinates({lat: la, long: lo}).success(function() {
+            presMarker.setPosition(pos);
+            gmap.panTo(pos);
         });
     };
 });
