@@ -35,8 +35,12 @@
         <!-- Side-bar menu -->
         <md-sidenav class="md-sidenav-left md-whiteframe-z2" component-id="left" layout="vertical" style="background-color: #333333" is-locked-open="$media('md')">
             <!-- Side-bar header -->
-            <md-toolbar md-theme="deep-orange">
-                <h1 class="md-toolbar-tools">Meny</h1>
+            <md-toolbar md-theme="deep-orange" layout-align="center center">
+                <div layout="horizontal" layout-fill layout-align="center center">
+                    <div flex style="margin-left: 10px">Meny</div>
+                    <div hide-md style="margin-right: 10px"><md-button class="headerButton" ng-click="toggleLeft()"><i class="fa fa-times"></i></i></md-button></div>
+                </div>
+
             </md-toolbar>
             <!-- Side-bar content -->
             <md-content class="md-padding" layout="vertical" flex style="background-color: #333333">

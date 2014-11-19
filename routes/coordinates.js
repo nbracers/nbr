@@ -14,7 +14,12 @@ exports.getCoordinates = function() {
                 return res.status(500);
             }
 
-            res.status(200).json(reply);
+            var coords = {};
+            coords.lat = Number(reply[0]);
+            coords.long = Number(reply[1]);
+            coords.dat = Number(reply[2]);
+
+            res.status(200).json(coords);
         });
 
     };
