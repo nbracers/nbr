@@ -83,6 +83,10 @@ md-tabs.md-grey-theme md-tab.active {
     width: 200px;
 }
 
+md-content.md-default-theme {
+    background-color: transparent;
+}
+
 @media (max-width: 600px) {
     .listMain {
         margin: 10px;

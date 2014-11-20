@@ -1,44 +1,44 @@
-<div flex layout="vertical">
+<div flex layout="column">
     <md-whiteframe class="md-whiteframe-z1">
         <div class="sectionHeader">Multihero</div>
     </md-whiteframe>
-    <div style="overflow: auto; background-color: #777777" flex layout="vertical">
+    <md-content flex md-scroll-y class="md-padding" >
         <md-tabs selected="selectedIndex" md-theme="grey">
-            <md-tab ng-repeat="tab in allseasons" on-select="announceSelected($index)" ng-disabled="tab.disabled" label="{{tab.label}}"></md-tab>
+            <md-tab ng-repeat="tab in allseasons" md-on-select="announceSelected($index)" ng-disabled="tab.disabled" label="{{tab.label}}"></md-tab>
         </md-tabs>
-        <section layout="vertical" flex>
+        <div layout="column" flex>
             <md-list class="listMain">
                 <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
                     Leaderboard - {{ allseasons[selectedIndex].label }}
                 </md-whiteframe>
-                <md-item ng-repeat="racer in racers" ng-class="getRacerStyle(racer)" layout="vertical" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0" ng-click="changeSelected(racer)">
-                    <div layout="horizontal" flex layout-align="center">
-                        <div flex=10 class="md-tile-left" layout="vertical" layout-align="center start">
+                <md-item ng-repeat="racer in racers" ng-class="getRacerStyle(racer)" layout="column" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0" ng-click="changeSelected(racer)">
+                    <div layout="row" flex layout-align="center">
+                        <div flex=10 class="md-tile-left" layout="column" layout-align="center start">
                             <h3>{{$index+1}}</h3>
                         </div>
-                        <div flex=10 class="md-tile-left" layout="vertical" layout-align="center start">
+                        <div flex=10 class="md-tile-left" layout="column" layout-align="center start">
                             <i class="fa fa-2x fa-trophy" ng-class="getTrophyColor($index+1)"></i>
                         </div>
-                        <div flex layout="vertical" layout-align="end start">
+                        <div flex layout="column" layout-align="end start">
                             <h3>{{racer.name}}</h3>
                         </div>
-                        <div flex=30 layout="vertical" layout-align="end end">
+                        <div flex=30 layout="column" layout-align="end end">
                             <h3>{{racer.total}} pts</h3>
                         </div>
                     </div>
                     <div ng-show="racer.selected" style="background-color: #BBBBBB; min-height: 200px;">
                         <md-list>
-                            <md-item ng-repeat="result in selectedUserResults" layout="horizontal" layout-align="center" layout-padding style="color: #333333;">
-                                <div flex layout="vertical">
+                            <md-item ng-repeat="result in selectedUserResults" layout="row" layout-align="center" layout-padding style="color: #333333;">
+                                <div flex layout="column">
                                     {{getFormattedDate(result.competition.competition_date)}}
                                 </div>
-                                <div flex layout="vertical">
+                                <div flex layout="column">
                                     {{result.competition.racetype.label}}
                                 </div>
-                                <div flex layout="vertical" layout-align="end end">
+                                <div flex layout="column" layout-align="end end">
                                     {{getFormattedTime(result.time)}}
                                 </div>
-                                <div flex layout="vertical" layout-align="end end">
+                                <div flex layout="column" layout-align="end end">
                                     {{result.point}} pts
                                 </div>
                             </md-item>
@@ -46,10 +46,10 @@
                     </div>
                 </md-item>
             </md-list>
-        </section>
-    </div>
+        </div>
+    </md-content>
     <footer>
-        <div layout="horizontal" layout-align="center center" layout-fill>
+        <div layout="row" layout-align="center center" layout-fill>
             <div>footer ... {{ footerText }}</div>
         </div>
     </footer>

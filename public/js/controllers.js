@@ -157,7 +157,8 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             refresh the racers based on the tab clicked
          */
         $scope.announceSelected = function(ind) {
-            initHero(ind);
+            $scope.selectedIndex = ind;
+            initHero($scope.selectedIndex);
         };
 
         /*
