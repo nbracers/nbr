@@ -262,6 +262,7 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
     /*
         variables
      */
+    $scope.geoOK = true;
     $scope.isRacerPresident = false;
     $scope.lastUpdated = null;
     $scope.distance = 'Calculating ...';
@@ -362,23 +363,26 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
             switch(error.code) {
                 case error.PERMISSION_DENIED:
                     console.log('--> User denied the request for Geolocation.');
+                    $scope.geoOK = false;
                     break;
                 case error.POSITION_UNAVAILABLE:
                     console.log('--> Location information is unavailable.');
+                    $scope.geoOK = false;
                     break;
                 case error.TIMEOUT:
                     console.log('--> The request to get user location timed out.');
+                    /*
+                     This is a bit of a fix. Case when switching back and forth between the "where" page, it happens that the geolocation does initialise correctly. After a timeout of
+                     10 sec, the page will be reloaded, thus forcing a geolocation init. Not pretty, but does the trick.
+                     */
+                    $window.location.reload();
                     break;
                 case error.UNKNOWN_ERROR:
                     console.log('--> An unknown error occurred.');
                     break;
             }
 
-            /*
-                This is a bit of a fix. Case when switching back and forth between the "where" page, it happens that the geolocation does initialise correctly. After a timeout of
-                10 sec, the page will be reloaded, thus forcing a geolocation init. Not pretty, but does the trick.
-             */
-            $window.location.reload();
+
         };
     };
 
