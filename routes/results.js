@@ -92,10 +92,11 @@ exports.createResult = function() {
     return function (req, res) {
         var competitionId = req.body.competitionId || '';
         var point = req.body.point || '';
+        var rank = req.body.rank || '';
         var hour = req.body.hour || '';
         var minute = req.body.minute || '';
         var second = req.body.second || '';
-        if (competitionId == '' || point == '' || hour == '' || minute == '' || second == '') {
+        if (competitionId == '' || point == '' || hour == '' || minute == '' || second == '' || rank == '') {
             res.status(400).end();
         }
 
@@ -104,6 +105,7 @@ exports.createResult = function() {
          {
              "competitionId" : "54652351f1f12a49e570df57",
              "point": "1030",
+             "rank": "2",
              "hour":	"0",
              "minute":"44",
              "second":"05"
@@ -125,6 +127,7 @@ exports.createResult = function() {
                 var result = new Result();
                 result.competition = comp;
                 result.point = point;
+                result.rank = rank;
                 result.time = m.asMilliseconds();
                 result.save(function(err, newComp) {
                     if (err) {
