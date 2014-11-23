@@ -79,7 +79,7 @@ nbrAppServices.factory('NbrUtils', function () {
                     return 'trophyBronze';
                     break;
                 default:
-                    return '';
+                    return 'trophyNull';
             }
         },
 

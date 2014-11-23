@@ -39,6 +39,10 @@ footer {
     color: #4E342E;
 }
 
+.trophyNull {
+    display: none;
+}
+
 .leaderboardHeader {
     color: #FFFFFF;
     /*border: 1px solid #FF5722;*/
@@ -87,7 +91,21 @@ md-content.md-default-theme {
     background-color: transparent;
 }
 
+.shrinkableText {
+    font-size: 1em;
+}
+
+.shrinkableTextBold {
+    font-size: 1em;
+    font-weight: bold;
+}
+
 @media (max-width: 600px) {
+    .shrinkableText {
+        font-size: 0.7em;
+    }
+
+
     .listMain {
         margin: 10px;
     }

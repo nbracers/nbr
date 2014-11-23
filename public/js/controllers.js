@@ -2,8 +2,8 @@
  * Created by jeremyt on 10/10/14.
  */
 
-nbrAppControllers.controller("NavCtrl", function ($scope, $location, $timeout, $mdSidenav, NbrService, NbrUtils) {
-
+nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location, $timeout, $mdSidenav, NbrService, NbrUtils) {
+        console.log('--> NavCtrl loaded');
         /*
             scope variables
          */
@@ -45,6 +45,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $location, $timeout, $
             listener for menu change events
          */
         $scope.$on('MENU_CHANGED', function (event, ind) {
+            $mdSidenav('left').close();
             $scope.menuSelectedIndex = ind;
         });
 
@@ -63,7 +64,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $location, $timeout, $
 
 
 nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location, $window, $timeout, $mdSidenav, NbrService, NbrUtils) {
-
+        console.log('--> MainCtrl loaded');
         /*
             on activate, fires MENU_CHANGED with correct index
          */
@@ -75,6 +76,7 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
         $scope.footerText = "main";
         $scope.racers = [];
         $scope.competitions = [];
+        $scope.lastSelectedCompetition = {};
 
         /*
             trophy color based on position
@@ -106,6 +108,32 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
         };
 
         /*
+         sets the current selected racer (unsets previous one)
+         */
+        $scope.changeCompetition = function(competition) {
+            $scope.lastSelectedCompetition.selected = false;
+            $scope.lastSelectedCompetition = competition;
+            $scope.lastSelectedCompetition.selected = true;
+            getCompetitionResults($scope.lastSelectedCompetition);
+        };
+
+        function getCompetitionResults(competition) {
+            var competitionServicePromises = [];
+
+            racer.results.forEach(function(result) {
+                resultsServicePromises.push(getResultObject(result))
+            });
+
+            Promise.all(resultsServicePromises).then(function(resultsArray) {
+                console.log('--> successfully retrieved: '+resultsArray.length+' results');
+                $scope.selectedUserResults = resultsArray.sort(NbrUtils.sortCompetitionArray);;
+                $scope.$apply();
+            }).catch(function(err) {
+                console.log('heros all promise error: '+err);
+            });
+        };
+
+        /*
             return a pretty date
          */
         $scope.getFormattedDate = function(dateString) {
@@ -113,19 +141,28 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
         };
 
         initMain();
+
         function initMain() {
 
-            var heroPromise = NbrService.getHeroWithSeasonId($scope.currentSeason._id);
-            heroPromise.success(function(data) {
-                console.log('--> this years hero: '+data._id);
-                $scope.competitions = (data.competitions).sort(NbrUtils.sortCompetitionArray);
-                console.log('--> nbr competitions : '+$scope.competitions.length);
-            });
+            if($scope.currentSeason != null) {
+                var heroPromise = NbrService.getHeroWithSeasonId($scope.currentSeason._id);
+                heroPromise.success(function(data) {
+                    console.log('--> this years hero: '+data._id);
+                    $scope.competitions = (data.competitions).sort(NbrUtils.sortCompetitionArray);
+                    console.log('--> nbr competitions : '+$scope.competitions.length);
+                });
 
-            var podiumPromise = NbrService.getRacerPodiumWithSeasonId($scope.currentSeason._id);
-            podiumPromise.success(function(data) {
-                $scope.racers = data;
-            });
+                var podiumPromise = NbrService.getRacerPodiumWithSeasonId($scope.currentSeason._id);
+                podiumPromise.success(function(data) {
+                    $scope.racers = data;
+                });
+            }
+            else {
+                /*
+                    in case the currentseason is still null when this controller loads
+                 */
+                setTimeout(initMain, 1000);
+            }
 
         };
     }
@@ -243,18 +280,23 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
 
         initHero($scope.selectedIndex);
         function initHero(ind) {
-
-            var heroPromise = NbrService.getRacersWithSeasonId($scope.allseasons[ind]._id);
-            heroPromise.success(function(data) {
-                $scope.racers = data;
-                console.log('--> nbr racers : '+$scope.racers.length);
-            });
+            if($scope.allseasons.length > 0) {
+                var heroPromise = NbrService.getRacersWithSeasonId($scope.allseasons[ind]._id);
+                heroPromise.success(function(data) {
+                    $scope.racers = data;
+                    console.log('--> nbr racers : '+$scope.racers.length);
+                });
+            }
+            else {
+                setTimeout(initHero, 1000, ind);
+            }
 
         };
     }
 );
 
 nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window, $location, $timeout, $mdSidenav, NbrService, NbrUtils) {
+    console.log('--> WhereCtrl loaded');
     /*
      on activate, fires MENU_CHANGED with correct index
      */
@@ -278,6 +320,7 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
     var racerInfowindow = new google.maps.InfoWindow();
     var gmap = null;
     var pollInterval = null;
+    var watchId = null;
 
     var geoOptions = {
         enableHighAccuracy: true,
@@ -346,7 +389,7 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
             }
         }, showError, geoOptions);
 
-        navigator.geolocation.watchPosition(function(position) {
+        watchId = navigator.geolocation.watchPosition(function(position) {
             console.log('--> starting watchPosition');
             var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 

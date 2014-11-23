@@ -54,57 +54,58 @@ routes.results =        require('./routes/results.js');
 routes.seasons =        require('./routes/seasons.js');
 
 /********* competition routes *********/
-app.get('/competition',                         routes.competitions.getAllCompetitions());
-app.post('/competition',                auth,   routes.competitions.createCompetition());
-app.delete('/competition/:id',          auth,   routes.competitions.deleteCompetition());
+app.get('/competition',                             routes.competitions.getAllCompetitions());
+app.post('/competition',                    auth,   routes.competitions.createCompetition());
+app.delete('/competition/:id',              auth,   routes.competitions.deleteCompetition());
 
 /********* coordinate routes *********/
-app.get('/presidentCoordinates',                routes.coordinates.getCoordinates());
-app.put('/presidentCoordinates',        auth,   routes.coordinates.updateCoordinates());
+app.get('/presidentCoordinates',                    routes.coordinates.getCoordinates());
+app.put('/presidentCoordinates',            auth,   routes.coordinates.updateCoordinates());
 
 /********* hero routes *********/
-app.get('/hero',                                routes.heros.getAllHeros());
-app.get('/hero/:seasonId',                      routes.heros.getHeroWithSeasonId());
-app.post('/hero',                       auth,   routes.heros.createHero());
-app.put('/hero/:id/addcompetition',     auth,   routes.heros.addCompetitionToHero());
-app.put('/hero/:id/removecompetition',  auth,   routes.heros.removeCompetitionFromHero());
-app.delete('/hero/:id',                 auth,   routes.heros.deleteHero());
+app.get('/hero',                                    routes.heros.getAllHeros());
+app.get('/hero/:seasonId',                          routes.heros.getHeroWithSeasonId());
+app.post('/hero',                           auth,   routes.heros.createHero());
+app.put('/hero/:id/addcompetition',         auth,   routes.heros.addCompetitionToHero());
+app.put('/hero/:id/removecompetition',      auth,   routes.heros.removeCompetitionFromHero());
+app.delete('/hero/:id',                     auth,   routes.heros.deleteHero());
 
 /********* member routes *********/
-app.get('/member',                              routes.members.getAllMembers());
-app.post('/member',                     auth,   routes.members.createMember());
-app.put('/member',                      auth,   routes.members.addRacerToMember());
-app.put('/member/:id/addRacer',         auth,   routes.members.addRacerToMember());
-app.put('/member/:id/removeRacer',      auth,   routes.members.removeRacerFromMember());
-app.delete('/member/:id',               auth,   routes.members.deleteMember());
+app.get('/member',                                  routes.members.getAllMembers());
+app.post('/member',                         auth,   routes.members.createMember());
+app.put('/member',                          auth,   routes.members.addRacerToMember());
+app.put('/member/:id/addRacer',             auth,   routes.members.addRacerToMember());
+app.put('/member/:id/removeRacer',          auth,   routes.members.removeRacerFromMember());
+app.delete('/member/:id',                   auth,   routes.members.deleteMember());
 
 /********* racer routes *********/
-app.get('/racer',                               routes.racers.getAllRacers());
-app.get('/racer/:seasonId',                     routes.racers.getRacersBySeason());
-app.get('/racer/podium/:seasonId',              routes.racers.getRacerPodiumBySeason());
-app.post('/racer',                      auth,   routes.racers.createRacer());
-app.put('/racer',                       auth,   routes.racers.updateRacer());
-app.put('/racer/:id/addResult',         auth,   routes.racers.addResultToRacer());
-app.put('/racer/:id/removeResult',      auth,   routes.racers.removeResultFromRacer());
-app.delete('/racer/:id',                auth,   routes.racers.deleteRacer());
+app.get('/racer',                                   routes.racers.getAllRacers());
+app.get('/racer/:seasonId',                         routes.racers.getRacersBySeason());
+app.get('/racer/competition/:competitionId',        routes.racers.getRacersByCompetition());
+app.get('/racer/podium/:seasonId',                  routes.racers.getRacerPodiumBySeason());
+app.post('/racer',                          auth,   routes.racers.createRacer());
+app.put('/racer',                           auth,   routes.racers.updateRacer());
+app.put('/racer/:id/addResult',             auth,   routes.racers.addResultToRacer());
+app.put('/racer/:id/removeResult',          auth,   routes.racers.removeResultFromRacer());
+app.delete('/racer/:id',                    auth,   routes.racers.deleteRacer());
 
 /********* racetype routes *********/
-app.get('/racetype',                            routes.racetypes.getAllRacetypes());
-app.post('/racetype',                   auth,   routes.racetypes.createRacetype());
-app.put('/racetype',                    auth,   routes.racetypes.updateRacetype());
-app.delete('/racetype/:id',             auth,   routes.racetypes.deleteRacetype());
+app.get('/racetype',                                routes.racetypes.getAllRacetypes());
+app.post('/racetype',                       auth,   routes.racetypes.createRacetype());
+app.put('/racetype',                        auth,   routes.racetypes.updateRacetype());
+app.delete('/racetype/:id',                 auth,   routes.racetypes.deleteRacetype());
 
 /********* result routes *********/
-app.get('/result',                              routes.results.getAllResults());
-app.get('/result/:id',                          routes.results.getResultById());
-app.post('/result',                     auth,   routes.results.createResult());
-app.delete('/result/:id',               auth,   routes.results.deleteResult());
+app.get('/result',                                  routes.results.getAllResults());
+app.get('/result/:id',                              routes.results.getResultById());
+app.post('/result',                         auth,   routes.results.createResult());
+app.delete('/result/:id',                   auth,   routes.results.deleteResult());
 
 /********* season routes *********/
-app.get('/season',                              routes.seasons.getAllSeasons());
-app.post('/season',                     auth,   routes.seasons.createSeason());
-app.put('/season',                      auth,   routes.seasons.updateSeason());
-app.delete('/season/:id',               auth,   routes.seasons.deleteSeason());
+app.get('/season',                                  routes.seasons.getAllSeasons());
+app.post('/season',                         auth,   routes.seasons.createSeason());
+app.put('/season',                          auth,   routes.seasons.updateSeason());
+app.delete('/season/:id',                   auth,   routes.seasons.deleteSeason());
 
 /********* start the server *********/
 var server = app.listen(port);

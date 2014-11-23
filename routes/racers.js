@@ -41,6 +41,27 @@ exports.getRacersBySeason = function() {
     };
 };
 
+exports.getRacersByCompetition = function() {
+    return function (req, res) {
+
+        var id = req.params.competitionId;
+        if (id == null || id == '') {
+            res.status(400).end();
+        }
+
+        var query = Racer.find();
+        query.populate('results');
+        query.populate('season');
+        query.exec(function(err, results) {
+            if (err) {
+                res.status(400).end();
+            }
+
+            res.status(200).json(results);
+        });
+    };
+};
+
 exports.getRacerPodiumBySeason  = function() {
     return function (req, res) {
 

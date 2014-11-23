@@ -8,18 +8,23 @@
                 <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
                     Leaderboard - {{ currentSeason.label }}
                 </md-whiteframe>
-                <md-item class="racerItem" ng-repeat="racer in racers" layout="row" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0" ng-click="gotoHero()">
-                    <div flex=10 class="md-tile-left" layout="column" layout-align="center start">
-                        <h3>{{$index+1}}</h3>
+                <md-item class="racerItem" ng-repeat="racer in racers" layout="row" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0; padding-top: 20px" ng-click="gotoHero()">
+                    <div flex=10 class="md-tile-left shrinkableTextBold" layout="column" layout-align="center start">
+                        {{$index+1}}
                     </div>
                     <div flex=10 class="md-tile-left" layout="column" layout-align="center start">
-                        <i class="fa fa-2x fa-trophy" ng-class="getTrophyColor($index+1)"></i>
+                        <div hide-phone hide-tablet>
+                            <i class="fa fa-2x fa-trophy" ng-class="getTrophyColor($index+1)"></i>
+                        </div>
+                        <div hide show-phone show-tablet>
+                            <i class="fa fa-trophy" ng-class="getTrophyColor($index+1)"></i>
+                        </div>
                     </div>
-                    <div flex layout="column" layout-align="end start">
-                        <h3>{{racer.name}}</h3>
+                    <div flex layout="column" class="shrinkableTextBold" layout-align="end start">
+                        {{racer.name}}
                     </div>
-                    <div flex=30 layout="column" layout-align="end end">
-                        <h3>{{racer.total}} pts</h3>
+                    <div flex=30 layout="column" class="shrinkableTextBold" layout-align="end end">
+                        {{racer.total}} pts
                     </div>
                 </md-item>
             </md-list>
@@ -29,21 +34,43 @@
                 <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
                     Calendar - {{ currentSeason.label }}
                 </md-whiteframe>
-                <md-item ng-repeat="competition in competitions" layout="row" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0" ng-class="getCompetitionStatus(competition.competition_date)">
-                    <div flex=30 class="md-tile-left" layout="column" layout-align="center start">
-                        <h4>{{getFormattedDate(competition.competition_date)}}</h4>
+                <md-item ng-repeat="competition in competitions" layout="column" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0" ng-class="getCompetitionStatus(competition.competition_date)">
+                    <div layout="row" layout-align="center">
+                        <div flex=60 layout="row" layout-align="center" hide-phone hide-tablet>
+                            <div flex=50 class="md-tile-left shrinkableText" layout="column" layout-align="center start">{{getFormattedDate(competition.competition_date)}}</div>
+                            <div flex=50 layout="column" class="shrinkableText" layout-align="center start">{{competition.racetype.label}}</div>
+                        </div>
+                        <div flex=35 layout="column" layout-align="center start" hide show-phone show-tablet>
+                            <div class="shrinkableText">{{getFormattedDate(competition.competition_date)}}</div>
+                            <div class="shrinkableText">{{competition.racetype.label}}</div>
+                        </div>
+                        <div flex layout="column" layout-align="center start" style="text-align: justify">
+                            <h4>{{competition.description}}</h4>
+                        </div>
                     </div>
-                    <div flex="30" layout="column" layout-align="center start">
-                        <h4>{{competition.racetype.label}}</h4>
-                    </div>
-                    <div flex layout="column" layout-align="center start" style="text-align: justify">
-                        <h4>{{competition.description}}</h4>
+                    <div ng-show="competition.selected" style="background-color: #BBBBBB; min-height: 200px;">
+                        <md-list>
+                            <md-item ng-repeat="result in selectedUserResults" layout="row" layout-align="center" layout-padding style="color: #333333;">
+                                <div flex layout="column" layout-align="center start" class="shrinkableText">
+                                    {{getFormattedDate(result.competition.competition_date)}}
+                                </div>
+                                <div flex layout="column" layout-align="centers start" class="shrinkableText">
+                                    {{result.competition.racetype.label}}
+                                </div>
+                                <div flex layout="column" layout-align="center end" class="shrinkableText">
+                                    {{getFormattedTime(result.time)}}
+                                </div>
+                                <div flex layout="column" layout-align="center end" class="shrinkableText">
+                                    {{result.point}} pts
+                                </div>
+                            </md-item>
+                        </md-list>
                     </div>
                 </md-item>
             </md-list>
         </div>
     </md-content>
-    <footer>
+    <footer hide-phone>
         <div layout="row" layout-align="center center" layout-fill>
             <div>footer ... {{ footerText }}</div>
         </div>
