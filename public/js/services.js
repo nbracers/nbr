@@ -43,6 +43,10 @@ nbrAppServices.factory('NbrService', function ($http, NbrUtils) {
             return $http.get(options.api.base_url + '/presidentCoordinates?nocache='+NbrUtils.guid());
         },
 
+        getRacersByCompetition: function (data) {
+            return $http.get(options.api.base_url + '/racer/competition/'+data);
+        },
+
         updatePresidentCoordinates: function (data) {
             return $http.put(options.api.base_url + '/presidentCoordinates', data);
         }
@@ -63,6 +67,14 @@ nbrAppServices.factory('NbrUtils', function () {
             if (a.competition_date < b.competition_date)
                 return -1;
             if (a.competition_date > b.competition_date)
+                return 1;
+            return 0;
+        },
+
+        sortCompetitionResult: function (a,b) {
+            if (a.rank < b.rank)
+                return -1;
+            if (a.rank > b.rank)
                 return 1;
             return 0;
         },

@@ -83,6 +83,21 @@ md-tabs.md-grey-theme md-tab.active {
     background-color: #484848 !important;
 }
 
+.competitionItem {
+    cursor: pointer;
+}
+
+.competitionItemSelect{
+    background-color: #FF5722 !important;
+    color: #333333 !important;
+}
+
+.competitionItem:hover {
+    background-color: #484848 !important;
+}
+
+
+
 .infoBB {
     width: 200px;
 }

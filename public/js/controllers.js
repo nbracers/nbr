@@ -77,6 +77,7 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
         $scope.racers = [];
         $scope.competitions = [];
         $scope.lastSelectedCompetition = {};
+        $scope.selectedCompetitionResults = [];
 
         /*
             trophy color based on position
@@ -86,13 +87,25 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
         };
 
         /*
+         return correct class for racer
+         */
+        $scope.getCompetitionStyle = function(competition) {
+            if(competition.selected) {
+                return 'competitionItemSelect';
+            }
+            else {
+                return 'competitionItem';
+            }
+        };
+
+        /*
             return correct class if competition date is over
          */
-        $scope.getCompetitionStatus = function(dateString) {
-            var momentDate = moment(dateString);
+        $scope.getCompetitionStatus = function(competition) {
+            var momentDate = moment(competition.competition_date);
             var momentNow = moment();
 
-            if(momentNow.diff(momentDate) > 0) {
+            if(momentNow.diff(momentDate) > 0 && !competition.selected) {
                 return 'competitionCompleted';
             }
             else {
@@ -118,18 +131,11 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
         };
 
         function getCompetitionResults(competition) {
-            var competitionServicePromises = [];
 
-            racer.results.forEach(function(result) {
-                resultsServicePromises.push(getResultObject(result))
-            });
-
-            Promise.all(resultsServicePromises).then(function(resultsArray) {
-                console.log('--> successfully retrieved: '+resultsArray.length+' results');
-                $scope.selectedUserResults = resultsArray.sort(NbrUtils.sortCompetitionArray);;
-                $scope.$apply();
-            }).catch(function(err) {
-                console.log('heros all promise error: '+err);
+            var service = NbrService.getRacersByCompetition(competition._id);
+            service.success(function(retrievedResult) {
+                console.log('--> successfully retrieved: '+retrievedResult.length+' results');
+                $scope.selectedCompetitionResults = retrievedResult.sort(NbrUtils.sortCompetitionResult);
             });
         };
 
@@ -138,6 +144,27 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
          */
         $scope.getFormattedDate = function(dateString) {
             return NbrUtils.prettyFormatFullDate(dateString);
+        };
+
+        $scope.getFormattedTime = function(t) {
+            var d = moment.duration(t, 'milliseconds');
+            var hours = String(Math.floor(d.asHours()));
+            var mins = String(Math.floor(d.asMinutes()) - hours * 60);
+            var secs = String(Math.floor(d.asSeconds()) - hours * 60 - mins * 60);
+
+            if(hours.length == 1 ) {
+                hours = '0'+hours;
+            }
+
+            if(mins.length == 1) {
+                mins = '0'+mins;
+            }
+
+            if(secs.length == 1) {
+                secs = '0'+secs;
+            }
+
+            return hours + ":" + mins + ":" + secs ;
         };
 
         initMain();

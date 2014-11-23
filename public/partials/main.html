@@ -34,8 +34,8 @@
                 <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
                     Calendar - {{ currentSeason.label }}
                 </md-whiteframe>
-                <md-item ng-repeat="competition in competitions" layout="column" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0" ng-class="getCompetitionStatus(competition.competition_date)">
-                    <div layout="row" layout-align="center">
+                <md-item ng-repeat="competition in competitions" layout="column" layout-align="center" layout-padding ng-class="getCompetitionStyle(competition)" style="border-bottom: 1px solid #c0c0c0" ng-click="changeCompetition(competition)">
+                    <div layout="row" layout-align="center" ng-class="getCompetitionStatus(competition)">
                         <div flex=60 layout="row" layout-align="center" hide-phone hide-tablet>
                             <div flex=50 class="md-tile-left shrinkableText" layout="column" layout-align="center start">{{getFormattedDate(competition.competition_date)}}</div>
                             <div flex=50 layout="column" class="shrinkableText" layout-align="center start">{{competition.racetype.label}}</div>
@@ -50,12 +50,12 @@
                     </div>
                     <div ng-show="competition.selected" style="background-color: #BBBBBB; min-height: 200px;">
                         <md-list>
-                            <md-item ng-repeat="result in selectedUserResults" layout="row" layout-align="center" layout-padding style="color: #333333;">
-                                <div flex layout="column" layout-align="center start" class="shrinkableText">
-                                    {{getFormattedDate(result.competition.competition_date)}}
+                            <md-item ng-repeat="result in selectedCompetitionResults" layout="row" layout-align="center" layout-padding style="color: #333333;">
+                                <div flex=20 layout="column" layout-align="center start" class="shrinkableText">
+                                    {{result.rank}}
                                 </div>
                                 <div flex layout="column" layout-align="centers start" class="shrinkableText">
-                                    {{result.competition.racetype.label}}
+                                    {{result.name}}
                                 </div>
                                 <div flex layout="column" layout-align="center end" class="shrinkableText">
                                     {{getFormattedTime(result.time)}}

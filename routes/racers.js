@@ -5,6 +5,7 @@
 var Racer =     require('../models/racer');
 var Season =    require('../models/season');
 var Result =    require('../models/result');
+var mongoose = require('mongoose');
 
 exports.getAllRacers = function() {
 
@@ -44,8 +45,8 @@ exports.getRacersBySeason = function() {
 exports.getRacersByCompetition = function() {
     return function (req, res) {
 
-        var id = req.params.competitionId;
-        if (id == null || id == '') {
+        var competitionId = req.params.competitionId;
+        if (competitionId == null || competitionId == '') {
             res.status(400).end();
         }
 
@@ -57,7 +58,33 @@ exports.getRacersByCompetition = function() {
                 res.status(400).end();
             }
 
-            res.status(200).json(results);
+            if(results != null && results.length > 0) {
+                var cleanedResults = [];
+
+                results.forEach(function(racer) {
+                    console.log('--> racer: '+racer._id);
+                    racer.results.forEach(function(result) {
+                        var customRacer = {};
+                        var a = mongoose.Types.ObjectId(result.competition.id).toString();
+                        var b = mongoose.Types.ObjectId(competitionId).toString();
+
+                        if(a == b) {
+                            customRacer.name = racer.name;
+                            customRacer.point = result.point;
+                            customRacer.rank = result.rank;
+                            customRacer.time = result.time;
+                            cleanedResults.push(customRacer);
+                        }
+
+                    });
+                });
+
+                res.status(200).json(cleanedResults);
+            }
+            else {
+                res.status(400).end();
+            }
+
         });
     };
 };
