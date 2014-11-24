@@ -6,7 +6,8 @@ nbrAppServices.factory('TokenInterceptor', function ($q, $window, $location, $ro
     return {
         request: function (config) {
             config.headers = config.headers || {};
-            config.headers.Authorization = 'Bearer Reblochon';
+            var secret =  $location.$$search['secret'];
+            config.headers.Authorization = 'Bearer ' + secret;
 
             return config;
         },
