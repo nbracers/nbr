@@ -38,7 +38,7 @@
                     <div layout="row" layout-align="center" ng-class="getCompetitionStatus(competition)">
                         <div flex=60 layout="row" layout-align="center" hide-phone hide-tablet>
                             <div flex=50 class="md-tile-left shrinkableText" layout="column" layout-align="center start">{{getFormattedDate(competition.competition_date)}}</div>
-                            <div flex=50 layout="column" class="shrinkableText" layout-align="center start">{{competition.racetype.label}}</div>
+                            <div flex=50 layout="column" class="shrinkableText" layout-align="center start">{{getCompetitionLabel(competition)}}</div>
                         </div>
                         <div flex=35 layout="column" layout-align="center start" hide show-phone show-tablet>
                             <div class="shrinkableText">{{getFormattedDate(competition.competition_date)}}</div>

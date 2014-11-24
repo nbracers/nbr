@@ -98,14 +98,23 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
             }
         };
 
+        function isCompleted(competition) {
+            var momentDate = moment(competition.competition_date);
+            var momentNow = moment();
+
+            return momentNow.diff(momentDate) > 0;
+        };
+        
+        $scope.getCompetitionLabel = function(competition) {
+            var status = isCompleted(competition) ? ' (completed)' : '';
+            return competition.racetype.label + status;
+        };
+       
         /*
             return correct class if competition date is over
          */
         $scope.getCompetitionStatus = function(competition) {
-            var momentDate = moment(competition.competition_date);
-            var momentNow = moment();
-
-            if(momentNow.diff(momentDate) > 0 && !competition.selected) {
+            if(isCompleted(competition) && !competition.selected) {
                 return 'competitionCompleted';
             }
             else {
