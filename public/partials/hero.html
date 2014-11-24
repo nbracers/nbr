@@ -1,29 +1,34 @@
 <div flex layout="column">
     <md-whiteframe class="md-whiteframe-z1">
         <div class="sectionHeader">Multihero</div>
-    </md-whiteframe>
-    <md-content flex md-scroll-y class="md-padding" >
         <md-tabs selected="selectedIndex" md-theme="grey">
             <md-tab ng-repeat="tab in allseasons" md-on-select="announceSelected($index)" ng-disabled="tab.disabled" label="{{tab.label}}"></md-tab>
         </md-tabs>
-        <div layout="column" flex>
+    </md-whiteframe>
+    <div layout="column" flex layout-padding>
+        <md-content flex md-scroll>
             <md-list class="listMain">
                 <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
                     Leaderboard - {{ allseasons[selectedIndex].label }}
                 </md-whiteframe>
-                <md-item ng-repeat="racer in racers" ng-class="getRacerStyle(racer)" layout="column" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0" ng-click="changeSelected(racer)">
-                    <div layout="row" flex layout-align="center">
-                        <div flex=10 class="md-tile-left" layout="column" layout-align="center start">
-                            <h3>{{$index+1}}</h3>
+                <md-item ng-repeat="racer in racers" ng-class="getRacerStyle(racer)" layout="column" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0; padding-top: 20px"  ng-click="changeSelected(racer)">
+                    <div layout="row" layout-align="center">
+                        <div flex=10 class="md-tile-left shrinkableTextBold" layout="column" layout-align="center start">
+                            {{$index+1}}
                         </div>
                         <div flex=10 class="md-tile-left" layout="column" layout-align="center start">
-                            <i class="fa fa-2x fa-trophy" ng-class="getTrophyColor($index+1)"></i>
+                            <div hide-phone hide-tablet>
+                                <i class="fa fa-2x fa-trophy" ng-class="getTrophyColor($index+1)"></i>
+                            </div>
+                            <div hide show-phone show-tablet>
+                                <i class="fa fa-trophy" ng-class="getTrophyColor($index+1)"></i>
+                            </div>
                         </div>
-                        <div flex layout="column" layout-align="center start">
-                            <h3>{{racer.name}}</h3>
+                        <div flex layout="column" class="shrinkableTextBold" layout-align="end start">
+                            {{racer.name}}
                         </div>
-                        <div flex=30 layout="column" layout-align="center end">
-                            <h3>{{racer.total}} pts</h3>
+                        <div flex=30 layout="column" class="shrinkableTextBold" layout-align="end end">
+                            {{racer.total}} pts
                         </div>
                     </div>
                     <div ng-show="racer.selected" style="background-color: #BBBBBB; min-height: 200px;">
@@ -46,8 +51,8 @@
                     </div>
                 </md-item>
             </md-list>
-        </div>
-    </md-content>
+        </md-content>
+    </div>
     <footer hide-phone>
         <div layout="row" layout-align="center center" layout-fill>
             <div>footer ... {{ footerText }}</div>

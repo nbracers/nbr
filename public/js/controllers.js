@@ -307,6 +307,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
 
         initHero($scope.selectedIndex);
         function initHero(ind) {
+            $scope.racers = [];
             if($scope.allseasons.length > 0) {
                 var heroPromise = NbrService.getRacersWithSeasonId($scope.allseasons[ind]._id);
                 heroPromise.success(function(data) {

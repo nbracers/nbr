@@ -70,33 +70,24 @@ md-tabs.md-grey-theme md-tab.active {
     background-color: #777777 !important;
 }
 
-.racerItem {
-    cursor: pointer;
-}
-
-.racerItemSelect {
-    background-color: #FF5722 !important;
-    color: #FFFFFF;
-}
-
-.racerItem:hover {
-    background-color: #484848 !important;
-}
-
+.racerItem,
 .competitionItem {
     cursor: pointer;
+    min-height: 70px !important;
 }
 
-.competitionItemSelect{
-    background-color: #FF5722 !important;
-    color: #FFFFFF !important;
+.racerItemSelect,
+.competitionItemSelect {
+    background-color: #222222 !important;
+    color: #FFFFFF;
+    min-height: 70px !important;
 }
 
+.racerItem:hover,
 .competitionItem:hover {
     background-color: #484848 !important;
+    min-height: 70px !important;
 }
-
-
 
 .infoBB {
     width: 200px;
