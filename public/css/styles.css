@@ -61,6 +61,12 @@ footer {
     margin: 40px;
 }
 
+.calendarItem{
+    border-bottom: 1px solid #c0c0c0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 md-tabs.md-grey-theme md-tabs-ink-bar {
     background: #FF5722 !important;
 }

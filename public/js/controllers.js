@@ -105,9 +105,14 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
             return momentNow.diff(momentDate) > 0;
         };
         
-        $scope.getCompetitionLabel = function(competition) {
-            var status = isCompleted(competition) ? ' (completed)' : '';
-            return competition.racetype.label + status;
+        $scope.getCompetitionLabelWithStatus = function(competition) {
+            return $scope.getCompetitionLabel(competition) + $scope.getCompetitionStatusLabel(competition);
+        };
+       $scope.getCompetitionLabel = function(competition) {
+            return competition.racetype.label;
+        };
+       $scope.getCompetitionStatusLabel = function(competition) {
+            return isCompleted(competition) ? ' (completed)' : '';
         };
        
         /*

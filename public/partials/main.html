@@ -34,15 +34,16 @@
                 <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
                     Calendar - {{ currentSeason.label }}
                 </md-whiteframe>
-                <md-item ng-repeat="competition in competitions" layout="column" layout-align="center" layout-padding ng-class="getCompetitionStyle(competition)" style="border-bottom: 1px solid #c0c0c0" ng-click="changeCompetition(competition)">
+                <md-item ng-repeat="competition in competitions" layout="column" layout-align="center" layout-padding ng-class="getCompetitionStyle(competition)" class="calendarItem" ng-click="changeCompetition(competition)">
                     <div layout="row" layout-align="center" ng-class="getCompetitionStatus(competition)">
                         <div flex=60 layout="row" layout-align="center" hide-phone hide-tablet>
                             <div flex=50 class="md-tile-left shrinkableText" layout="column" layout-align="center start">{{getFormattedDate(competition.competition_date)}}</div>
-                            <div flex=50 layout="column" class="shrinkableText" layout-align="center start">{{getCompetitionLabel(competition)}}</div>
+                            <div flex=50 layout="column" class="shrinkableText" layout-align="center start">{{getCompetitionLabelWithStatus(competition)}}</div>
                         </div>
                         <div flex=35 layout="column" layout-align="center start" hide show-phone show-tablet>
                             <div class="shrinkableText">{{getFormattedDate(competition.competition_date)}}</div>
-                            <div class="shrinkableText">{{competition.racetype.label}}</div>
+                            <div class="shrinkableText">{{getCompetitionLabel(competition)}}</div>
+                            <div class="shrinkableText">{{getCompetitionStatusLabel(competition)}}</div>
                         </div>
                         <div flex layout="column" layout-align="center start" style="text-align: justify">
                             <h4>{{competition.description}}</h4>
