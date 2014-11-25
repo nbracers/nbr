@@ -4,6 +4,8 @@
 
 nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location, $timeout, $mdSidenav, NbrService, NbrUtils) {
         console.log('--> NavCtrl loaded');
+
+        options.api.base_url = 'http://'+$location.$$host+':'+$location.$$port;
         /*
             scope variables
          */
@@ -139,9 +141,14 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
          */
         $scope.changeCompetition = function(competition) {
             $scope.lastSelectedCompetition.selected = false;
-            $scope.lastSelectedCompetition = competition;
-            $scope.lastSelectedCompetition.selected = true;
-            getCompetitionResults($scope.lastSelectedCompetition);
+            if($scope.lastSelectedCompetition != competition) {
+                $scope.lastSelectedCompetition = competition;
+                $scope.lastSelectedCompetition.selected = true;
+                getCompetitionResults($scope.lastSelectedCompetition);
+            }
+            else {
+                $scope.lastSelectedCompetition = {};
+            }
         };
 
         function getCompetitionResults(competition) {
@@ -256,9 +263,14 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
          */
         $scope.changeSelected = function(racer) {
             $scope.lastSelectedRacer.selected = false;
-            $scope.lastSelectedRacer = racer;
-            $scope.lastSelectedRacer.selected = true;
-            getRacerResults($scope.lastSelectedRacer);
+            if($scope.lastSelectedRacer != racer) {
+                $scope.lastSelectedRacer = racer;
+                $scope.lastSelectedRacer.selected = true;
+                getRacerResults($scope.lastSelectedRacer);
+            }
+            else {
+                $scope.lastSelectedRacer = {};
+            }
         };
 
 

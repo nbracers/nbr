@@ -78,20 +78,18 @@ md-tabs.md-grey-theme md-tab.active {
 .racerItem,
 .competitionItem {
     cursor: pointer;
-    min-height: 70px !important;
 }
 
 .racerItemSelect,
 .competitionItemSelect {
     background-color: #222222 !important;
     color: #FFFFFF;
-    min-height: 70px !important;
+    cursor: pointer;
 }
 
 .racerItem:hover,
 .competitionItem:hover {
     background-color: #484848 !important;
-    min-height: 70px !important;
 }
 
 .infoBB {
