@@ -11,9 +11,6 @@ var nbrAppDirectives = angular.module('NbrAppDirectives', []);
 
 var options = {};
 options.api = {};
-//options.api.base_url = "http://localhost:8080";
-//options.api.base_url = "http://192.168.0.100:8080";
-//options.api.base_url = "http://nbr-test.herokuapp.com";
 
 nbrApp.config(['$locationProvider', '$routeProvider',
     function($location, $routeProvider) {
