@@ -34,11 +34,11 @@
             </md-whiteframe>
             <md-item ng-repeat="competition in competitions" layout="column" layout-align="center" ng-class="getCompetitionStyle(competition)" ng-click="changeCompetition(competition)">
                 <div layout="row" layout-align="center" ng-class="getCompetitionStatus(competition)" style="margin: 15px">
-                    <div flex=60 layout="row" layout-align="center" hide-phone hide-tablet>
+                    <div flex=60 layout="row" layout-align="center" hide-sm hide-md>
                         <div flex=50 class="md-tile-left shrinkableText" layout="column" layout-align="center start">{{getFormattedDate(competition.competition_date)}}</div>
                         <div flex=50 layout="column" class="shrinkableText" layout-align="center start">{{getCompetitionLabelWithStatus(competition)}}</div>
                     </div>
-                    <div flex=35 layout="column" layout-align="center start" hide show-phone show-tablet>
+                    <div flex=35 layout="column" layout-align="center start" hide-gt-md>
                         <div class="shrinkableText">{{getFormattedDate(competition.competition_date)}}</div>
                         <div class="shrinkableText">{{getCompetitionLabel(competition)}}</div>
                         <div class="shrinkableText">{{getCompetitionStatusLabel(competition)}}</div>
@@ -50,7 +50,7 @@
                 <div ng-show="competition.selected" style="background-color: #BBBBBB; min-height: 200px;">
                     <md-list>
                         <md-item ng-repeat="result in selectedCompetitionResults" layout="row" layout-align="center" layout-margin style="color: #333333;">
-                            <div flex=20 layout="column" layout-align="center start" class="shrinkableText">
+                            <div flex=10 layout="column" layout-align="center start" class="shrinkableText">
                                 {{result.rank}}
                             </div>
                             <div flex layout="column" layout-align="centers start" class="shrinkableText">
