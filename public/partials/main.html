@@ -1,8 +1,39 @@
 <md-whiteframe class="md-whiteframe-z1">
     <div class="sectionHeader">Main</div>
 </md-whiteframe>
-<md-content flex md-scroll-y class="md-padding" >
+<md-content flex md-scroll-y >
     <div layout="column">
+        <md-list class="listMain">
+            <div flex layout="column" layout-align="center" layout-margin style="margin: 15px; background-color: #c8c8c8; border: solid 1px #333333">
+                <div flex layout="row">
+                    <div flex class="md-tile-left shrinkableText" layout="column" layout-align="center start">
+                        {{getFormattedDate(firstMessage.publish_date)}}
+                    </div>
+                    <div flex layout="column" class="shrinkableText" layout-align="center end">
+                        by: {{firstMessage.author}}
+                    </div>
+                </div>
+                <div flex layout="column" class="shrinkableTextBold" layout-align="center center">
+                    {{firstMessage.content}}
+                </div>
+            </div>
+            <md-item ng-repeat="message in remainingMessages" layout="column" layout-align="center" hide-sm>
+                <div flex layout="column" layout-align="center" layout-margin style="margin: 15px; background-color: #c8c8c8; border: solid 1px #333333">
+                    <div flex layout="row">
+                        <div flex class="md-tile-left shrinkableText" layout="column" layout-align="center start">
+                            {{getFormattedDate(message.publish_date)}}
+                        </div>
+                        <div flex layout="column" class="shrinkableText" layout-align="center end">
+                            by: {{message.author}}
+                        </div>
+                    </div>
+                    <div flex layout="column" class="shrinkableTextBold" layout-align="center center">
+                        {{message.content}}
+                    </div>
+                </div>
+            </md-item>
+        </md-list>
+
         <md-list class="listMain">
             <md-item class="racerItem" ng-repeat="racer in racers" layout="column" layout-align="center" layout-padding ng-click="gotoHero()">
                 <div layout="row" layout-align="center" style="margin: 15px">

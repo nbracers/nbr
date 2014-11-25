@@ -5,7 +5,7 @@
 nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location, $timeout, $mdSidenav, NbrService, NbrUtils) {
         console.log('--> NavCtrl loaded');
 
-        options.api.base_url = 'http://'+$location.$$host+':'+$location.$$port;
+        options.api.base_url = $location.$$protocol+'://'+$location.$$host+':'+$location.$$port;
         /*
             scope variables
          */
@@ -78,6 +78,8 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
          */
         $scope.footerText = "main";
         $scope.racers = [];
+        $scope.firstMessage = {};
+        $scope.remainingMessages = [];
 
 
         /*
@@ -87,7 +89,12 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
             return NbrUtils.getTrophyColor(position);
         };
 
-
+        /*
+         return a pretty date
+         */
+        $scope.getFormattedDate = function(dateString) {
+            return NbrUtils.prettyFormatFullDate(dateString);
+        };
 
         /*
             navigate to hero page
@@ -106,6 +113,13 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
                 var podiumPromise = NbrService.getRacerPodiumWithSeasonId($scope.currentSeason._id);
                 podiumPromise.success(function(data) {
                     $scope.racers = data;
+                });
+
+                var messagePromise = NbrService.getLatestMessages();
+                messagePromise.success(function(data) {
+                    $scope.remainingMessages = data;
+                    $scope.firstMessage = ($scope.remainingMessages).shift();
+                    console.log('--> messages retrieved');
                 });
             }
             else {

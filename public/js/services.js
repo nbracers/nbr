@@ -48,6 +48,10 @@ nbrAppServices.factory('NbrService', function ($http, NbrUtils) {
             return $http.get(options.api.base_url + '/racer/competition/'+data);
         },
 
+        getLatestMessages: function () {
+            return $http.get(options.api.base_url + '/message/latest');
+        },
+
         updatePresidentCoordinates: function (data) {
             return $http.put(options.api.base_url + '/presidentCoordinates', data);
         }
