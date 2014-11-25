@@ -19,6 +19,10 @@ nbrApp.config(['$locationProvider', '$routeProvider',
                 templateUrl: 'partials/main.html',
                 controller: 'MainCtrl'
             }).
+            when('/calendar', {
+                templateUrl: 'partials/calendar.html',
+                controller: 'CalCtrl'
+            }).
             when('/hero', {
                 templateUrl: 'partials/hero.html',
                 controller: 'HeroCtrl'

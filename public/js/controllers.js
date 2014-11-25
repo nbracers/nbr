@@ -12,6 +12,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
         $scope.menuSelectedIndex = 0;
         $scope.menuButtonObject = [
             {label: 'Main', target: '#/', disabled: false},
+            {label: 'Calendar', target: '#/calendar', disabled: false},
             {label: 'Multihero', target: '#/hero', disabled: false},
             {label: 'President finder', target: '#/where', disabled: false},
             {label: 'About', target: '#/about', disabled: true}
@@ -77,9 +78,7 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
          */
         $scope.footerText = "main";
         $scope.racers = [];
-        $scope.competitions = [];
-        $scope.lastSelectedCompetition = {};
-        $scope.selectedCompetitionResults = [];
+
 
         /*
             trophy color based on position
@@ -87,6 +86,49 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
         $scope.getTrophyColor = function(position) {
             return NbrUtils.getTrophyColor(position);
         };
+
+
+
+        /*
+            navigate to hero page
+         */
+        $scope.gotoHero = function() {
+            $window.location.href = $scope.menuButtonObject[2].target;
+        };
+
+
+
+        initMain();
+
+        function initMain() {
+
+            if($scope.currentSeason != null) {
+                var podiumPromise = NbrService.getRacerPodiumWithSeasonId($scope.currentSeason._id);
+                podiumPromise.success(function(data) {
+                    $scope.racers = data;
+                });
+            }
+            else {
+                /*
+                    in case the currentseason is still null when this controller loads
+                 */
+                setTimeout(initMain, 1000);
+            }
+
+        };
+    }
+);
+
+nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location, $window, $timeout, $mdSidenav, NbrService, NbrUtils) {
+        console.log('--> CalCtrl loaded');
+        /*
+         on activate, fires MENU_CHANGED with correct index
+         */
+        $rootScope.$broadcast('MENU_CHANGED', 1);
+
+        $scope.competitions = [];
+        $scope.lastSelectedCompetition = {};
+        $scope.selectedCompetitionResults = [];
 
         /*
          return correct class for racer
@@ -106,19 +148,19 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
 
             return momentNow.diff(momentDate) > 0;
         };
-        
+
         $scope.getCompetitionLabelWithStatus = function(competition) {
             return $scope.getCompetitionLabel(competition) + $scope.getCompetitionStatusLabel(competition);
         };
-       $scope.getCompetitionLabel = function(competition) {
+        $scope.getCompetitionLabel = function(competition) {
             return competition.racetype.label;
         };
-       $scope.getCompetitionStatusLabel = function(competition) {
+        $scope.getCompetitionStatusLabel = function(competition) {
             return isCompleted(competition) ? ' (completed)' : '';
         };
-       
+
         /*
-            return correct class if competition date is over
+         return correct class if competition date is over
          */
         $scope.getCompetitionStatus = function(competition) {
             if(isCompleted(competition) && !competition.selected) {
@@ -127,13 +169,6 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
             else {
                 return '';
             }
-        };
-
-        /*
-            navigate to hero page
-         */
-        $scope.gotoHero = function() {
-            $window.location.href = $scope.menuButtonObject[1].target;
         };
 
         /*
@@ -161,7 +196,7 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
         };
 
         /*
-            return a pretty date
+         return a pretty date
          */
         $scope.getFormattedDate = function(dateString) {
             return NbrUtils.prettyFormatFullDate(dateString);
@@ -188,9 +223,9 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
             return hours + ":" + mins + ":" + secs ;
         };
 
-        initMain();
+        initCal();
 
-        function initMain() {
+        function initCal() {
 
             if($scope.currentSeason != null) {
                 var heroPromise = NbrService.getHeroWithSeasonId($scope.currentSeason._id);
@@ -199,20 +234,16 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
                     $scope.competitions = (data.competitions).sort(NbrUtils.sortCompetitionArray);
                     console.log('--> nbr competitions : '+$scope.competitions.length);
                 });
-
-                var podiumPromise = NbrService.getRacerPodiumWithSeasonId($scope.currentSeason._id);
-                podiumPromise.success(function(data) {
-                    $scope.racers = data;
-                });
             }
             else {
                 /*
-                    in case the currentseason is still null when this controller loads
+                 in case the currentseason is still null when this controller loads
                  */
                 setTimeout(initMain, 1000);
             }
 
         };
+
     }
 );
 
@@ -220,7 +251,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
         /*
             on activate, fires MENU_CHANGED with correct index
          */
-        $rootScope.$broadcast('MENU_CHANGED', 1);
+        $rootScope.$broadcast('MENU_CHANGED', 2);
 
         /*
             scope variables
@@ -354,7 +385,7 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
     /*
      on activate, fires MENU_CHANGED with correct index
      */
-    $rootScope.$broadcast('MENU_CHANGED', 2);
+    $rootScope.$broadcast('MENU_CHANGED', 3);
 
     /*
         variables

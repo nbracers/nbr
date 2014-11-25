@@ -1,32 +1,7 @@
 <md-whiteframe class="md-whiteframe-z1">
-    <div class="sectionHeader">Main</div>
+    <div class="sectionHeader">Calendar</div>
 </md-whiteframe>
 <md-content flex md-scroll-y class="md-padding" >
-    <div layout="column">
-        <md-list class="listMain">
-            <md-item class="racerItem" ng-repeat="racer in racers" layout="column" layout-align="center" layout-padding ng-click="gotoHero()">
-                <div layout="row" layout-align="center" style="margin: 15px">
-                    <div flex=10 class="md-tile-left shrinkableTextBold" layout="column" layout-align="center start">
-                        {{$index+1}}
-                    </div>
-                    <div flex=10 class="md-tile-left" layout="column" layout-align="center start">
-                        <div hide-phone hide-tablet>
-                            <i class="fa fa-2x fa-trophy" ng-class="getTrophyColor($index+1)"></i>
-                        </div>
-                        <div hide show-phone show-tablet>
-                            <i class="fa fa-trophy" ng-class="getTrophyColor($index+1)"></i>
-                        </div>
-                    </div>
-                    <div flex layout="column" class="shrinkableTextBold" layout-align="end start">
-                        {{racer.name}}
-                    </div>
-                    <div flex=30 layout="column" class="shrinkableTextBold" layout-align="end end">
-                        {{racer.total}} pts
-                    </div>
-                </div>
-            </md-item>
-        </md-list>
-    </div>
     <div layout="column">
         <md-list class="listMain">
             <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
