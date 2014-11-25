@@ -48,6 +48,7 @@ routes.competitions =   require('./routes/competitions.js');
 routes.coordinates =    require('./routes/coordinates.js');
 routes.heros =          require('./routes/heros.js');
 routes.members =        require('./routes/members.js');
+routes.messages =       require('./routes/messages.js');
 routes.racers =         require('./routes/racers.js');
 routes.racetypes =      require('./routes/racetypes.js');
 routes.results =        require('./routes/results.js');
@@ -77,6 +78,11 @@ app.put('/member',                          auth,   routes.members.addRacerToMem
 app.put('/member/:id/addRacer',             auth,   routes.members.addRacerToMember());
 app.put('/member/:id/removeRacer',          auth,   routes.members.removeRacerFromMember());
 app.delete('/member/:id',                   auth,   routes.members.deleteMember());
+
+/********* message routes *********/
+app.get('/message',                                 routes.messages.getAllMessages());
+app.post('/message',                        auth,   routes.messages.createMessage());
+app.delete('/message/:id',                  auth,   routes.messages.deleteMessage());
 
 /********* racer routes *********/
 app.get('/racer',                                   routes.racers.getAllRacers());

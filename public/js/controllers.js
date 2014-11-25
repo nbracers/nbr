@@ -435,7 +435,7 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
             presMarker = new google.maps.Marker({position: presPos, map: gmap, icon: presIcon});
             google.maps.event.addListener(presMarker, 'click', (function(presMarker) {
                 return function() {
-                    presInfowindow.setContent('President');
+                    presInfowindow.setContent("<a target='_new' href='http://www.president.fr/'>President</a>");
                     presInfowindow.open(gmap, presMarker);
                 }
             })(presMarker));
