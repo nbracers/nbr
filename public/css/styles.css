@@ -72,8 +72,8 @@ md-tabs.md-grey-theme md-tab.active {
 .racerItem,
 .competitionItem,
 .calendarItem {
-    cursor: pointer;
-    min-height: 80px;
+    cursor: pointer !important;
+    min-height: 80px !important;
     border-bottom: 1px solid #c0c0c0;
 }
 
@@ -82,8 +82,8 @@ md-tabs.md-grey-theme md-tab.active {
 .calendarItemSelect {
     background-color: #222222 !important;
     color: #FFFFFF;
-    cursor: pointer;
-    min-height: 80px;
+    cursor: pointer !important;
+    min-height: 80px !important;
     border-bottom: 1px solid #c0c0c0;
 }
 
@@ -92,6 +92,7 @@ md-tabs.md-grey-theme md-tab.active {
 .calendarItem:hover {
     background-color: #484848 !important;
     border-bottom: 1px solid #c0c0c0;
+    cursor: pointer !important;
 }
 
 .infoBB {
