@@ -29,7 +29,7 @@
                 </div>
                 <div ng-show="racer.selected" style="background-color: #BBBBBB; min-height: 200px;">
                     <md-list>
-                        <md-item ng-repeat="result in selectedUserResults" layout="row" layout-align="center" layout-padding style="color: #333333;">
+                        <md-item ng-repeat="result in selectedUserResults" layout="row" layout-align="center" layout-margin style="color: #333333;">
                             <div flex layout="column" layout-align="center start" class="shrinkableText">
                                 {{getFormattedDate(result.competition.competition_date)}}
                             </div>
