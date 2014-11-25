@@ -36,16 +36,19 @@
         <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" layout="column" style="background-color: #333333" md-is-locked-open="$media('md')">
             <!-- Side-bar header -->
             <md-toolbar md-theme="deep-orange" layout-align="center center">
-                <div layout="horizontal" layout-fill layout-align="center center">
+                <div layout="row" layout-fill layout-align="center center">
                     <div flex style="margin-left: 10px">Meny</div>
-                    <div hide show-phone show-tablet style="margin-right: 10px"><md-button class="headerButton" ng-click="toggleLeft()"><i class="fa fa-times"></i></i></md-button></div>
+                    <div hide-gt-md style="margin-right: 10px"><md-button class="headerButton" ng-click="toggleLeft()"><i class="fa fa-times"></i></i></md-button></div>
                 </div>
             </md-toolbar>
 
             <!-- Side-bar content -->
-            <md-content class="md-padding" layout="column" flex style="background-color: #333333">
+            <md-content class="md-padding" layout="column" flex style="background-color: #333333;">
                 <!-- Side-bar content button list -->
                 <md-button ng-repeat="b in menuButtonObject" class="menuButton" ng-class="{selected: menuSelectedIndex==$index}" href="{{b.target}}" ng-disabled="b.disabled">{{ b.label }}</md-button>
+                <div flex layout="column" layout-align="end">
+                    <img src="img/nbr.jpg" width="100%">
+                </div>
             </md-content>
         </md-sidenav>
 
@@ -54,7 +57,7 @@
             <!-- Page Content header -->
             <md-toolbar md-theme="deep-orange" layout-align="center center" >
                 <div layout="row" layout-fill layout-align="center center">
-                    <div hide show-phone show-tablet  style="margin-left: 10px"><md-button class="headerButton" ng-click="toggleLeft()"><i class="fa fa-bars"></i></md-button></div>
+                    <div hide-gt-md style="margin-left: 10px"><md-button class="headerButton" ng-click="toggleLeft()"><i class="fa fa-bars"></i></md-button></div>
                     <div flex style="margin-left: 10px">Nittedal Banquet Racers</div>
                 </div>
             </md-toolbar>

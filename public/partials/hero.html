@@ -4,8 +4,8 @@
         <md-tab ng-repeat="tab in allseasons" md-on-select="announceSelected($index)" ng-disabled="tab.disabled" label="{{tab.label}}"></md-tab>
     </md-tabs>
 </md-whiteframe>
-<div layout="column" flex layout-padding>
-    <md-content flex md-scroll>
+<md-content flex md-scroll-y class="md-padding" >
+    <div layout="column">
         <md-list class="listMain">
             <md-item ng-repeat="racer in racers" ng-class="getRacerStyle(racer)" layout="column" layout-align="center" layout-padding style="border-bottom: 1px solid #c0c0c0; padding-top: 20px"  ng-click="changeSelected(racer)">
                 <div layout="row" layout-align="center" style="margin: 15px">
@@ -47,6 +47,7 @@
                 </div>
             </md-item>
         </md-list>
-    </md-content>
-</div>
+    </div>
+</md-content>
+
 
