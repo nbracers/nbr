@@ -20,6 +20,25 @@ exports.getAllMessages = function() {
     };
 };
 
+exports.getLatestMessages = function() {
+
+    return function (req, res) {
+        var nu = Date.now();
+
+        var query = Message.find();
+        query.where('publish_date').lt(nu);
+        query.sort('-publish_date');
+        query.limit(3);
+        query.exec(function(err, messages) {
+            if (err) {
+                res.status(400).end();
+            }
+
+            res.status(200).json(messages);
+        });
+    };
+};
+
 exports.createMessage = function() {
 
     return function (req, res) {

@@ -81,6 +81,7 @@ app.delete('/member/:id',                   auth,   routes.members.deleteMember(
 
 /********* message routes *********/
 app.get('/message',                                 routes.messages.getAllMessages());
+app.get('/message/latest',                          routes.messages.getLatestMessages());
 app.post('/message',                        auth,   routes.messages.createMessage());
 app.delete('/message/:id',                  auth,   routes.messages.deleteMessage());
 
