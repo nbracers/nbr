@@ -47,7 +47,9 @@
                 <!-- Side-bar content button list -->
                 <md-button ng-repeat="b in menuButtonObject" class="menuButton" ng-class="{selected: menuSelectedIndex==$index}" href="{{b.target}}" ng-disabled="b.disabled">{{ b.label }}</md-button>
                 <div flex layout="column" layout-align="end center">
-                    <img src="img/nbr.png" width="70%">
+                    <div style="width: 70%">
+                        <img src="img/nbr.png" width="100%" style="margin-bottom: 30px">
+                    </div>
                 </div>
             </md-content>
         </md-sidenav>

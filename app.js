@@ -46,7 +46,6 @@ app.all('*', function(req, res, next) {
 var routes = {};
 routes.competitions =   require('./routes/competitions.js');
 routes.coordinates =    require('./routes/coordinates.js');
-routes.heros =          require('./routes/heros.js');
 routes.members =        require('./routes/members.js');
 routes.messages =       require('./routes/messages.js');
 routes.racers =         require('./routes/racers.js');
@@ -56,20 +55,13 @@ routes.seasons =        require('./routes/seasons.js');
 
 /********* competition routes *********/
 app.get('/competition',                             routes.competitions.getAllCompetitions());
+app.get('/competition/:seasonId',                   routes.competitions.getCompetitionsWithSeasonId());
 app.post('/competition',                    auth,   routes.competitions.createCompetition());
 app.delete('/competition/:id',              auth,   routes.competitions.deleteCompetition());
 
 /********* coordinate routes *********/
 app.get('/presidentCoordinates',                    routes.coordinates.getCoordinates());
 app.put('/presidentCoordinates',            auth,   routes.coordinates.updateCoordinates());
-
-/********* hero routes *********/
-app.get('/hero',                                    routes.heros.getAllHeros());
-app.get('/hero/:seasonId',                          routes.heros.getHeroWithSeasonId());
-app.post('/hero',                           auth,   routes.heros.createHero());
-app.put('/hero/:id/addcompetition',         auth,   routes.heros.addCompetitionToHero());
-app.put('/hero/:id/removecompetition',      auth,   routes.heros.removeCompetitionFromHero());
-app.delete('/hero/:id',                     auth,   routes.heros.deleteHero());
 
 /********* member routes *********/
 app.get('/member',                                  routes.members.getAllMembers());
