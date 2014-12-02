@@ -112,6 +112,12 @@ md-content.md-default-theme {
     font-weight: bold;
 }
 
+.shrinkableTextBoldItalic {
+    font-size: 1em;
+    font-weight: bold;
+    font-style: italic;
+}
+
 @media (max-width: 600px) {
     .shrinkableText {
         font-size: 0.8em;
