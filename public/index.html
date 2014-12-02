@@ -33,32 +33,34 @@
     <body layout="row" ng-controller="NavCtrl">
 
         <!-- Side-bar menu -->
-        <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" layout="column" style="background-color: #333333" md-is-locked-open="$media('md')">
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2 nrbDark" md-component-id="left" layout="column" md-is-locked-open="$media('md')">
             <!-- Side-bar header -->
             <md-toolbar md-theme="deep-orange" layout-align="center center">
                 <div layout="row" layout-fill layout-align="center center">
-                    <div flex style="margin-left: 10px">Meny</div>
+                    <div flex class="headerPadding">Meny</div>
                     <div hide-gt-md style="margin-right: 10px"><md-button class="headerButton" ng-click="toggleLeft()"><i class="fa fa-times"></i></i></md-button></div>
                 </div>
             </md-toolbar>
 
             <!-- Side-bar content -->
-            <md-content class="md-padding" layout="column" flex style="background-color: #333333;">
+            <md-content class="md-padding nrbDark" layout="column" flex>
                 <!-- Side-bar content button list -->
                 <md-button ng-repeat="b in menuButtonObject" class="menuButton" ng-class="{selected: menuSelectedIndex==$index}" href="{{b.target}}" ng-disabled="b.disabled">{{ b.label }}</md-button>
                 <div flex layout="column" layout-align="end center">
-                    <img src="img/nbr.png" width="70%">
+                    <div style="width: 70%">
+                        <img src="img/nbr.png" width="100%" class="logo">
+                    </div>
                 </div>
             </md-content>
         </md-sidenav>
 
         <!-- Page Content -->
-        <div layout="column" layout-fill style="background-color: #666666">
+        <div layout="column" layout-fill class="nbrLighter">
             <!-- Page Content header -->
             <md-toolbar md-theme="deep-orange" layout-align="center center" >
                 <div layout="row" layout-fill layout-align="center center">
                     <div hide-gt-md style="margin-left: 10px"><md-button class="headerButton" ng-click="toggleLeft()"><i class="fa fa-bars"></i></md-button></div>
-                    <div flex style="margin-left: 10px">Nittedal Banquet Racers</div>
+                    <div flex class="headerPadding">Nittedal Banquet Racers</div>
                 </div>
             </md-toolbar>
 

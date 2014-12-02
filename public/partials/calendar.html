@@ -22,7 +22,7 @@
                         <div class="shrinkableText">{{competition.description}}</div>
                     </div>
                 </div>
-                <div ng-show="competition.selected" style="background-color: #BBBBBB; min-height: 200px;">
+                <div ng-show="competition.selected" class="selectedRow">
                     <md-list>
                         <md-item ng-repeat="result in selectedCompetitionResults" layout="row" layout-align="center" layout-margin style="color: #333333;">
                             <div flex=10 layout="column" layout-align="center start" class="shrinkableText">

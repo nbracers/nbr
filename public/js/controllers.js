@@ -242,10 +242,9 @@ nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location,
         function initCal() {
 
             if($scope.currentSeason != null) {
-                var heroPromise = NbrService.getHeroWithSeasonId($scope.currentSeason._id);
-                heroPromise.success(function(data) {
-                    console.log('--> this years hero: '+data._id);
-                    $scope.competitions = (data.competitions).sort(NbrUtils.sortCompetitionArray);
+                var competitionPromise = NbrService.getCompetitionsWithSeasonId($scope.currentSeason._id);
+                competitionPromise.success(function(data) {
+                    $scope.competitions = (data).sort(NbrUtils.sortCompetitionArray);
                     console.log('--> nbr competitions : '+$scope.competitions.length);
                 });
             }

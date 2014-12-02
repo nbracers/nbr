@@ -4,7 +4,7 @@
 <md-content flex md-scroll-y >
     <div layout="column">
         <md-list class="listMain">
-            <div flex layout="column" layout-align="center" layout-margin style="margin: 15px; background-color: #c8c8c8; border: solid 1px #333333">
+            <div flex layout="column" layout-align="center" layout-margin class="messageBox">
                 <div flex layout="row">
                     <div flex class="md-tile-left shrinkableText" layout="column" layout-align="center start">
                         {{getFormattedDate(firstMessage.publish_date)}}
@@ -18,7 +18,7 @@
                 </div>
             </div>
             <md-item ng-repeat="message in remainingMessages" layout="column" layout-align="center" hide-sm>
-                <div flex layout="column" layout-align="center" layout-margin style="margin: 15px; background-color: #c8c8c8; border: solid 1px #333333">
+                <div flex layout="column" layout-align="center" layout-margin class="messageBox">
                     <div flex layout="row">
                         <div flex class="md-tile-left shrinkableText" layout="column" layout-align="center start">
                             {{getFormattedDate(message.publish_date)}}

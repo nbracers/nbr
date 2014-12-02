@@ -24,8 +24,8 @@ nbrAppServices.factory('NbrService', function ($http, NbrUtils) {
             return $http.get(options.api.base_url + '/season');
         },
 
-        getHeroWithSeasonId: function (data) {
-            return $http.get(options.api.base_url + '/hero/'+data);
+        getCompetitionsWithSeasonId: function (data) {
+            return $http.get(options.api.base_url + '/competition/'+data);
         },
 
         getRacersWithSeasonId: function (data) {

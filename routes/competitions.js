@@ -4,6 +4,7 @@
 
 var Competition = require('../models/competition');
 var Racetype = require('../models/racetype');
+var Season = require('../models/season');
 
 exports.getAllCompetitions = function() {
 
@@ -23,53 +24,102 @@ exports.getAllCompetitions = function() {
     };
 };
 
+exports.getCompetitionsWithSeasonId = function() {
+    return function (req, res) {
+
+        var sid = req.params.seasonId;
+        if (sid == null || sid == '') {
+            res.status(400).end();
+        }
+
+        var query = Competition.find();
+        query.where({season: sid});
+        query.populate({
+            path: 'season',
+            model: Season
+        });
+        query.populate({
+            path: 'racetype',
+            model: Racetype
+        });
+        query.exec(function (err, popCompetitions) {
+
+            if (err) {
+                reject(err);
+            }
+
+            res.status(200).json(popCompetitions);
+        });
+    };
+};
+
 exports.createCompetition = function() {
 
     return function (req, res) {
         var description = req.body.description || '';
         var racetypeId = req.body.racetypeId || '';
+        var seasonId = req.body.seasonId || '';
         var dato = req.body.dato || '';         //ex: "December 1, 2014 20:00:00"
 
-        if (description == '' || racetypeId == '' || dato == '') {
+        if (description == '' || racetypeId == '' || dato == '' || seasonId == '') {
             res.status(400).end();
         }
 
-        var query = Racetype.findOne({_id: racetypeId});
-        query.exec(function(err, result) {
+        var racequery = Racetype.findOne({_id: racetypeId});
+        racequery.exec(function(err, raceresult) {
             if (err) {
                 res.status(400).end();
             }
 
-            if (result != null) {
+            if (raceresult != null) {
 
-                var d = new Date(dato);
-                Competition.findOne()
-                    .where({competition_date: d})
-                    .where({racetype: result._id})
-                    .exec(function(err, comp) {
-                        if (err) {
-                            res.status(400).end();
-                        }
+                var seasonquery = Season.findOne({_id: seasonId});
+                seasonquery.exec(function(err, seasonresult) {
+                    if (err) {
+                        res.status(400).end();
+                    }
 
-                        if (comp == null) {
-                            var competition = new Competition();
-                            competition.racetype = result._id;
-                            competition.competition_date = d;
-                            competition.description = description;
-                            competition.save(function(err, newComp) {
+                    if (seasonresult != null) {
+
+                        var d = new Date(dato);
+                        Competition.findOne()
+                            .where({competition_date: d})
+                            .where({racetype: raceresult._id})
+                            .where({season: seasonresult._id})
+                            .exec(function(err, comp) {
                                 if (err) {
-                                    res.status(500).end();
+                                    res.status(400).end();
                                 }
 
-                                console.log('--> competition ('+newComp._id+') created');
-                                res.status(200).json(newComp);
-                            });
+                                if (comp == null) {
+                                    var competition = new Competition();
+                                    competition.racetype = raceresult._id;
+                                    competition.season = seasonresult._id;
+                                    competition.competition_date = d;
+                                    competition.description = description;
+                                    competition.save(function(err, newComp) {
+                                        if (err) {
+                                            res.status(500).end();
+                                        }
 
-                        }
-                        else {
-                            res.status(400).end();
-                        }
-                    });
+                                        console.log('--> competition ('+newComp._id+') created');
+                                        res.status(200).json(newComp);
+                                    });
+
+                                }
+                                else {
+                                    res.status(400).end();
+                                }
+                            });
+                    }
+                });
+
+
+
+
+
+
+
 
             } else {
                 res.status(400).end();
