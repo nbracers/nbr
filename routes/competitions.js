@@ -14,6 +14,10 @@ exports.getAllCompetitions = function() {
             path: 'racetype',
             model: Racetype
         });
+        query.populate({
+            path: 'season',
+            model: Season
+        });
         query.exec(function(err, results) {
             if (err) {
                 res.status(400).end();
