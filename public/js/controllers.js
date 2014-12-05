@@ -565,3 +565,32 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
         });
     };
 });
+
+nbrAppControllers.controller("MessageCtrl", function ($scope, $rootScope, $window, $location, $timeout, $mdSidenav, NbrService, NbrUtils) {
+    console.log('--> MessageCtrl loaded');
+    /*
+     on activate, fires MENU_CHANGED with correct index
+     */
+    $rootScope.$broadcast('MENU_CHANGED', -1);
+
+    $scope.author = '';
+    $scope.publishdate = null;
+    $scope.content = '';
+
+    $scope.postMessage = function() {
+
+        if($scope.author != '' && $scope.publishdate != null && $scope.content != '') {
+            console.log('--> author: '+$scope.author);
+            console.log('--> publishdate: '+$scope.publishdate);
+            console.log('--> content: '+$scope.content);
+
+            NbrService.postMessage({author: $scope.author, content: $scope.content, dop: $scope.publishdate}).success(function() {
+                $scope.author = '';
+                $scope.publishdate = null;
+                $scope.content = '';
+            });
+
+        }
+    };
+
+});

@@ -31,6 +31,10 @@ nbrApp.config(['$locationProvider', '$routeProvider',
                 templateUrl: 'partials/where.html',
                 controller: 'WhereCtrl'
             }).
+            when('/message', {
+                templateUrl: 'partials/message.html',
+                controller: 'MessageCtrl'
+            }).
             otherwise({
                 redirectTo: '/'
             });
