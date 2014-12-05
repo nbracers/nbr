@@ -327,7 +327,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
 
             Promise.all(resultsServicePromises).then(function(resultsArray) {
                 console.log('--> successfully retrieved: '+resultsArray.length+' results');
-                $scope.selectedUserResults = resultsArray.sort(NbrUtils.sortCompetitionArray);;
+                $scope.selectedUserResults = resultsArray.sort(NbrUtils.sortMultiheroArray);;
                 $scope.$apply();
             }).catch(function(err) {
                 console.log('heros all promise error: '+err);

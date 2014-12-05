@@ -80,6 +80,14 @@ nbrAppServices.factory('NbrUtils', function () {
             return 0;
         },
 
+        sortMultiheroArray: function (a,b) {
+            if (a.competition.competition_date < b.competition.competition_date)
+                return -1;
+            if (a.competition.competition_date > b.competition.competition_date)
+                return 1;
+            return 0;
+        },
+
         sortCompetitionResult: function (a,b) {
             if (a.rank < b.rank)
                 return -1;
