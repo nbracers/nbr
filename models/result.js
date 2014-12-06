@@ -8,5 +8,9 @@ var ResultSchema = new Schema({
     competition:    { type: Schema.Types.ObjectId, ref: 'Competition', default: null }
 });
 
+ResultSchema.methods.totalRanked = function totalRanked(callback){
+	return this.model('Result').count({ competition: this.competition }, callback);
+};
+
 // Export Models
 module.exports = mongoose.model('Result', ResultSchema);

@@ -24,7 +24,9 @@ exports.getAllResults = function() {
             var expandedResultsPromise = [];
 
             results.forEach(function(result) {
-                expandedResultsPromise.push(getExpandedResult(result))
+                expandedResultsPromise.push(getExpandedResult(result));
+               // must "lean" the mongoose doc to make it stringify the new property
+               // expandedResultsPromise.push(addTotalRankedToResult(result));
             });
 
             Promise.all(expandedResultsPromise).then(function(resultsArray) {
@@ -57,6 +59,23 @@ function getExpandedResult(result) {
     })
 }
 
+function addTotalRankedToResult(result) {
+    return new Promise(function(resolve, reject) {
+        result.totalRanked(function(err, totalRanked){
+            if(err){
+                reject(err);
+            }
+            else{
+
+                result.ranked =  totalRanked;
+                console.log("--> result.ranked: " + result.ranked);
+                resolve(result);    
+            };
+            
+        });
+    })
+}
+
 exports.getResultById = function() {
     return function (req, res) {
 
@@ -75,9 +94,13 @@ exports.getResultById = function() {
                 res.status(400).end();
             }
 
-            getExpandedResult(result)
+               getExpandedResult(result)
+                .then(addTotalRankedToResult(result))
                 .then(function(expandedResult) {
-                    res.status(200).json(expandedResult);
+                    // make it an object to stringify the new property
+                    r = expandedResult.toObject();
+                    r.ranked = expandedResult.ranked;
+                    res.status(200).json(r);
                 })
                 .catch(function(err) {
                     res.status(400).end();
