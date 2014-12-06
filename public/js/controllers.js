@@ -19,6 +19,8 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
         ];
         $scope.allseasons = [];
         $scope.currentSeason = null;
+        $scope.competitions = [];
+        $scope.nextCompetition = {};
 
         initNav();
         function initNav() {
@@ -39,9 +41,38 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
                 $scope.allseasons = data.sort(NbrUtils.sortSeasonArray).reverse();
                 $scope.currentSeason = $scope.allseasons[0];
 
+                getThisYearsCompetitionList($scope.currentSeason._id);
+
                 console.log('--> current season: '+$scope.currentSeason.label);
             });
 
+        };
+
+        function getThisYearsCompetitionList(sid) {
+            var competitionPromise = NbrService.getCompetitionsWithSeasonId(sid);
+            competitionPromise.success(function(data) {
+                $scope.competitions = (data).sort(NbrUtils.sortCompetitionArray);
+                console.log('--> nbr competitions : '+$scope.competitions.length);
+
+                var competition;
+                for(var i=0; i<$scope.competitions.length; i++) {
+                    competition = $scope.competitions[i];
+
+                    if(!NbrUtils.isCompleted(competition)) {
+                        $scope.nextCompetition = competition;
+                        console.log('--> next competition : '+competition);
+                        break;
+                    }
+                }
+            });
+        }
+
+        $scope.getCompetitionLabel = function(competition) {
+            return competition.racetype.label;
+        };
+
+        $scope.getFormattedDate = function(dateString) {
+            return NbrUtils.prettyFormatFullDate(dateString);
         };
 
         /*
@@ -66,7 +97,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
 );
 
 
-nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location, $window, $timeout, $mdSidenav, NbrService, NbrUtils) {
+nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location, $window, $timeout, $mdSidenav, NbrService, NbrUtils, $mdToast, $animate) {
         console.log('--> MainCtrl loaded');
         /*
             on activate, fires MENU_CHANGED with correct index
@@ -77,10 +108,33 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
             scope variables
          */
         $scope.footerText = "main";
-        $scope.racers = [];
-        $scope.firstMessage = {};
-        $scope.remainingMessages = [];
+        $scope.racer1 = {};
+        $scope.racer2 = {};
+        $scope.racer3 = {};
 
+        /*
+            toast popup
+         */
+        $scope.toastPosition = {
+            bottom: false,
+            top: true,
+            left: false,
+            right: true
+        };
+
+        $scope.getToastPosition = function() {
+            return Object.keys($scope.toastPosition)
+                .filter(function(pos) { return $scope.toastPosition[pos]; })
+                .join(' ');
+        };
+        $scope.showCustomToast = function() {
+            $mdToast.show({
+                controller: 'NewsCtrl',
+                templateUrl: 'partials/components/news.html',
+                hideDelay: 0,
+                position: $scope.getToastPosition()
+            });
+        };
 
         /*
             trophy color based on position
@@ -112,15 +166,24 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
             if($scope.currentSeason != null) {
                 var podiumPromise = NbrService.getRacerPodiumWithSeasonId($scope.currentSeason._id);
                 podiumPromise.success(function(data) {
-                    $scope.racers = data;
+                    if(data.length == 3) {
+                        $scope.racer1 = data[0];
+                        $scope.racer2 = data[1];
+                        $scope.racer3 = data[2];
+                    }
                 });
 
                 var messagePromise = NbrService.getLatestMessages();
                 messagePromise.success(function(data) {
-                    $scope.remainingMessages = data;
-                    $scope.firstMessage = ($scope.remainingMessages).shift();
-                    console.log('--> messages retrieved');
+                    if(data.length > 0) {
+                        $rootScope.remainingMessages = data;
+                        console.log('--> messages retrieved');
+
+                        $scope.showCustomToast();
+                    }
                 });
+
+
             }
             else {
                 /*
@@ -133,6 +196,46 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
     }
 );
 
+nbrAppControllers.controller('NewsCtrl', function($scope, $rootScope, $mdToast, NbrUtils) {
+    console.log('--> NewsCtrl loaded');
+
+    var rotationIndex = 0;
+    var refreshInterval;
+    $scope.firstMessage = $rootScope.remainingMessages[rotationIndex];
+
+    function updateToast() {
+        refreshInterval = setTimeout(function() {
+            $scope.$apply(function() {
+                rotationIndex++;
+                if(rotationIndex == $rootScope.remainingMessages.length) {
+                    rotationIndex = 0;
+                }
+
+                $scope.firstMessage = $rootScope.remainingMessages[rotationIndex];
+
+                //avoid unnecessary loops
+                if($rootScope.remainingMessages.length > 1) {
+                    updateToast();
+                }
+            });
+        }, 5000);
+    }
+
+    updateToast();
+
+    $scope.closeToast = function() {
+        clearTimeout(refreshInterval);
+        $mdToast.hide();
+    };
+
+    /*
+     return a pretty date
+     */
+    $scope.getFormattedDate = function(dateString) {
+        return NbrUtils.prettyFormatFullDate(dateString);
+    };
+});
+
 nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location, $window, $timeout, $mdSidenav, NbrService, NbrUtils) {
         console.log('--> CalCtrl loaded');
         /*
@@ -140,7 +243,6 @@ nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location,
          */
         $rootScope.$broadcast('MENU_CHANGED', 1);
 
-        $scope.competitions = [];
         $scope.lastSelectedCompetition = {};
         $scope.selectedCompetitionResults = [];
 
@@ -156,13 +258,6 @@ nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location,
             }
         };
 
-        function isCompleted(competition) {
-            var momentDate = moment(competition.competition_date);
-            var momentNow = moment();
-
-            return momentNow.diff(momentDate) > 0;
-        };
-
         $scope.getCompetitionLabelWithStatus = function(competition) {
             return $scope.getCompetitionLabel(competition) + $scope.getCompetitionStatusLabel(competition);
         };
@@ -170,14 +265,14 @@ nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location,
             return competition.racetype.label;
         };
         $scope.getCompetitionStatusLabel = function(competition) {
-            return isCompleted(competition) ? ' (completed)' : '';
+            return NbrUtils.isCompleted(competition) ? ' (completed)' : '';
         };
 
         /*
          return correct class if competition date is over
          */
         $scope.getCompetitionStatus = function(competition) {
-            if(isCompleted(competition) && !competition.selected) {
+            if(NbrUtils.isCompleted(competition) && !competition.selected) {
                 return 'competitionCompleted';
             }
             else {
@@ -236,27 +331,6 @@ nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location,
 
             return hours + ":" + mins + ":" + secs ;
         };
-
-        initCal();
-
-        function initCal() {
-
-            if($scope.currentSeason != null) {
-                var competitionPromise = NbrService.getCompetitionsWithSeasonId($scope.currentSeason._id);
-                competitionPromise.success(function(data) {
-                    $scope.competitions = (data).sort(NbrUtils.sortCompetitionArray);
-                    console.log('--> nbr competitions : '+$scope.competitions.length);
-                });
-            }
-            else {
-                /*
-                 in case the currentseason is still null when this controller loads
-                 */
-                setTimeout(initMain, 1000);
-            }
-
-        };
-
     }
 );
 

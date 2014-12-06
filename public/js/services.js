@@ -126,6 +126,13 @@ nbrAppServices.factory('NbrUtils', function () {
 
             return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
                     s4() + '-' + s4() + s4() + s4();
+        },
+
+        isCompleted: function(competition) {
+            var momentDate = moment(competition.competition_date);
+            var momentNow = moment();
+
+            return momentNow.diff(momentDate) > 0;
         }
     }
 });

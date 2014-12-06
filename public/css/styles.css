@@ -1,3 +1,12 @@
+@import url(//fonts.googleapis.com/css?family=RobotoDraft&lang=en);
+
+body {
+    margin:0;
+    adding:0;
+    font-family:'RobotoDraft', Arial, sans-serif;
+}
+
+
 footer {
     height: 100px;
     background-color: #333333;
@@ -75,6 +84,14 @@ footer {
 
 .listMain {
     margin: 5px;
+}
+
+.nextCompHeader {
+    color: #FFFFFF;
+    /*border: 1px solid #FF5722;*/
+    padding: 20px;
+    background-color: #333333;
+
 }
 
 md-tabs.md-grey-theme md-tabs-ink-bar {

@@ -57,7 +57,10 @@
                                     {{result.competition.racetype.label}}
                                 </div>
                                 <div flex layout="column" layout-align="center end" class="shrinkableText">
-                                    {{getFormattedTime(result.time)}} ({{result.rank}}/{{result.ranked}})
+                                    {{getFormattedTime(result.time)}}
+                                </div>
+                                <div flex layout="column" layout-align="center end" class="shrinkableText">
+                                    {{result.rank}}/{{result.ranked}}
                                 </div>
                                 <div flex layout="column" layout-align="center end" class="shrinkableText">
                                     {{result.point}} pts
