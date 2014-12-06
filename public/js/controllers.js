@@ -306,6 +306,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             sets the current selected racer (unsets previous one)
          */
         $scope.changeSelected = function(racer) {
+            $scope.selectedUserResults = [];
             $scope.lastSelectedRacer.selected = false;
             if($scope.lastSelectedRacer != racer) {
                 $scope.lastSelectedRacer = racer;
