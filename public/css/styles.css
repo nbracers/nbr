@@ -162,6 +162,12 @@ md-content.md-default-theme {
     font-style: italic;
 }
 
+.newsShrinkableTextBoldItalic {
+    font-size: 1em;
+    font-weight: bold;
+    font-style: italic;
+}
+
 @media (max-width: 600px) {
     .shrinkableText {
         font-size: 0.8em;
@@ -170,6 +176,15 @@ md-content.md-default-theme {
     .shrinkableTextBold {
         font-size: 0.8em;
         font-weight: bold;
+    }
+
+    .newsShrinkableTextBoldItalic {
+        font-size: 0.8em;
+        font-weight: bold;
+        font-style: italic;
+        max-height: 26px !important;
+        overflow: hidden !important;
+        text-overflow:  ellipsis !important;
     }
 
 
