@@ -21,6 +21,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
         $scope.currentSeason = null;
         $scope.competitions = [];
         $scope.nextCompetition = {};
+        $scope.showNextCompetition = false;
 
         initNav();
         function initNav() {
@@ -54,13 +55,14 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
                 $scope.competitions = (data).sort(NbrUtils.sortCompetitionArray);
                 console.log('--> nbr competitions : '+$scope.competitions.length);
 
-                var competition;
+                var comp;
                 for(var i=0; i<$scope.competitions.length; i++) {
-                    competition = $scope.competitions[i];
+                    comp = $scope.competitions[i];
 
-                    if(!NbrUtils.isCompleted(competition)) {
-                        $scope.nextCompetition = competition;
-                        console.log('--> next competition : '+competition);
+                    if(!NbrUtils.isCompleted(comp)) {
+                        $scope.nextCompetition = comp;
+                        console.log('--> next competition : '+comp);
+                        $scope.showNextCompetition = true;
                         break;
                     }
                 }
@@ -68,7 +70,13 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
         }
 
         $scope.getCompetitionLabel = function(competition) {
-            return competition.racetype.label;
+            if(competition.racetype == undefined) {
+                return '';
+            }
+            else {
+                return competition.racetype.label;
+            }
+
         };
 
         $scope.getFormattedDate = function(dateString) {

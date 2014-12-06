@@ -1,7 +1,7 @@
 <md-whiteframe class="md-whiteframe-z1">
     <div class="sectionHeader">Main</div>
 </md-whiteframe>
-<section flex >
+<md-content flex md-scroll-y class="md-padding" >
     <div layout="column" layout-margin>
         <div flex layout="row" layout-align="center">
             <div flex-sm="90" flex-gt-sm="60" style="height: 200px;" layout="row" layout-align="center end">
@@ -42,12 +42,12 @@
             </div>
         </div>
 
-        <div flex layout="row" layout-align="center" style="margin-top: 40px">
+        <div flex layout="row" layout-align="center" style="margin-top: 40px" ng-show="showNextCompetition">
             <md-whiteframe flex-sm="90" flex-gt-sm="80" class="md-whiteframe-z1 nextCompHeader" layout="column">
                 <div class="shrinkableText" layout style="text-decoration: underline">
                     Next event:
                 </div>
-                <div flex layout="row" style="margin-top: 20px">
+                <div flex layout="row" style="margin-top: 20px" layout-align="space-between center">
                     <div flex=60 layout="row" hide-sm hide-md>
                         <div flex=50 class="md-tile-left shrinkableText" layout="column" layout-align="center start">{{getFormattedDate(nextCompetition.competition_date)}}</div>
                         <div flex=50 layout="column" class="shrinkableText" layout-align="center start">{{getCompetitionLabel(nextCompetition)}}</div>
@@ -56,12 +56,12 @@
                         <div class="shrinkableText">{{getFormattedDate(nextCompetition.competition_date)}}</div>
                         <div class="shrinkableText">{{getCompetitionLabel(nextCompetition)}}</div>
                     </div>
-                    <div flex layout="column" layout-align="center start" style="text-align: justify">
+                    <div flex layout="column" layout-align="center start" style="margin-left: 20px">
                         <div class="shrinkableText">{{nextCompetition.description}}</div>
                     </div>
                 </div>
             </md-whiteframe>
         </div>
     </div>
-</section>
+</md-content>
 

@@ -1,17 +1,13 @@
 <md-toast>
-    <div flex layout="row">
-        <div layout="column" style="margin-right: 20px">
-            <div class="md-tile-left shrinkableText" layout layout-align="center start">
-                {{getFormattedDate(firstMessage.publish_date)}}
-            </div>
-            <div layout="column" class="shrinkableText" layout-align="center start">
-                by: {{firstMessage.author}}
-            </div>
+    <div flex layout="row" layout-align="space-between center">
+        <div layout="column" style="margin-right: 30px">
+            <div class="shrinkableText" layout layout-align="center start">{{getFormattedDate(firstMessage.publish_date)}}</div>
+            <div layout="column" class="shrinkableText" layout-align="center start">by: {{firstMessage.author}}</div>
         </div>
-        <div flex layout="column" class="shrinkableTextBoldItalic" layout-align="center center">
+        <div flex layout="column" class="shrinkableTextBoldItalic" layout-align="center center" >
             {{firstMessage.content}}
         </div>
-        <md-button ng-click="closeToast()">
+        <md-button ng-click="closeToast()" style="margin-left: 20px">
             Lukk
         </md-button>
     </div>
