@@ -1,10 +1,13 @@
 /**
  * Created by jeremyt on 15/09/14.
  */
+var Promise = require('promise');
 
+var Competition = require('../models/competition');
 var Racer =     require('../models/racer');
 var Season =    require('../models/season');
 var Result =    require('../models/result');
+var Racetype = require('../models/racetype');
 var mongoose = require('mongoose');
 
 exports.getAllRacers = function() {
@@ -40,6 +43,129 @@ exports.getRacersBySeason = function() {
             res.status(200).json(results);
         });
     };
+};
+
+
+exports.getFullRacersBySeason = function() {
+    return function (req, res) {
+
+        var id = req.params.seasonId;
+        if (id == null || id == '') {
+            res.status(400).end();
+        }
+
+        var query = Racer.find();
+        query.where({season: id});
+        query.sort('-total');
+        query.exec(function(err, racers) {
+            if (err) {
+                res.status(400).end();
+            }
+
+            var expandedResultsPromise = [];
+
+            racers.forEach(function(racer) {
+                expandedResultsPromise.push(populateRacerResults(racer));
+            });
+
+            Promise.all(expandedResultsPromise).then(function(resultsArray) {
+                return res.status(200).json(resultsArray);
+            }).catch(function(err) {
+                //something went wrong with the promises, return 400
+                return res.status(400).end();
+            });
+        });
+    };
+};
+
+
+function populateRacerResults(racer) {
+
+    return new Promise(function(resolve, reject) {
+        var expandedRacerPromise = [];
+
+        racer.results.forEach(function(result) {
+            expandedRacerPromise.push(populateResult(result));
+        });
+
+        Promise.all(expandedRacerPromise).then(function(resultsArray) {
+            expandedRacer = {};
+            expandedRacer.racer = racer;
+            expandedRacer.results = resultsArray;
+            resolve(expandedRacer);
+        }).catch(function(err) {
+            //something went wrong with the promises, return 400
+            reject(err);
+        });
+    })
+};
+
+function populateResult(result) {
+
+    return new Promise(function(resolve, reject) {
+        var query = Result.findOne({_id: result});
+        query.populate({
+            path: 'competition',
+            model: Competition
+        });
+        query.exec(function(err, result) {
+            if (err) {
+                res.status(400).end();
+            }
+
+            getExpandedResult(result)
+                .then(addTotalRankedToResult(result))
+                .then(function(expandedResult) {
+                    // make it an object to stringify the new property
+                    r = expandedResult.toObject();
+                    r.ranked = expandedResult.ranked;
+                    resolve(r);
+                })
+                .catch(function(err) {
+                    reject(err);
+                });
+
+        })
+    })
+
+
+};
+
+function addTotalRankedToResult(result) {
+    return new Promise(function(resolve, reject) {
+        result.totalRanked(function(err, totalRanked){
+            if(err){
+                reject(err);
+            }
+            else{
+
+                result.ranked =  totalRanked;
+                console.log("--> result.ranked: " + result.ranked);
+                resolve(result);
+            };
+
+        });
+    })
+}
+
+function getExpandedResult(result) {
+    return new Promise(function(resolve, reject) {
+        var query = Competition.findOne({_id: result.competition._id});
+        query.populate({
+            path: 'racetype',
+            model: Racetype
+        });
+        query.exec(function (err, comp) {
+            if (err) {
+                reject(err);
+            }
+            else {
+                result.competition = comp;
+                resolve(result);
+            }
+
+        })
+    })
 };
 
 exports.getRacersByCompetition = function() {

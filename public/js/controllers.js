@@ -296,20 +296,12 @@ nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location,
             if($scope.lastSelectedCompetition != competition) {
                 $scope.lastSelectedCompetition = competition;
                 $scope.lastSelectedCompetition.selected = true;
-                getCompetitionResults($scope.lastSelectedCompetition);
+
+                $scope.selectedCompetitionResults = competition.racers.sort(NbrUtils.sortCompetitionResult);
             }
             else {
                 $scope.lastSelectedCompetition = {};
             }
-        };
-
-        function getCompetitionResults(competition) {
-
-            var service = NbrService.getRacersByCompetition(competition._id);
-            service.success(function(retrievedResult) {
-                console.log('--> successfully retrieved: '+retrievedResult.length+' results');
-                $scope.selectedCompetitionResults = retrievedResult.sort(NbrUtils.sortCompetitionResult);
-            });
         };
 
         /*
@@ -393,41 +385,12 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             if($scope.lastSelectedRacer != racer) {
                 $scope.lastSelectedRacer = racer;
                 $scope.lastSelectedRacer.selected = true;
-                getRacerResults($scope.lastSelectedRacer);
+
+                $scope.selectedUserResults = racer.results.sort(NbrUtils.sortMultiheroArray);
             }
             else {
                 $scope.lastSelectedRacer = {};
             }
-        };
-
-
-        function getRacerResults(racer) {
-            var resultsServicePromises = [];
-
-            racer.results.forEach(function(result) {
-                resultsServicePromises.push(getResultObject(result))
-            });
-
-            Promise.all(resultsServicePromises).then(function(resultsArray) {
-                console.log('--> successfully retrieved: '+resultsArray.length+' results');
-                $scope.selectedUserResults = resultsArray.sort(NbrUtils.sortMultiheroArray);;
-                $scope.$apply();
-            }).catch(function(err) {
-                console.log('heros all promise error: '+err);
-            });
-        };
-
-        function getResultObject(result) {
-            return new Promise(function(resolve, reject) {
-
-                var service = NbrService.getResultWithId(result);
-                service.success(function(retrievedResult) {
-                    resolve(retrievedResult);
-                });
-                service.error(function(err) {
-                    reject(err);
-                });
-            })
         };
 
         /*

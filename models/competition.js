@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 var CompetitionSchema = new Schema({
     competition_date:   { type: Date },
     description:        { type: String },
+    racers:             { type: Array, default: [] },
     racetype:           { type: Schema.Types.ObjectId, ref: 'Racetype', default: null },
     season:             { type: Schema.Types.ObjectId, ref: 'Season', default: null }
 });

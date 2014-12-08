@@ -56,6 +56,7 @@ routes.seasons =        require('./routes/seasons.js');
 /********* competition routes *********/
 app.get('/competition',                             routes.competitions.getAllCompetitions());
 app.get('/competition/:seasonId',                   routes.competitions.getCompetitionsWithSeasonId());
+app.get('/competition/full/:seasonId',              routes.competitions.getFullCompetitionsWithSeasonId());
 app.post('/competition',                    auth,   routes.competitions.createCompetition());
 app.delete('/competition/:id',              auth,   routes.competitions.deleteCompetition());
 
@@ -80,6 +81,7 @@ app.delete('/message/:id',                  auth,   routes.messages.deleteMessag
 /********* racer routes *********/
 app.get('/racer',                                   routes.racers.getAllRacers());
 app.get('/racer/:seasonId',                         routes.racers.getRacersBySeason());
+app.get('/racer/full/:seasonId',                         routes.racers.getFullRacersBySeason());
 app.get('/racer/competition/:competitionId',        routes.racers.getRacersByCompetition());
 app.get('/racer/podium/:seasonId',                  routes.racers.getRacerPodiumBySeason());
 app.post('/racer',                          auth,   routes.racers.createRacer());
