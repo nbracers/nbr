@@ -91,7 +91,7 @@ function populateRacerResults(racer) {
         Promise.all(expandedRacerPromise).then(function(resultsArray) {
             expandedRacer = {};
             expandedRacer.racer = racer;
-            expandedRacer.results = resultsArray;
+            expandedRacer.results = resultsArray.sort(sortMultiheroArray);
             resolve(expandedRacer);
         }).catch(function(err) {
             //something went wrong with the promises, return 400
@@ -99,6 +99,14 @@ function populateRacerResults(racer) {
         });
     })
 };
+
+function sortMultiheroArray(a,b) {
+    if (a.competition.competition_date < b.competition.competition_date)
+        return -1;
+    if (a.competition.competition_date > b.competition.competition_date)
+        return 1;
+    return 0;
+}
 
 function populateResult(result) {
 

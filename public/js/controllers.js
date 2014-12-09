@@ -348,6 +348,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
         $scope.racers = [];
         $scope.lastSelectedRacer = {};
         $scope.selectedUserResults = [];
+        var initCall = false;
 
         /*
          trophy color based on position
@@ -384,9 +385,9 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             $scope.lastSelectedRacer.selected = false;
             if($scope.lastSelectedRacer != racer) {
                 $scope.lastSelectedRacer = racer;
+                $scope.selectedUserResults = racer.results;
                 $scope.lastSelectedRacer.selected = true;
 
-                $scope.selectedUserResults = racer.results.sort(NbrUtils.sortMultiheroArray);
             }
             else {
                 $scope.lastSelectedRacer = {};
@@ -423,18 +424,19 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
 
         initHero($scope.selectedIndex);
         function initHero(ind) {
-            $scope.racers = [];
-            if($scope.allseasons.length > 0) {
+            console.log('--> initHero '+initCall);
+            if($scope.allseasons.length > 0 && $scope.racers.length == 0 && !initCall) {
+                initCall = true;
                 var heroPromise = NbrService.getRacersWithSeasonId($scope.allseasons[ind]._id);
                 heroPromise.success(function(data) {
                     $scope.racers = data;
+                    initCall = false;
                     console.log('--> nbr racers : '+$scope.racers.length);
                 });
             }
-            else {
+            else if($scope.racers.length == 0) {
                 setTimeout(initHero, 1000, ind);
             }
-
         };
     }
 );
