@@ -362,6 +362,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
          */
         $scope.announceSelected = function(ind) {
             $scope.selectedIndex = ind;
+            $scope.racers = [];
             initHero($scope.selectedIndex);
         };
 
