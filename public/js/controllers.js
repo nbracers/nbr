@@ -11,11 +11,11 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
          */
         $scope.menuSelectedIndex = 0;
         $scope.menuButtonObject = [
-            {label: 'Main', target: '#/', disabled: false},
-            {label: 'Calendar', target: '#/calendar', disabled: false},
-            {label: 'Multihero', target: '#/hero', disabled: false},
+            {label: 'Hjem', target: '#/', disabled: false},
+            {label: 'Øvelser', target: '#/calendar', disabled: false},
+            {label: 'Multiheroes', target: '#/hero', disabled: false},
             {label: 'President finder', target: '#/where', disabled: false},
-            {label: 'About', target: '#/about', disabled: true}
+            {label: 'Om', target: '#/about', disabled: true}
         ];
         $scope.allseasons = [];
         $scope.currentSeason = null;
@@ -273,7 +273,7 @@ nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location,
             return competition.racetype.label;
         };
         $scope.getCompetitionStatusLabel = function(competition) {
-            return NbrUtils.isCompleted(competition) ? ' (completed)' : '';
+            return NbrUtils.isCompleted(competition) ? ' (avsluttet)' : '';
         };
 
         /*
@@ -455,7 +455,7 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
     $scope.geoOK = true;
     $scope.isRacerPresident = false;
     $scope.lastUpdated = null;
-    $scope.distance = 'Calculating ...';
+    $scope.distance = 'Beregner ...';
 
     var presMarker = null;
     var presIcon = 'img/pres.png';

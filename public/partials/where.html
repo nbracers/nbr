@@ -3,12 +3,12 @@
 </md-whiteframe>
 <md-content flex md-scroll-y class="md-padding" >
     <div layout="row" layout-padding ng-switch="isRacerPresident">
-        <h5 ng-switch-when="false">Your last known* (updated: {{lastUpdated}}) distance to the president: {{ distance }} meter(s)</h5>
-        <h5 ng-switch-when="true">Your currently updating the president's coordinates</h5>
+        <h5 ng-switch-when="false">Du står nå* (oppdatert: {{lastUpdated}}) {{ distance }} meter fra presidenten</h5>
+        <h5 ng-switch-when="true">Kjære President, du oppdaterer nå din posisjon</h5>
     </div>
     <div flex layout="column" layout-padding ng-show="geoOK">
         <map center="0,0" zoom="12" ></map>
-        <span style="font-size: small">* president's position updates every 15s</span>
+        <span style="font-size: small">* Presidentens posisjon oppdateres maks hver 15s</span>
     </div>
     <div flex layout="column" layout-padding  layout-align="center center" ng-show="!geoOK">
         <div>There is a problem with geolocation permissions. Please make sure you have allowed geolocation in the browser.</div>
