@@ -22,7 +22,8 @@ exports.createRacetype = function() {
 
     return function (req, res) {
         var label = (req.body.label || '').toUpperCase();
-        if (label == '' ) {
+        var header_no = (req.body.header_no || '').toUpperCase();
+        if (label == '' || header_no == '' ) {
             res.status(400).end();
         }
 
@@ -35,6 +36,7 @@ exports.createRacetype = function() {
             if (result == null) {
                 var racetype = new Racetype();
                 racetype.label = label;
+                racetype.header_no = header_no;
                 racetype.save(function(err, result) {
                     if (err) {
                         res.status(500).end();
@@ -56,12 +58,13 @@ exports.updateRacetype = function() {
 
     return function (req, res) {
         var label = (req.body.label || '').toUpperCase();
+        var header_no = (req.body.header_no || '');
         var id = req.body._id || '';
-        if (label == '' || id == '') {
+        if (label == '' || id == '' || header_no == '') {
             return res.status(400).end();
         }
 
-        Racetype.update({_id: id}, {label: label}, function(err) {
+        Racetype.update({_id: id}, {label: label}, {header_no: header_no}, function(err) {
             if (err) {
                 res.status(500).end();
             }

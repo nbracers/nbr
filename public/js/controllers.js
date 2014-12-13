@@ -74,7 +74,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
                 return '';
             }
             else {
-                return competition.racetype.label;
+                return competition.racetype.header_no;
             }
 
         };
@@ -270,7 +270,7 @@ nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location,
             return $scope.getCompetitionLabel(competition) + $scope.getCompetitionStatusLabel(competition);
         };
         $scope.getCompetitionLabel = function(competition) {
-            return competition.racetype.label;
+            return competition.racetype.header_no;
         };
         $scope.getCompetitionStatusLabel = function(competition) {
             return NbrUtils.isCompleted(competition) ? ' (avsluttet)' : '';
