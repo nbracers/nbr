@@ -7,6 +7,9 @@
             <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
                 Terminliste - {{ currentSeason.label }}
             </md-whiteframe>
+            <div class="leaderboardHeaderHint" layout layout-align="center center">
+                Klikk øvelsen for resultatliste
+            </div>
             <md-item ng-repeat="competition in competitions" layout="column" layout-align="center" ng-class="getCompetitionStyle(competition)" ng-click="changeCompetition(competition)">
                 <div layout="row" layout-align="center" ng-class="getCompetitionStatus(competition)" style="margin: 15px">
                     <div flex=60 layout="row" layout-align="center" hide-sm hide-md>

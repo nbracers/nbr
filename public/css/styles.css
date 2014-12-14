@@ -73,6 +73,11 @@ footer {
     /*border: 1px solid #FF5722;*/
     height: 3em;
 }
+.leaderboardHeaderHint {
+    color:  #999999;  /*#FF5722;*/
+    margin-top: 3px;
+    padding-top: 3px;
+}
 
 .leaderboardList {
     border: 1px solid #FF5722;
