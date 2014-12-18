@@ -6,20 +6,20 @@
 
         <!--meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
         <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" media="(device-height: 568px)"/!-->
+
+        <!-- link rel="icon" type="image/png" href="/img/nbr_skieur.png" /-->
+        <title>NBR - Vi holder farten</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <meta name="viewport" content="width=device-width, minimal-ui">
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="author" content="Jeremy Toussaint" />
         <meta name="author" content="Dominique Bye-Ribeau" />
 
-        <link rel="shortcut icon" href="img/icon16x16.ico">
+        <link rel="shortcut icon" href="img/nbr_skieur.ico.ico">
         <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/icon144x144.png">
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/icon114x114.png">
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/icon72x72.png">
         <link rel="apple-touch-icon-precomposed" href="img/icon57x57.png">
-
-        <!-- link rel="icon" type="image/png" href="/img/nbr_skieur.png" /-->
-        <title>NBR - Vi holder farten</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
         <!-- Styling files -->
         <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" >
@@ -49,12 +49,12 @@
     <body layout="row" ng-controller="NavCtrl">
 
         <!-- Side-bar menu -->
-        <md-sidenav class="md-sidenav-left md-whiteframe-z2 nrbDark" md-component-id="left" layout="column" md-is-locked-open="$media('md')">
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2 nrbDark" md-component-id="left" layout="column" md-is-locked-open="$media('gt-sm')">
             <!-- Side-bar header -->
             <md-toolbar md-theme="deep-orange" layout-align="center center">
                 <div layout="row" layout-fill layout-align="center center">
                     <div flex class="headerPadding">Meny</div>
-                    <div hide-gt-md style="margin-right: 10px"><md-button class="headerButton" ng-click="toggleLeft()"><i class="fa fa-times"></i></i></md-button></div>
+                    <div hide-gt-sm style="margin-right: 10px"><md-button class="headerButton" ng-click="toggleLeft()"><i class="fa fa-times"></i></i></md-button></div>
                 </div>
             </md-toolbar>
 
@@ -75,7 +75,7 @@
             <!-- Page Content header -->
             <md-toolbar md-theme="deep-orange" layout-align="center center" >
                 <div layout="row" layout-fill layout-align="center center">
-                    <div hide-gt-md style="margin-left: 10px"><md-button class="headerButton" ng-click="toggleLeft()"><i class="fa fa-bars"></i></md-button></div>
+                    <div hide-gt-sm style="margin-left: 10px"><md-button class="headerButton" ng-click="toggleLeft()"><i class="fa fa-bars"></i></md-button></div>
                     <div flex class="headerPadding">Nittedal Banquet Racers</div>
                 </div>
             </md-toolbar>
