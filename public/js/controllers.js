@@ -124,10 +124,10 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
             toast popup
          */
         $scope.toastPosition = {
-            bottom: false,
-            top: true,
-            left: false,
-            right: true
+            bottom: true,
+            top: false,
+            left: true,
+            right: false
         };
 
         $scope.getToastPosition = function() {
@@ -597,21 +597,27 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
     };
 
     function getPresidentCoords() {
-        console.log('--> fetching president position');
-        NbrService.getPresidentCoordinates().success(function(data) {
-            $scope.lastUpdated = moment(data.dat).fromNow();
-            presPos = new google.maps.LatLng(data.lat, data.long);
-            presMarker.setPosition(presPos);
-            fitAllIn();
-        });
+        console.log('--> fetching president position ');
+        //only make a call if looking at president finder
+        if($scope.menuSelectedIndex == 3) {
+            NbrService.getPresidentCoordinates().success(function(data) {
+                $scope.lastUpdated = moment(data.dat).fromNow();
+                presPos = new google.maps.LatLng(data.lat, data.long);
+                presMarker.setPosition(presPos);
+                fitAllIn();
+            });
+        }
     };
 
     function updatePresidentCoords(la, lo, pos) {
-        console.log('--> updating president position');
-        NbrService.updatePresidentCoordinates({lat: la, long: lo}).success(function() {
-            presMarker.setPosition(pos);
-            gmap.panTo(pos);
-        });
+        console.log('--> updating president position ');
+        //only make a call if looking at president finder
+        if($scope.menuSelectedIndex == 3) {
+            NbrService.updatePresidentCoordinates({lat: la, long: lo}).success(function() {
+                presMarker.setPosition(pos);
+                gmap.panTo(pos);
+            });
+        }
     };
 });
 
