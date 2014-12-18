@@ -1,11 +1,15 @@
 @import url(//fonts.googleapis.com/css?family=RobotoDraft&lang=en);
 
-body {
-    margin:0;
-    adding:0;
-    font-family:'RobotoDraft', Arial, sans-serif;
+html, body {
+    overflow: hidden;
+    height: 100%
 }
 
+body {
+    margin:0;
+    padding:0;
+    font-family:'RobotoDraft', Arial, sans-serif;
+}
 
 footer {
     height: 100px;
