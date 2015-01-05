@@ -1,15 +1,15 @@
 <md-whiteframe class="md-whiteframe-z1">
-    <div class="sectionHeader">Øvelser</div>
+    <div class="sectionHeader">Øvelser (Klikk øvelsen for resultatliste)</div>
+    <md-tabs selected="selectedHeroIndex" md-theme="grey">
+        <md-tab ng-repeat="tab in allseasons" md-on-select="announceSelected($index)" ng-disabled="tab.disabled" label="{{tab.label}}"></md-tab>
+    </md-tabs>
 </md-whiteframe>
 <md-content flex md-scroll-y class="md-padding" >
+    <div style="width: 100%; height: 300px" layout layout-align="center center" ng-show="competitions.length == 0">
+        <md-progress-circular md-theme="deep-orange" md-mode="indeterminate"></md-progress-circular>
+    </div>
     <div layout="column">
         <md-list class="listMain">
-            <md-whiteframe class="md-whiteframe-z1 leaderboardHeader" layout layout-align="center center">
-                Terminliste - {{ currentSeason.label }}
-            </md-whiteframe>
-            <div class="leaderboardHeaderHint" layout layout-align="center center">
-                Klikk øvelsen for resultatliste
-            </div>
             <md-item ng-repeat="competition in competitions" layout="column" layout-align="center" ng-class="getCompetitionStyle(competition)" ng-click="changeCompetition(competition)">
                 <div layout="row" layout-align="center" ng-class="getCompetitionStatus(competition)" style="margin: 15px">
                     <div flex=60 layout="row" layout-align="center" hide-sm hide-md>

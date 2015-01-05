@@ -42,14 +42,14 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
                 $scope.allseasons = data.sort(NbrUtils.sortSeasonArray).reverse();
                 $scope.currentSeason = $scope.allseasons[0];
 
-                getThisYearsCompetitionList($scope.currentSeason._id);
+                findNextCompetition($scope.currentSeason._id);
 
                 console.log('--> current season: '+$scope.currentSeason.label);
             });
 
         };
 
-        function getThisYearsCompetitionList(sid) {
+        function findNextCompetition(sid) {
             var competitionPromise = NbrService.getCompetitionsWithSeasonId(sid);
             competitionPromise.success(function(data) {
                 $scope.competitions = (data).sort(NbrUtils.sortCompetitionArray);
@@ -67,7 +67,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
                     }
                 }
             });
-        }
+        };
 
         $scope.getCompetitionLabel = function(competition) {
             if(competition.racetype == undefined) {
@@ -253,6 +253,37 @@ nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location,
 
         $scope.lastSelectedCompetition = {};
         $scope.selectedCompetitionResults = [];
+        $scope.selectedCalendarIndex = 0;
+
+        /*
+         refresh the racers based on the tab clicked
+         */
+        $scope.announceSelected = function(ind) {
+            $scope.selectedCalendarIndex = ind;
+            $scope.competitions = [];
+            getThisYearsCompetitionList($scope.allseasons[ind]._id);
+        };
+
+        function getThisYearsCompetitionList(sid) {
+            var competitionPromise = NbrService.getCompetitionsWithSeasonId(sid);
+            competitionPromise.success(function(data) {
+                $scope.competitions = (data).sort(NbrUtils.sortCompetitionArray);
+                console.log('--> nbr competitions : '+$scope.competitions.length);
+
+                var comp;
+                for(var i=0; i<$scope.competitions.length; i++) {
+                    comp = $scope.competitions[i];
+
+                    if(!NbrUtils.isCompleted(comp)) {
+                        $scope.nextCompetition = comp;
+                        console.log('--> next competition : '+comp);
+                        $scope.showNextCompetition = true;
+                        break;
+                    }
+                }
+            });
+        };
+
 
         /*
          return correct class for racer
@@ -344,7 +375,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             scope variables
          */
         $scope.footerText = "hero";
-        $scope.selectedIndex = 0;
+        $scope.selectedHeroIndex = 0;
         $scope.racers = [];
         $scope.lastSelectedRacer = {};
         $scope.selectedUserResults = [];
@@ -361,9 +392,9 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             refresh the racers based on the tab clicked
          */
         $scope.announceSelected = function(ind) {
-            $scope.selectedIndex = ind;
+            $scope.selectedHeroIndex = ind;
             $scope.racers = [];
-            initHero($scope.selectedIndex);
+            initHero($scope.selectedHeroIndex);
         };
 
         /*
@@ -423,7 +454,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             return hours + ":" + mins + ":" + secs ;
         };
 
-        initHero($scope.selectedIndex);
+        initHero($scope.selectedHeroIndex);
         function initHero(ind) {
             console.log('--> initHero '+initCall);
             if($scope.allseasons.length > 0 && $scope.racers.length == 0 && !initCall) {

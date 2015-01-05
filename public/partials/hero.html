@@ -1,6 +1,6 @@
 <md-whiteframe class="md-whiteframe-z1">
     <div class="sectionHeader">Multiheroes</div>
-    <md-tabs selected="selectedIndex" md-theme="grey">
+    <md-tabs selected="selectedHeroIndex" md-theme="grey">
         <md-tab ng-repeat="tab in allseasons" md-on-select="announceSelected($index)" ng-disabled="tab.disabled" label="{{tab.label}}"></md-tab>
     </md-tabs>
 </md-whiteframe>
