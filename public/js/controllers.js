@@ -22,6 +22,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
         $scope.competitions = [];
         $scope.nextCompetition = {};
         $scope.showNextCompetition = false;
+        $scope.zoomboth = true;
 
         initNav();
         function initNav() {
@@ -89,6 +90,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
         $scope.$on('MENU_CHANGED', function (event, ind) {
             $mdSidenav('left').close();
             $scope.menuSelectedIndex = ind;
+            $scope.zoomboth = true;
         });
 
         /*
@@ -612,14 +614,15 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
     function fitAllIn() {
         var bounds = new google.maps.LatLngBounds();
 
-        if (presMarker != null && racerMarker != null) {
+        if (presMarker != null && racerMarker != null && $scope.zoomboth) {
+            $scope.zoomboth = false;
             bounds.extend(presMarker.getPosition());
             bounds.extend(racerMarker.getPosition());
             gmap.fitBounds(bounds);
 
             $scope.distance = Math.floor(google.maps.geometry.spherical.computeDistanceBetween(presMarker.getPosition(), racerMarker.getPosition()));
         }
-        else if(presMarker != null) {
+        else if(presMarker != null && $scope.zoomboth) {
             gmap.panTo(presMarker.getPosition());
         }
         else if(racerMarker != null) {
