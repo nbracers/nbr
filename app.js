@@ -81,7 +81,7 @@ app.delete('/message/:id',                  auth,   routes.messages.deleteMessag
 /********* racer routes *********/
 app.get('/racer',                                   routes.racers.getAllRacers());
 app.get('/racer/:seasonId',                         routes.racers.getRacersBySeason());
-app.get('/racer/full/:seasonId',                         routes.racers.getFullRacersBySeason());
+app.get('/racer/full/:seasonId',                    routes.racers.getFullRacersBySeason());
 app.get('/racer/competition/:competitionId',        routes.racers.getRacersByCompetition());
 app.get('/racer/podium/:seasonId',                  routes.racers.getRacerPodiumBySeason());
 app.post('/racer',                          auth,   routes.racers.createRacer());

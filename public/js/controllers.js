@@ -23,6 +23,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
         $scope.nextCompetition = {};
         $scope.showNextCompetition = false;
         $scope.zoomboth = true;
+        $scope.nbrCompetitionsOver = 0;
 
         initNav();
         function initNav() {
@@ -63,8 +64,12 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
                     if(!NbrUtils.isCompleted(comp)) {
                         $scope.nextCompetition = comp;
                         console.log('--> next competition : '+comp);
+                        console.log('--> nbr competitions over : '+$scope.nbrCompetitionsOver);
                         $scope.showNextCompetition = true;
                         break;
+                    }
+                    else {
+                        $scope.nbrCompetitionsOver++;
                     }
                 }
             });
