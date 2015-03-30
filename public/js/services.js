@@ -96,6 +96,14 @@ nbrAppServices.factory('NbrUtils', function () {
             return 0;
         },
 
+        sortLastKnownResultatListArray: function (a,b) {
+            if (a.sum < b.sum)
+                return -1;
+            if (a.sum > b.sum)
+                return 1;
+            return 0;
+        },
+
         getTrophyColor: function(position) {
             switch(position) {
                 case 1:

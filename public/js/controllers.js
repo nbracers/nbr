@@ -21,6 +21,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
         $scope.currentSeason = null;
         $scope.competitions = [];
         $scope.nextCompetition = {};
+        $scope.lastCompetition = null;
         $scope.showNextCompetition = false;
         $scope.zoomboth = true;
         $scope.nbrCompetitionsOver = 0;
@@ -63,6 +64,9 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
 
                     if(!NbrUtils.isCompleted(comp)) {
                         $scope.nextCompetition = comp;
+                        if($scope.competitions.length > 1) {
+                            $scope.lastCompetition = ($scope.competitions[i-1])._id;
+                        }
                         console.log('--> next competition : '+comp);
                         console.log('--> nbr competitions over : '+$scope.nbrCompetitionsOver);
                         $scope.showNextCompetition = true;
@@ -461,6 +465,45 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             return hours + ":" + mins + ":" + secs ;
         };
 
+        function calculatePreviousRanking(racersArray) {
+            var lastCompetitionStatusArray = [];
+
+            racersArray.forEach(function (racer){
+                console.log('--> calculating for racer '+racer.racer.name);
+
+                var lastCompetitionsSum = racer.results.length;
+                if(racer.racer.results.indexOf($scope.lastCompetition) > -1) {
+                    //attended last competition
+                    lastCompetitionsSum = lastCompetitionsSum - 1;
+                }
+
+                var sumPointsStatus = 0;
+                for(var i=0; i < lastCompetitionsSum; i++) {
+                    sumPointsStatus = sumPointsStatus + racer.results[i].point;
+                }
+
+                lastCompetitionStatusArray.push({id: racer.racer._id, sum: sumPointsStatus});
+            });
+
+
+            var sortedLastSum = lastCompetitionStatusArray.sort(NbrUtils.sortLastKnownResultatListArray).reverse();
+
+            racersArray.forEach(function (racer){
+
+                for(var i=0; i < sortedLastSum.length; i++) {
+                    if(sortedLastSum[i].id == racer.racer._id) {
+                        racer.racer.lastrank = i+1;
+                        break;
+                    }
+                }
+
+                $scope.racers.push(racer);
+            });
+
+            console.log('--> new racer '+racer);
+
+        };
+
         initHero($scope.selectedHeroIndex);
         function initHero(ind) {
             console.log('--> initHero '+initCall);
@@ -468,9 +511,13 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                 initCall = true;
                 var heroPromise = NbrService.getRacersWithSeasonId($scope.allseasons[ind]._id);
                 heroPromise.success(function(data) {
-                    $scope.racers = data;
+                    //$scope.racers = data;
                     initCall = false;
-                    console.log('--> nbr racers : '+$scope.racers.length);
+                    console.log('--> nbr racers : '+data.length);
+
+                    calculatePreviousRanking(data);
+
+
                 });
             }
             else if($scope.racers.length == 0) {

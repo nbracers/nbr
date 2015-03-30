@@ -171,6 +171,11 @@ md-content.md-default-theme {
     font-style: italic;
 }
 
+.competitionCheck {
+    width: 15px !important;
+    height: 15px !important;
+}
+
 @media (max-width: 600px) {
     .shrinkableText {
         font-size: 0.8em;
@@ -193,5 +198,10 @@ md-content.md-default-theme {
 
     .listMain {
         margin: 10px;
+    }
+
+    .competitionCheck {
+        width: 10px !important;
+        height: 10px !important;
     }
 }

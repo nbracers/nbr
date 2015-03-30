@@ -12,8 +12,11 @@
         <md-list class="listMain">
             <md-item ng-repeat="racer in racers" ng-class="getRacerStyle(racer)" layout="column" layout-align="center" layout-padding ng-click="changeSelected(racer)">
                 <div layout="row" layout-align="center" style="margin: 15px">
-                    <div flex=10 class="md-tile-left shrinkableTextBold" layout="column" layout-align="center start">
-                        {{$index+1}}
+                    <div flex=10 class="md-tile-left shrinkableTextBold" layout="row" layout-align="start center">
+                        <svg width="24" height="24" viewBox="0 0 24 24" ng-if="racer.rank > racer.lastrank"><path style="fill: #00FF00" d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" ng-if="racer.rank == racer.lastrank"><path style="fill: #c0c0c0" d="M22 12l-4-4v3H3v2h15v3z"/></svg>
+                        <svg width="24" height="24" viewBox="0 0 24 24" ng-if="racer.rank < racer.lastrank"><path style="fill: #FF0000" d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6z"/></svg>
+                        &nbsp;{{$index+1}}
                     </div>
                     <div flex=10 class="md-tile-left" layout="column" layout-align="center start">
                         <div hide-phone hide-tablet>
@@ -24,9 +27,9 @@
                         </div>
                     </div>
                     <div flex layout="row" class="shrinkableTextBold" layout-align="start center">
-                        {{racer.racer.name}}&nbsp;&nbsp; <span style="color: #c0c0c0 !important;"> (<img width="15" height="15" src="../img/ic_check_black_18dp.png"> {{ racer.results.length +'/'+ nbrCompetitionsOver}})</span>
+                        {{racer.racer.name}}&nbsp;&nbsp; <span style="color: #c0c0c0 !important;"> (<img class="competitionCheck" src="../img/ic_check_black_18dp.png"> {{ racer.results.length +'/'+ nbrCompetitionsOver}})</span>
                     </div>
-                    <div flex=40 layout="column" class="shrinkableTextBold" layout-align="center end">
+                    <div flex=20 layout="column" class="shrinkableTextBold" layout-align="center end">
                         {{racer.racer.total}} pts
                     </div>
                 </div>
