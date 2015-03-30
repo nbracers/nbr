@@ -500,7 +500,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                 $scope.racers.push(racer);
             });
 
-            console.log('--> new racer '+racer);
+            console.log('--> $scope.racers ready');
 
         };
 
@@ -516,8 +516,6 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                     console.log('--> nbr racers : '+data.length);
 
                     calculatePreviousRanking(data);
-
-
                 });
             }
             else if($scope.racers.length == 0) {
