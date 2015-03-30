@@ -192,6 +192,10 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
                     }
                 });
 
+                /*
+
+                jeremy - commented out 30/03/2015 because annoying and not used
+
                 var messagePromise = NbrService.getLatestMessages();
                 messagePromise.success(function(data) {
                     if(data.length > 0) {
@@ -200,7 +204,7 @@ nbrAppControllers.controller("MainCtrl", function ($scope, $rootScope, $location
 
                         $scope.showCustomToast();
                     }
-                });
+                });*/
 
 
             }

@@ -43,3 +43,8 @@ nbrApp.config(['$locationProvider', '$routeProvider',
 nbrApp.config(function ($httpProvider) {
     $httpProvider.interceptors.push('TokenInterceptor');
 });
+
+nbrApp.config(function($mdThemingProvider) {
+    $mdThemingProvider.theme('deep-orange').primaryPalette('deep-orange');
+    $mdThemingProvider.theme('grey').primaryPalette('grey');
+});
