@@ -471,37 +471,38 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
 
         function calculatePreviousRanking(racersArray) {
             var lastCompetitionStatusArray = [];
+/*
+            racersArray.forEach(function (racerWithResults){
+                console.log('--> calculating for racer '+racerWithResults.racer.name);
 
-            racersArray.forEach(function (racer){
-                console.log('--> calculating for racer '+racer.racer.name);
-
-                var lastCompetitionsSum = racer.results.length;
-                if(racer.racer.results.indexOf($scope.lastCompetition) > -1) {
+                var lastCompetitionsSum = racerWithResults.results.length;
+                if(racerWithResults.racer.results.indexOf($scope.lastCompetition) > -1) {
                     //attended last competition
                     lastCompetitionsSum = lastCompetitionsSum - 1;
                 }
 
                 var sumPointsStatus = 0;
                 for(var i=0; i < lastCompetitionsSum; i++) {
-                    sumPointsStatus = sumPointsStatus + racer.results[i].point;
+                    sumPointsStatus = sumPointsStatus + racerWithResults.results[i].point;
                 }
 
-                lastCompetitionStatusArray.push({id: racer.racer._id, sum: sumPointsStatus});
+                lastCompetitionStatusArray.push({id: racerWithResults.racer._id, sum: sumPointsStatus});
             });
 
 
             var sortedLastSum = lastCompetitionStatusArray.sort(NbrUtils.sortLastKnownResultatListArray).reverse();
+*/
+            racersArray.forEach(function (racerWithResults){
 
-            racersArray.forEach(function (racer){
-
-                for(var i=0; i < sortedLastSum.length; i++) {
+           /*     for(var i=0; i < sortedLastSum.length; i++) {
                     if(sortedLastSum[i].id == racer.racer._id) {
-                        racer.racer.lastrank = i+1;
+                        racerWithResults.racer.lastrank = i+1;
+                        console.log("racer " + racerWithResults.racer.name + " last rank is " + racerWithResults.racer.lastrank);
                         break;
                     }
                 }
-
-                $scope.racers.push(racer);
+            */
+                $scope.racers.push(racerWithResults);
             });
 
             console.log('--> $scope.racers ready');
@@ -519,7 +520,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                     initCall = false;
                     console.log('--> nbr racers : '+data.length);
 
-                    calculatePreviousRanking(data);
+                   calculatePreviousRanking(data);
                 });
             }
             else if($scope.racers.length == 0) {
