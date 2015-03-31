@@ -470,6 +470,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                         }
                     };
 
+                    result.improved = null;
                     if(prevpos < nextpos) {
                         result.improved = false;
                     }

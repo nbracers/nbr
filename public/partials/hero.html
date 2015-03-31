@@ -75,6 +75,7 @@
                                 </div>
                                 <div flex class="shrinkableText" layout="row" layout-align="end center" style="cursor: pointer">
                                     <svg width="24" height="24" viewBox="0 0 24 24" ng-show="result.improved == true"><path style="fill: #00FF00" d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+                                    <svg width="24" height="24" viewBox="0 0 24 24" ng-show="result.improved == null"><path style="fill: #333333" d="M22 12l-4-4v3H3v2h15v3z"/></svg>
                                     <svg width="24" height="24" viewBox="0 0 24 24" ng-show="result.improved == false"><path style="fill: #FF0000" d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6z"/></svg>
                                     &nbsp;{{result.point}} pts
                                     <md-tooltip><div ng-hide="result.prevpos == null">{{'før: '+result.prevposum+' ('+result.prevpos+')'}}<br>
