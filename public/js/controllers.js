@@ -469,41 +469,52 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             return hours + ":" + mins + ":" + secs ;
         };
 
+        /*
+            function that calculates previous ranking list to show trend by racer
+         */
         function calculatePreviousRanking(racersArray) {
             var lastCompetitionStatusArray = [];
 
+            //loop through list of racers
             racersArray.forEach(function (racerWithResults){
                 console.log('--> calculating for racer '+racerWithResults.racer.name);
 
                 var sumPointsStatus = 0;
+                //loop through list of result objects for this racer
                 for(var i=0; i < racerWithResults.results.length; i++) {
 
+                    //if competition is not last, add the sum of points received
                     if(racerWithResults.results[i].competition._id != $scope.lastCompetition) {
                         sumPointsStatus = sumPointsStatus + racerWithResults.results[i].point;
                     }
                 }
 
+                //push the racer id and point sum to a temporary array
                 lastCompetitionStatusArray.push({id: racerWithResults.racer._id, sum: sumPointsStatus});
             });
 
-
+            //sort the temporary array according to point sum in decreasing order
             var sortedLastSum = lastCompetitionStatusArray.sort(NbrUtils.sortLastKnownResultatListArray).reverse();
 
+            //loop through the list of racers again
             racersArray.forEach(function (racerWithResults){
 
+                //loop through the sorted temporary list
                 for(var i=0; i < sortedLastSum.length; i++) {
+                    //when the racer's ids match
                     if(sortedLastSum[i].id == racerWithResults.racer._id) {
+                        //update the racer object with his last ranking
                         racerWithResults.racer.lastrank = i+1;
                         console.log("racer " + racerWithResults.racer.name + " last rank is " + racerWithResults.racer.lastrank);
                         break;
                     }
                 }
 
+                //push the updated racer to a scope racers list
                 $scope.racers.push(racerWithResults);
             });
 
             console.log('--> $scope.racers ready');
-
         };
 
         initHero($scope.selectedHeroIndex);
