@@ -24,6 +24,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
         $scope.showNextCompetition = false;
         $scope.zoomboth = true;
         $scope.nbrCompetitionsOver = 0;
+        $scope.lastCompetitionIndex = 0;
 
         initNav();
         function initNav() {
@@ -63,6 +64,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
 
                     if(!NbrUtils.isCompleted(comp)) {
                         $scope.nextCompetition = comp;
+                        $scope.lastCompetitionIndex = i-1;
 
                         console.log('--> next competition : '+comp);
                         console.log('--> nbr competitions over : '+$scope.nbrCompetitionsOver);
@@ -518,7 +520,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
         function calculatePreviousRanking(racersArray) {
 
             //get the second last array of sums
-            var sortedLastSum = $scope.arrayOfRankedCompetitionsByRacer[$scope.arrayOfRankedCompetitionsByRacer.length-3];
+            var sortedLastSum = $scope.arrayOfRankedCompetitionsByRacer[$scope.lastCompetitionIndex];
 
             //loop through the list of racers again
             racersArray.forEach(function (racerWithResults){
