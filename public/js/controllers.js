@@ -518,7 +518,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
         function calculatePreviousRanking(racersArray) {
 
             //get the second last array of sums
-            var sortedLastSum = $scope.arrayOfRankedCompetitionsByRacer[$scope.arrayOfRankedCompetitionsByRacer.length-1];
+            var sortedLastSum = $scope.arrayOfRankedCompetitionsByRacer[$scope.arrayOfRankedCompetitionsByRacer.length-3];
 
             //loop through the list of racers again
             racersArray.forEach(function (racerWithResults){
