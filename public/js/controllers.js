@@ -471,19 +471,16 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
 
         function calculatePreviousRanking(racersArray) {
             var lastCompetitionStatusArray = [];
-/*
+
             racersArray.forEach(function (racerWithResults){
                 console.log('--> calculating for racer '+racerWithResults.racer.name);
 
-                var lastCompetitionsSum = racerWithResults.results.length;
-                if(racerWithResults.racer.results.indexOf($scope.lastCompetition) > -1) {
-                    //attended last competition
-                    lastCompetitionsSum = lastCompetitionsSum - 1;
-                }
-
                 var sumPointsStatus = 0;
-                for(var i=0; i < lastCompetitionsSum; i++) {
-                    sumPointsStatus = sumPointsStatus + racerWithResults.results[i].point;
+                for(var i=0; i < racerWithResults.results.length; i++) {
+
+                    if(racerWithResults.results[i].competition._id != $scope.lastCompetition) {
+                        sumPointsStatus = sumPointsStatus + racerWithResults.results[i].point;
+                    }
                 }
 
                 lastCompetitionStatusArray.push({id: racerWithResults.racer._id, sum: sumPointsStatus});
@@ -491,17 +488,17 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
 
 
             var sortedLastSum = lastCompetitionStatusArray.sort(NbrUtils.sortLastKnownResultatListArray).reverse();
-*/
+
             racersArray.forEach(function (racerWithResults){
 
-           /*     for(var i=0; i < sortedLastSum.length; i++) {
-                    if(sortedLastSum[i].id == racer.racer._id) {
+                for(var i=0; i < sortedLastSum.length; i++) {
+                    if(sortedLastSum[i].id == racerWithResults.racer._id) {
                         racerWithResults.racer.lastrank = i+1;
                         console.log("racer " + racerWithResults.racer.name + " last rank is " + racerWithResults.racer.lastrank);
                         break;
                     }
                 }
-            */
+
                 $scope.racers.push(racerWithResults);
             });
 
@@ -686,9 +683,9 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
     };
 
     function getPresidentCoords() {
-        console.log('--> fetching president position ');
         //only make a call if looking at president finder
         if($scope.menuSelectedIndex == 3) {
+            console.log('--> fetching president position ');
             NbrService.getPresidentCoordinates().success(function(data) {
                 $scope.lastUpdated = moment(data.dat).fromNow();
                 presPos = new google.maps.LatLng(data.lat, data.long);
@@ -699,9 +696,9 @@ nbrAppControllers.controller("WhereCtrl", function ($scope, $rootScope, $window,
     };
 
     function updatePresidentCoords(la, lo, pos) {
-        console.log('--> updating president position ');
         //only make a call if looking at president finder
         if($scope.menuSelectedIndex == 3) {
+            console.log('--> updating president position ');
             NbrService.updatePresidentCoordinates({lat: la, long: lo}).success(function() {
                 presMarker.setPosition(pos);
                 gmap.panTo(pos);
