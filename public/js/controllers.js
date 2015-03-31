@@ -21,7 +21,6 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
         $scope.currentSeason = null;
         $scope.competitions = [];
         $scope.nextCompetition = {};
-        $scope.lastCompetition = null;
         $scope.showNextCompetition = false;
         $scope.zoomboth = true;
         $scope.nbrCompetitionsOver = 0;
@@ -64,9 +63,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
 
                     if(!NbrUtils.isCompleted(comp)) {
                         $scope.nextCompetition = comp;
-                        if($scope.competitions.length > 1) {
-                            $scope.lastCompetition = ($scope.competitions[i-1])._id;
-                        }
+
                         console.log('--> next competition : '+comp);
                         console.log('--> nbr competitions over : '+$scope.nbrCompetitionsOver);
                         $scope.showNextCompetition = true;
@@ -394,6 +391,8 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
         $scope.racers = [];
         $scope.lastSelectedRacer = {};
         $scope.selectedUserResults = [];
+        $scope.competitionIdTable = [];
+        $scope.arrayOfRankedCompetitionsByRacer = [];
         var initCall = false;
 
         /*
@@ -432,13 +431,57 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             $scope.lastSelectedRacer.selected = false;
             if($scope.lastSelectedRacer != racer) {
                 $scope.lastSelectedRacer = racer;
-                $scope.selectedUserResults = racer.results;
+                $scope.selectedUserResults = getTrendedResults(racer.results, racer.racer._id);
                 $scope.lastSelectedRacer.selected = true;
 
             }
             else {
                 $scope.lastSelectedRacer = {};
             }
+        };
+
+        function getTrendedResults(res, rid) {
+
+            res.forEach(function(result) {
+
+                var competitionIndex = $scope.competitionIdTable.indexOf(result.competition._id);
+                if(competitionIndex > 0) {
+                    var prevpos;
+                    var prevcompetitionRankingArray = $scope.arrayOfRankedCompetitionsByRacer[competitionIndex-1];
+                    for(var i=0; i<prevcompetitionRankingArray.length; i++) {
+                        if(prevcompetitionRankingArray[i].id == rid) {
+                            result.prevposum = prevcompetitionRankingArray[i].sum;
+                            prevpos = i+1;
+                            result.prevpos = prevpos;
+                            break;
+                        }
+                    };
+
+                    var nextpos;
+                    var nextcompetitionRankingArray = $scope.arrayOfRankedCompetitionsByRacer[competitionIndex];
+                    for(var i=0; i<nextcompetitionRankingArray.length; i++) {
+                        if(nextcompetitionRankingArray[i].id == rid) {
+                            result.nextposum = nextcompetitionRankingArray[i].sum;
+                            nextpos = i+1;
+                            result.nextpos = nextpos;
+                            break;
+                        }
+                    };
+
+                    if(prevpos < nextpos) {
+                        result.improved = false;
+                    }
+                    else if(prevpos > nextpos) {
+                        result.improved = true;
+                    }
+                }
+                else {
+                    result.prevpos = null;
+                }
+
+            });
+
+            return res;
         };
 
         /*
@@ -473,28 +516,9 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             function that calculates previous ranking list to show trend by racer
          */
         function calculatePreviousRanking(racersArray) {
-            var lastCompetitionStatusArray = [];
 
-            //loop through list of racers
-            racersArray.forEach(function (racerWithResults){
-                console.log('--> calculating for racer '+racerWithResults.racer.name);
-
-                var sumPointsStatus = 0;
-                //loop through list of result objects for this racer
-                for(var i=0; i < racerWithResults.results.length; i++) {
-
-                    //if competition is not last, add the sum of points received
-                    if(racerWithResults.results[i].competition._id != $scope.lastCompetition) {
-                        sumPointsStatus = sumPointsStatus + racerWithResults.results[i].point;
-                    }
-                }
-
-                //push the racer id and point sum to a temporary array
-                lastCompetitionStatusArray.push({id: racerWithResults.racer._id, sum: sumPointsStatus});
-            });
-
-            //sort the temporary array according to point sum in decreasing order
-            var sortedLastSum = lastCompetitionStatusArray.sort(NbrUtils.sortLastKnownResultatListArray).reverse();
+            //get the second last array of sums
+            var sortedLastSum = $scope.arrayOfRankedCompetitionsByRacer[$scope.arrayOfRankedCompetitionsByRacer.length-2];
 
             //loop through the list of racers again
             racersArray.forEach(function (racerWithResults){
@@ -505,7 +529,6 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                     if(sortedLastSum[i].id == racerWithResults.racer._id) {
                         //update the racer object with his last ranking
                         racerWithResults.racer.lastrank = i+1;
-                        console.log("racer " + racerWithResults.racer.name + " last rank is " + racerWithResults.racer.lastrank);
                         break;
                     }
                 }
@@ -515,6 +538,61 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             });
 
             console.log('--> $scope.racers ready');
+        };
+
+        /*
+         function that calculates the ranked total after each competition
+         */
+        function prepareSortedTotalArrays(racersArray) {
+            //build an empty table array
+            var sortedArrayTable = [];
+            var sumsArrayTable = [];
+
+            $scope.competitions.forEach(function(competition) {
+                //populate 2 empty tables with the number of competitions of empty arrays
+                sortedArrayTable.push(new Array());
+                sumsArrayTable.push(new Array());
+                //populate a reference array with competition ids
+                $scope.competitionIdTable.push(competition._id);
+            });
+
+            //iterate through each racer
+            racersArray.forEach(function(racer) {
+                //iterate through each competition for each racer
+                racer.results.forEach(function(result) {
+                    //add the racer's points to the dictionary racer id key
+                    sortedArrayTable[$scope.competitionIdTable.indexOf(result.competition._id)][racer.racer._id] = result.point;
+                });
+            });
+
+            //iterate through each racer
+            racersArray.forEach(function(racer) {
+                var sum;
+                var tot = 0;
+                //for each competitionId
+                for(var i=0; i < $scope.competitionIdTable.length; i++) {
+                    //retrieve the points for this racer
+                    sum = sortedArrayTable[i][racer.racer._id];
+
+                    //if did not participate, give 0
+                    if(sum == undefined) {
+                        sum = 0;
+                    }
+
+                    //add the total to the previous one to obtain an increasing sum
+                    tot = tot + sum;
+                    //store the racer id and sum in a new table of arrays of totals
+                    sumsArrayTable[i].push({id: racer.racer._id, sum: tot});
+
+                };
+            });
+
+            //sort each array of totals in decreasing order to points
+            for(var j=0; j<sumsArrayTable.length; j++) {
+                sumsArrayTable[j] = sumsArrayTable[j].sort(NbrUtils.sortLastKnownResultatListArray).reverse();
+            }
+
+            return sumsArrayTable;
         };
 
         initHero($scope.selectedHeroIndex);
@@ -528,7 +606,8 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                     initCall = false;
                     console.log('--> nbr racers : '+data.length);
 
-                   calculatePreviousRanking(data);
+                    $scope.arrayOfRankedCompetitionsByRacer = prepareSortedTotalArrays(data);
+                    calculatePreviousRanking(data);
                 });
             }
             else if($scope.racers.length == 0) {
