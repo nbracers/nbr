@@ -64,6 +64,9 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
 
                     if(!NbrUtils.isCompleted(comp)) {
                         $scope.nextCompetition = comp;
+                        //i -> competition to come
+                        //i-1 -> last competition finished
+                        //i-2 -> one before last competition finished
                         $scope.lastCompetitionIndex = i-2;
 
                         console.log('--> next competition : '+comp);
@@ -590,7 +593,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                 };
             });
 
-            //sort each array of totals in decreasing order to points
+            //sort each array of totals in decreasing order according to points
             for(var j=0; j<sumsArrayTable.length; j++) {
                 sumsArrayTable[j] = sumsArrayTable[j].sort(NbrUtils.sortLastKnownResultatListArray).reverse();
             }
