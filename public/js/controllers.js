@@ -64,7 +64,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
 
                     if(!NbrUtils.isCompleted(comp)) {
                         $scope.nextCompetition = comp;
-                        $scope.lastCompetitionIndex = i-1;
+                        $scope.lastCompetitionIndex = i-2;
 
                         console.log('--> next competition : '+comp);
                         console.log('--> nbr competitions over : '+$scope.nbrCompetitionsOver);
