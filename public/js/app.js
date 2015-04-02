@@ -44,9 +44,6 @@ nbrApp.config(function ($httpProvider) {
     $httpProvider.interceptors.push('TokenInterceptor');
 });
 
-nbrApp.run(function() {
-    FastClick.attach(document.body);
-});
 
 nbrApp.config(function($mdThemingProvider) {
     $mdThemingProvider.theme('deep-orange').primaryPalette('deep-orange');
