@@ -382,7 +382,7 @@ nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location,
     }
 );
 
-nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location, $timeout, $mdSidenav, NbrService, NbrUtils) {
+nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location, $timeout, $mdSidenav, NbrService, NbrUtils, $window) {
         /*
             on activate, fires MENU_CHANGED with correct index
          */
@@ -436,7 +436,14 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             $scope.lastSelectedRacer.selected = false;
             if($scope.lastSelectedRacer != racer) {
                 $scope.lastSelectedRacer = racer;
-                $scope.selectedUserResults = getTrendedResults(racer.results, racer.racer._id);
+                var w = $window.innerWidth;
+                if(w > 600) {
+                    $scope.selectedUserResults = getTrendedResults(racer.results, racer.racer._id);
+                }
+                else {
+                    $scope.selectedUserResults = racer.results;
+                }
+
                 $scope.lastSelectedRacer.selected = true;
 
             }

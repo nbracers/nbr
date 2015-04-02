@@ -14,10 +14,10 @@ nbrAppDirectives.directive('herotrendDirective', function() {
             var lr = Number(scope.lastrank);
             var el;
 
-            if(cr < lr) {
+            if(cr > lr) {
                 el = angular.element('<img src="../img/arrowdown.png" width="24" height="24">&nbsp;'+(Number(scope.ind)+1));
             }
-            else if(cr > lr) {
+            else if(cr < lr) {
                 el = angular.element('<img src="../img/arrowup.png" width="24" height="24">&nbsp;'+(Number(scope.ind)+1));
             }
             else {
