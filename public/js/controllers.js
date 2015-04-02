@@ -469,6 +469,8 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                         }
                     };
 
+                    delete prevcompetitionRankingArray;
+
                     var nextpos;
                     var nextcompetitionRankingArray = $scope.arrayOfRankedCompetitionsByRacer[competitionIndex];
                     for(var i=0; i<nextcompetitionRankingArray.length; i++) {
@@ -479,6 +481,8 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                             break;
                         }
                     };
+
+                    delete nextcompetitionRankingArray;
 
                     result.improved = null;
                     if(prevpos < nextpos) {
@@ -599,6 +603,8 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
 
                 };
             });
+
+            delete sortedArrayTable;
 
             //sort each array of totals in decreasing order according to points
             for(var j=0; j<sumsArrayTable.length; j++) {
