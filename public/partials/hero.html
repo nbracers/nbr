@@ -14,9 +14,9 @@
                 <div layout="row" layout-align="center" style="margin: 15px">
 
                     <div flex=10 class="md-tile-left shrinkableTextBold" layout="row" layout-align="start center" style="cursor: pointer">
-                        <svg width="24" height="24" viewBox="0 0 24 24" ng-show="racer.racer.rank < racer.racer.lastrank"><path style="fill: #00FF00" d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
-                        <svg width="24" height="24" viewBox="0 0 24 24" ng-show="racer.racer.rank == racer.racer.lastrank"><path style="fill: #c0c0c0" d="M22 12l-4-4v3H3v2h15v3z"/></svg>
-                        <svg width="24" height="24" viewBox="0 0 24 24" ng-show="racer.racer.rank > racer.racer.lastrank"><path style="fill: #FF0000" d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6z"/></svg>
+                        <img src="../img/arrowup.png" width="24" height="24" ng-show="racer.racer.rank < racer.racer.lastrank">
+                        <img src="../img/arrow_grey.png" width="24" height="24" ng-show="racer.racer.rank == racer.racer.lastrank">
+                        <img src="../img/arrowdown.png" width="24" height="24" ng-show="racer.racer.rank > racer.racer.lastrank">
                         &nbsp;{{$index+1}}
                         <md-tooltip>Forrige plassering: {{racer.racer.lastrank}}</md-tooltip>
                     </div>
@@ -52,9 +52,9 @@
                                 </div>
                                 <div flex layout="column">
                                     <div flex class="shrinkableText" layout="row" layout-align="end center" style="cursor: pointer">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" ng-show="result.improved == true"><path style="fill: #00FF00" d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" ng-show="result.improved == null"><path style="fill: #333333" d="M22 12l-4-4v3H3v2h15v3z"/></svg>
-                                        <svg width="24" height="24" viewBox="0 0 24 24" ng-show="result.improved == false"><path style="fill: #FF0000" d="M16 18l2.29-2.29-4.88-4.88-4 4L2 7.41 3.41 6l6 6 4-4 6.3 6.29L22 12v6z"/></svg>
+                                        <img src="../img/arrowup.png" width="14" height="14" ng-show="result.improved == true">
+                                        <img src="../img/arrow.png" width="14" height="14" ng-show="result.improved == null">
+                                        <img src="../img/arrowdown.png" width="14" height="14" ng-show="result.improved == false">
                                         &nbsp;{{result.point}} pts
                                         <md-tooltip><div ng-hide="result.prevpos == null">{{'før: '+result.prevposum+' ('+result.prevpos+')'}}<br>
                                             {{'etter: '+result.nextposum+' ('+result.nextpos+')'}}</div></md-tooltip>
