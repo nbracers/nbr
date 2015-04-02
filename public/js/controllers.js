@@ -433,19 +433,12 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
          */
         $scope.changeSelected = function(racer) {
             $scope.selectedUserResults = [];
-            $scope.lastSelectedRacer.selected = false;
+            //$scope.lastSelectedRacer.selected = false;
+
             if($scope.lastSelectedRacer != racer) {
                 $scope.lastSelectedRacer = racer;
-                $scope.w = $window.innerWidth;
-                if($scope.w > 600) {
-                    $scope.selectedUserResults = getTrendedResults(racer.results, racer.racer._id);
-                }
-                else {
-                    $scope.selectedUserResults = racer.results;
-                }
-
+                $scope.selectedUserResults = getTrendedResults(racer.results, racer.racer._id);
                 $scope.lastSelectedRacer.selected = true;
-
             }
             else {
                 $scope.lastSelectedRacer = {};
