@@ -436,8 +436,8 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             $scope.lastSelectedRacer.selected = false;
             if($scope.lastSelectedRacer != racer) {
                 $scope.lastSelectedRacer = racer;
-                var w = $window.innerWidth;
-                if(w > 600) {
+                $scope.w = $window.innerWidth;
+                if($scope.w > 600) {
                     $scope.selectedUserResults = getTrendedResults(racer.results, racer.racer._id);
                 }
                 else {

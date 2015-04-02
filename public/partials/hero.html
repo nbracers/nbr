@@ -1,5 +1,5 @@
 <md-whiteframe class="md-whiteframe-z1">
-    <div class="sectionHeader">Multiheroes</div>
+    <div class="sectionHeader">Multiheroes {{w}}</div>
     <md-tabs selected="selectedHeroIndex" md-theme="grey">
         <md-tab ng-repeat="tab in allseasons" md-on-select="announceSelected($index)" ng-disabled="tab.disabled" label="{{tab.label}}"></md-tab>
     </md-tabs>
@@ -45,18 +45,8 @@
                                         {{getFormattedDate(result.competition.competition_date)}}
                                     </div>
                                 </div>
-                                <div flex layout="column">
-                                    <!-- div flex class="shrinkableText" layout="row" layout-align="end center" style="cursor: pointer" result="{{result.improved}}" point="{{result.point}}"></div -->
-                                    <!-- img src="../img/arrowup.png" width="14" height="14" ng-show="result.improved == true">
-                                    <img src="../img/arrow.png" width="14" height="14" ng-show="result.improved == null">
-                                    <img src="../img/arrowdown.png" width="14" height="14" ng-show="result.improved == false" -->
-                                    <!-- &nbsp;{{result.point}} pts -->
-                                    <!-- md-tooltip><div ng-hide="result.prevpos == null">{{'før: '+result.prevposum+' ('+result.prevpos+')'}}<br>
-                                        {{'etter: '+result.nextposum+' ('+result.nextpos+')'}}</div></md-tooltip-->
-                                    <!-- /div -->
-                                    <div flex layout="column" layout-align="center end" class="shrinkableText">
-                                        {{getFormattedTime(result.time)}} ({{result.rank}}/{{result.ranked}})
-                                    </div>
+                                <div layout-align="center end" class="shrinkableText">
+                                    {{getFormattedTime(result.time)}} ({{result.rank}}/{{result.ranked}})
                                 </div>
                             </div>
 
