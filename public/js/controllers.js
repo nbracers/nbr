@@ -418,18 +418,6 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
         };
 
         /*
-            return correct class for racer
-         */
-        $scope.getRacerStyle = function(racer) {
-            if(racer.selected) {
-                return 'racerItemSelect';
-            }
-            else {
-                return 'racerItem';
-            }
-        };
-
-        /*
             sets the current selected racer (unsets previous one)
          */
         $scope.changeSelected = function(racer) {

@@ -10,7 +10,7 @@
     </div>
     <div layout="column">
         <md-list ng-show="!lastSelectedRacer.selected" class="listMain">
-            <md-item ng-repeat="racer in racers" ng-class="getRacerStyle(racer)" layout="column" layout-align="center" layout-padding ng-click="changeSelected(racer)">
+            <md-item ng-repeat="racer in racers" class="racerItem" layout="column" layout-align="center" layout-padding ng-click="changeSelected(racer)">
                 <div layout="row" layout-align="center" style="margin: 15px">
                     <div flex=10 class="md-tile-left shrinkableTextBold" layout="row" layout-align="start center" style="cursor: pointer" herotrend-directive currentrank="{{racer.racer.rank}}" lastrank="{{racer.racer.lastrank}}" ind="{{$index}}">
                         <md-tooltip>Forrige plassering: {{racer.racer.lastrank}}</md-tooltip>
@@ -36,7 +36,24 @@
             </md-item>
         </md-list>
         <div ng-show="lastSelectedRacer.selected" class="selectedRow">
-            <button style="width: 100%; height: 40px; background-color: #333333; color: #FFFFFF; text-align: left !important" ng-click="lastSelectedRacer.selected = false;"><-- {{lastSelectedRacer.racer.name}}</button>
+            <!-- button style="width: 100%; height: 40px; background-color: #333333; color: #FFFFFF; text-align: left !important" ng-click="lastSelectedRacer.selected = false;"><-- {{lastSelectedRacer.racer.name}}</button-->
+
+            <div layout="row" layout-align="center" style="margin: 15px" class="md-button racerItemSelect" ng-click="lastSelectedRacer.selected = false;">
+                <!-- div flex=10 class="md-tile-left shrinkableTextBold" layout="row" layout-align="start center" style="cursor: pointer" herotrend-directive currentrank="{{lastSelectedRacer.racer.rank}}" lastrank="{{lastSelectedRacer.racer.lastrank}}" ind="{{$index}}">
+
+                </div-->
+                <div flex="10" layout="row" layout-align="start center">
+                    <img src="../img/arrow_back.png" width="24" height="24">
+                </div>
+
+                <div flex layout="row" class="shrinkableTextBold" layout-align="start center">
+                    <div flex>{{lastSelectedRacer.racer.name}} ({{lastSelectedRacer.racer.rank}})</div>
+                    <div><span style="color: #c0c0c0 !important;"> (<img class="competitionCheck" src="../img/ic_check_black_18dp.png"> {{ lastSelectedRacer.results.length +' av '+ nbrCompetitionsOver}})</span></div>
+                </div>
+                <div flex=20 layout="column" class="shrinkableTextBold" layout-align="center end">
+                    {{lastSelectedRacer.racer.total}} pts
+                </div>
+            </div>
             <md-list>
                 <md-item ng-repeat="result in selectedUserResults" layout="row" layout-align="center" layout-margin style="color: #333333;">
 
