@@ -107,13 +107,17 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
         /*
             toggle open side-menu
         */
-        $scope.toggleLeft = function() {
-            $mdSidenav('left').toggle();
+        $scope.openMenu = function() {
+            $mdSidenav('left').open();
         };
 
         $scope.close = function() {
             $mdSidenav('left').close();
         };
+
+        $scope.focusSection = function() {
+            $mdSidenav('left').close();
+        }
     }
 );
 
@@ -400,6 +404,12 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
         $scope.arrayOfRankedCompetitionsByRacer = [];
         $scope.calculating = false;
         var initCall = false;
+
+        $scope.currentListPage = 0;
+        $scope.listPageSize = 20;
+        $scope.numberOfPages = function() {
+            return Math.ceil($scope.racers.length/$scope.listPageSize);
+        };
 
         /*
          trophy color based on position
