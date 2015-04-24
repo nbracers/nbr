@@ -10,15 +10,15 @@
     </div>
     <div layout="column">
         <md-list ng-show="!lastSelectedRacer.selected" class="listMain">
-            <md-item>
+            <!-- md-item>
                 <md-button md-no-ink style="width: 100%;" ng-hide="currentListPage == 0" ng-click="currentListPage=currentListPage-1">
                     <div layout="column" layout-align="center center">
                         <span style="font-size: 8pt;">{{(20*(currentListPage))}}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><path ng-style="currentListPage == 0 ? {'fill': '#BBBBBB'} : {'fill': '#000000'}" d="M18 12l-9 9 2.12 2.12L18 16.24l6.88 6.88L27 21z"/></svg>
                     </div>
                 </md-button>
-            </md-item>
-            <md-item ng-repeat="racer in racers | startFrom:currentListPage*listPageSize | limitTo:listPageSize" class="racerItem" layout="column" layout-align="center" layout-padding ng-click="changeSelected(racer)">
+            </md-item -->
+            <md-item ng-repeat="racer in racers" class="racerItem" layout="column" layout-align="center" layout-padding ng-click="changeSelected(racer)">
                 <div layout="row" layout-align="center" style="margin: 15px">
                     <div flex=10 class="md-tile-left shrinkableTextBold" layout="row" layout-align="start center" style="cursor: pointer" herotrend-directive currentrank="{{racer.racer.rank}}" lastrank="{{racer.racer.lastrank}}" ind="{{$index+(20*currentListPage)}}">
                         <md-tooltip>Forrige plassering: {{racer.racer.lastrank}}</md-tooltip>
@@ -42,14 +42,14 @@
                 </div>
 
             </md-item>
-            <md-item>
+            <!-- md-item>
                 <md-button md-no-ink style="width: 100%;" ng-hide="currentListPage >= racers.length/listPageSize - 1" ng-click="currentListPage=currentListPage+1">
                     <div layout="column" layout-align="center center">
                         <svg style="width: 100%;" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36"><path ng-style="currentListPage >= (allMessages.length/listPageSize -1) ? {'fill': '#BBBBBB'} : {'fill': '#000000'}" d="M24.88 12.88L18 19.76l-6.88-6.88L9 15l9 9 9-9z"/></svg>
                         <span style="font-size: 8pt;">{{(20*(currentListPage+1)+1)}}</span>
                     </div>
                 </md-button>
-            </md-item>
+            </md-item -->
         </md-list>
         <div ng-show="lastSelectedRacer.selected" class="selectedRow">
             <!-- button style="width: 100%; height: 40px; background-color: #333333; color: #FFFFFF; text-align: left !important" ng-click="lastSelectedRacer.selected = false;"><-- {{lastSelectedRacer.racer.name}}</button-->
