@@ -75,7 +75,9 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
                         break;
                     }
                     else {
-                        $scope.nbrCompetitionsOver++;
+                        if(comp.givePoints === true) {
+                          $scope.nbrCompetitionsOver++;
+                        }
                     }
                 }
             });
