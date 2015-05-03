@@ -58,6 +58,7 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
                 $scope.competitions = (data).sort(NbrUtils.sortCompetitionArray);
                 console.log('--> nbr competitions : '+$scope.competitions.length);
 
+                $scope.lastCompetitionIndex = $scope.competitions.length-2;
                 var comp;
                 for(var i=0; i<$scope.competitions.length; i++) {
                     comp = $scope.competitions[i];
@@ -81,7 +82,6 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
                             $scope.nbrCompetitionsOver++;
                             console.log('--> nbr competitions over : '+$scope.nbrCompetitionsOver);
                         }
-                        $scope.lastCompetitionIndex = $scope.competitions.length-2;
                     }
                 }
             });
