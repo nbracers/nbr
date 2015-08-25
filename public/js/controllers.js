@@ -621,7 +621,15 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                     console.log('--> nbr racers : '+data.length);
 
                     $scope.arrayOfRankedCompetitionsByRacer = prepareSortedTotalArrays(data);
-                    calculatePreviousRanking(data);
+
+                    if(data.length === 0) {
+                        var myEl = angular.element( document.querySelector( '#heroProgress' ) );
+                        myEl.css('display','none');
+                    }
+                    else {
+                        calculatePreviousRanking(data);
+                    }
+
                 });
             }
             else if($scope.racers.length == 0) {
