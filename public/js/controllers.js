@@ -573,9 +573,6 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                 //iterate through each competition for each racer
                 racer.results.forEach(function(result) {
                     //add the racer's points to the dictionary racer id key
-                    if(result._id == '55dc8d89af71e54f312e5f6d') {
-                        console.log('trouvé');    
-                    }
                     sortedArrayTable[$scope.competitionIdTable.indexOf(result.competition._id)][racer.racer._id] = result.point;
                 });
             });
