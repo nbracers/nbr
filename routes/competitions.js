@@ -116,7 +116,7 @@ function populateRacerResults (competition) {
                 reject(err);
             }
 
-            if(results != null && results.length > 0) {
+            //if(results != null && results.length > 0) {
                 competition.racers = [];
 
                 results.forEach(function(racer) {
@@ -139,10 +139,10 @@ function populateRacerResults (competition) {
                 });
 
                 resolve(competition);
-            }
+            /*}
             else {
                 reject();
-            }
+            }*/
 
         })
     })

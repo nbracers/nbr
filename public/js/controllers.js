@@ -430,7 +430,44 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
         $scope.announceSelected = function(ind) {
             $scope.selectedHeroIndex = ind;
             $scope.racers = [];
-            initHero($scope.selectedHeroIndex);
+            getThisYearsCompetitionList($scope.allseasons[ind]._id);
+        };
+
+        function getThisYearsCompetitionList(sid) {
+            var competitionPromise = NbrService.getCompetitionsWithSeasonId(sid);
+            competitionPromise.success(function(data) {
+                $scope.competitions = (data).sort(NbrUtils.sortCompetitionArray);
+                console.log('--> nbr competitions : '+$scope.competitions.length);
+
+                $scope.lastCompetitionIndex = $scope.competitions.length-2;
+                var comp;
+                for(var i=0; i<$scope.competitions.length; i++) {
+                    comp = $scope.competitions[i];
+
+                    var compcomplete = NbrUtils.isCompleted(comp);
+
+                    if(!compcomplete) {
+                        $scope.nextCompetition = comp;
+                        //i -> competition to come
+                        //i-1 -> last competition finished
+                        //i-2 -> one before last competition finished
+                        $scope.lastCompetitionIndex = i-2;
+
+                        console.log('--> next competition : '+comp);
+                        console.log('--> nbr competitions over : '+$scope.nbrCompetitionsOver);
+                        $scope.showNextCompetition = true;
+                        break;
+                    }
+                    else {
+                        if(comp.givePoints === true) {
+                            $scope.nbrCompetitionsOver++;
+                            console.log('--> nbr competitions over : '+$scope.nbrCompetitionsOver);
+                        }
+                    }
+                }
+
+                initHero($scope.selectedHeroIndex);
+            });
         };
 
         /*
@@ -559,6 +596,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             //build an empty table array
             var sortedArrayTable = [];
             var sumsArrayTable = [];
+            $scope.competitionIdTable = [];
 
             $scope.competitions.forEach(function(competition) {
                 //populate 2 empty tables with the number of competitions of empty arrays
@@ -621,7 +659,15 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                     console.log('--> nbr racers : '+data.length);
 
                     $scope.arrayOfRankedCompetitionsByRacer = prepareSortedTotalArrays(data);
-                    calculatePreviousRanking(data);
+
+                    if(data.length === 0) {
+                        var myEl = angular.element( document.querySelector( '#heroProgress' ) );
+                        myEl.css('display','none');
+                    }
+                    else {
+                        calculatePreviousRanking(data);
+                    }
+
                 });
             }
             else if($scope.racers.length == 0) {
