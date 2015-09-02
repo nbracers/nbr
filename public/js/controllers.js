@@ -430,7 +430,17 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
         $scope.announceSelected = function(ind) {
             $scope.selectedHeroIndex = ind;
             $scope.racers = [];
-            initHero($scope.selectedHeroIndex);
+            getThisYearsCompetitionList($scope.allseasons[ind]._id);
+        };
+
+        function getThisYearsCompetitionList(sid) {
+            var competitionPromise = NbrService.getCompetitionsWithSeasonId(sid);
+            competitionPromise.success(function(data) {
+                $scope.competitions = (data).sort(NbrUtils.sortCompetitionArray);
+                console.log('--> nbr competitions : '+$scope.competitions.length);
+                $scope.lastCompetitionIndex = $scope.competitions.length-2;
+                initHero($scope.selectedHeroIndex);
+            });
         };
 
         /*
@@ -559,6 +569,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             //build an empty table array
             var sortedArrayTable = [];
             var sumsArrayTable = [];
+            $scope.competitionIdTable = [];
 
             $scope.competitions.forEach(function(competition) {
                 //populate 2 empty tables with the number of competitions of empty arrays
@@ -572,9 +583,6 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             racersArray.forEach(function(racer) {
                 //iterate through each competition for each racer
                 racer.results.forEach(function(result) {
-                        if(result._id == '55dc8d89af71e54f312e5f6d') {
-                        console.log('trouvé');    
-                    }
                     //add the racer's points to the dictionary racer id key
                     sortedArrayTable[$scope.competitionIdTable.indexOf(result.competition._id)][racer.racer._id] = result.point;
                 });
