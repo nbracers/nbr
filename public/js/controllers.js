@@ -373,7 +373,7 @@ nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location,
             var d = moment.duration(t, 'milliseconds');
             var hours = String(Math.floor(d.asHours()));
             var mins = String(Math.floor(d.asMinutes()) - hours * 60);
-            var secs = String(Math.floor(d.asSeconds()) - hours * 60 - mins * 60);
+            var secs = String(Math.floor(d.asSeconds()) - hours * 3600 - mins * 60);
 
             if(hours.length == 1 ) {
                 hours = '0'+hours;
@@ -544,7 +544,7 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             var d = moment.duration(t, 'milliseconds');
             var hours = String(Math.floor(d.asHours()));
             var mins = String(Math.floor(d.asMinutes()) - hours * 60);
-            var secs = String(Math.floor(d.asSeconds()) - hours * 60 - mins * 60);
+            var secs = String(Math.floor(d.asSeconds()) - hours * 3600 - mins * 60);
 
             if(hours.length == 1 ) {
                 hours = '0'+hours;
