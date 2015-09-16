@@ -53,6 +53,8 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
         };
 
         function findNextCompetition(sid) {
+            $scope.nbrCompetitionsOver = 0;
+        
             var competitionPromise = NbrService.getCompetitionsWithSeasonId(sid);
             competitionPromise.success(function(data) {
                 $scope.competitions = (data).sort(NbrUtils.sortCompetitionArray);
@@ -78,10 +80,10 @@ nbrAppControllers.controller("NavCtrl", function ($scope, $rootScope, $location,
                         break;
                     }
                     else {
+                        console.log('--> current competition give points : '+ comp.givePoints);
                         if(comp.givePoints === true) {
                             $scope.nbrCompetitionsOver++;
-                            console.log('--> nbr competitions over : '+$scope.nbrCompetitionsOver);
-                        }
+                        } 
                     }
                 }
             });
@@ -433,35 +435,39 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             getThisYearsCompetitionList($scope.allseasons[ind]._id);
         };
 
-        function getThisYearsCompetitionList(sid) {
-            var competitionPromise = NbrService.getCompetitionsWithSeasonId(sid);
+        function getThisYearsCompetitionList(season_id) {
+            console.log('empty this year competitions before fetching ');
+            $scope.nbrCompetitionsOver = 0;
+           
+            var competitionPromise = NbrService.getCompetitionsWithSeasonId(season_id);
             competitionPromise.success(function(data) {
                 $scope.competitions = (data).sort(NbrUtils.sortCompetitionArray);
-                console.log('--> nbr competitions : '+$scope.competitions.length);
+                console.log('--> nbr competitions lasted: '+$scope.competitions.length);
 
                 $scope.lastCompetitionIndex = $scope.competitions.length-2;
                 var comp;
                 for(var i=0; i<$scope.competitions.length; i++) {
                     comp = $scope.competitions[i];
 
-                    var compcomplete = NbrUtils.isCompleted(comp);
+                    var is_next_competition = !NbrUtils.isCompleted(comp);
 
-                    if(!compcomplete) {
+                    if(is_next_competition) {
                         $scope.nextCompetition = comp;
                         //i -> competition to come
                         //i-1 -> last competition finished
                         //i-2 -> one before last competition finished
                         $scope.lastCompetitionIndex = i-2;
 
-                        console.log('--> next competition : '+comp);
+                        console.log('--> next competition : '+comp.description);
                         console.log('--> nbr competitions over : '+$scope.nbrCompetitionsOver);
+                        
                         $scope.showNextCompetition = true;
                         break;
                     }
                     else {
+                        console.log('--> current competition give points : '+ comp.givePoints);
                         if(comp.givePoints === true) {
                             $scope.nbrCompetitionsOver++;
-                            console.log('--> nbr competitions over : '+$scope.nbrCompetitionsOver);
                         }
                     }
                 }
@@ -605,7 +611,11 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
                 //populate a reference array with competition ids
                 $scope.competitionIdTable.push(competition._id);
             });
-
+/* .......... TODO .............
+verifier si result.competition.givePoints
+  - ne pas en tenir compte
+  - créer une valeur racer.nbOfCompetitions
+*/
             //iterate through each racer
             racersArray.forEach(function(racer) {
                 //iterate through each competition for each racer
