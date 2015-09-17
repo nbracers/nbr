@@ -394,7 +394,8 @@ nbrAppControllers.controller("CalCtrl", function ($scope, $rootScope, $location,
     }
 );
 
-nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location, $timeout, $mdSidenav, NbrService, NbrUtils, $window) {
+//nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location, $timeout, $mdSidenav, NbrService, NbrUtils, $window) {
+nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope,  NbrService, NbrUtils) {
         /*
             on activate, fires MENU_CHANGED with correct index
          */
