@@ -595,6 +595,20 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             console.log('--> $scope.racers ready');
         };
 
+        $scope.getOnlyCountingResults = function(res) {
+            var cres = 0;
+
+            if(res) {
+                res.forEach(function(result) {
+                    if(result.competition.givePoints) {
+                        cres++;
+                    }
+                });
+            }
+
+            return cres;
+        };
+
         /*
          function that calculates the ranked total after each competition
          */
@@ -604,24 +618,40 @@ nbrAppControllers.controller("HeroCtrl", function ($scope, $rootScope, $location
             var sumsArrayTable = [];
             $scope.competitionIdTable = [];
 
-            $scope.competitions.forEach(function(competition) {
+            var competitionsClone = $scope.competitions.slice(0);
+            //remove the non giving points competitions
+            for(var i=0; i<competitionsClone.length; i++) {
+                if(!competitionsClone[i].givePoints) {
+                    competitionsClone.splice(i, 1);
+                }
+            }
+
+            competitionsClone.forEach(function(competition) {
                 //populate 2 empty tables with the number of competitions of empty arrays
                 sortedArrayTable.push(new Array());
                 sumsArrayTable.push(new Array());
                 //populate a reference array with competition ids
                 $scope.competitionIdTable.push(competition._id);
             });
-/* .......... TODO .............
-verifier si result.competition.givePoints
-  - ne pas en tenir compte
-  - créer une valeur racer.nbOfCompetitions
-*/
+
+
+            /* .......... TODO .............
+            verifier si result.competition.givePoints
+              - ne pas en tenir compte
+              - créer une valeur racer.nbOfCompetitions
+            */
+
             //iterate through each racer
             racersArray.forEach(function(racer) {
                 //iterate through each competition for each racer
                 racer.results.forEach(function(result) {
                     //add the racer's points to the dictionary racer id key
-                    sortedArrayTable[$scope.competitionIdTable.indexOf(result.competition._id)][racer.racer._id] = result.point;
+                    //only is the result gives points
+                    var cindex = $scope.competitionIdTable.indexOf(result.competition._id);
+                    if(cindex > -1) {
+                        sortedArrayTable[cindex][racer.racer._id] = result.point;
+                    }
+
                 });
             });
 
