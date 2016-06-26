@@ -17,6 +17,21 @@ module NbrApp {
         $routeProvider.
             when('/', {
                 templateUrl : 'js/components/landing/landing.html'
+            }).
+            when('/calendar', {
+                templateUrl: 'js/components/calendar/calendar.html'
+            }).
+            when('/hero', {
+                templateUrl: 'js/components/hero/hero.html'
+            }).
+            when('/where', {
+                templateUrl: 'js/components/where/where.html'
+            }).
+            when('/message', {
+                templateUrl: 'js/components/message/message.html'
+            }).
+            otherwise({
+                redirectTo: '/'
             });
 
         $mdThemingProvider.theme('deep-orange').primaryPalette('deep-orange');

@@ -4,6 +4,17 @@
           Dominique Bye-Ribaut
 \*------------------------------------------------------*/
 @import url(//fonts.googleapis.com/css?family=RobotoDraft&lang=en);
+.sidenav-menuButton {
+  border-radius: 0 !important;
+  margin-bottom: 16px;
+  color: #FFFFFF;
+}
+
+.sidenav-menuButton.selected {
+  background-color: #FF5722 !important;
+  color: #333333;
+}
+
 html, body {
   overflow: hidden;
   height: 100%;
@@ -13,4 +24,12 @@ body {
   margin: 0;
   adding: 0;
   font-family: 'RobotoDraft', Arial, sans-serif;
+}
+
+.nbr-darkbackground {
+  background-color: #333333;
+}
+
+.nbr-lightbackground {
+  background-color: #666666;
 }
