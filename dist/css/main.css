@@ -1,0 +1,16 @@
+/*------------------------------------------------------*  Samtavla
+  ===========
+  author  Jeremy Toussaint,
+          Dominique Bye-Ribaut
+\*------------------------------------------------------*/
+@import url(//fonts.googleapis.com/css?family=RobotoDraft&lang=en);
+html, body {
+  overflow: hidden;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  adding: 0;
+  font-family: 'RobotoDraft', Arial, sans-serif;
+}
