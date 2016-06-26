@@ -8,7 +8,9 @@
 @import url(//fonts.googleapis.com/css?family=RobotoDraft&lang=en);
 
 @import "colors",
-  "../js/components/landing/landing.scss";
+  "../js/components/landing/landing",
+  "../js/components/toolbar/toolbar",
+  "../js/components/sidenav/sidenav";
 
 
 html, body {
@@ -20,4 +22,12 @@ body {
   margin:0;
   adding:0;
   font-family:'RobotoDraft', Arial, sans-serif;
+}
+
+.nbr-darkbackground {
+  background-color: $color-darkgrey;
+}
+
+.nbr-lightbackground {
+  background-color: $color-lightgrey;
 }

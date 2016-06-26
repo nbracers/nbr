@@ -13,12 +13,12 @@
     <meta name="author" content="Jeremy Toussaint" />
     <meta name="author" content="Dominique Bye-Ribaut" />
 
-    <link rel="shortcut icon" href="img/nbr_skieur.ico">
-    <link rel="icon" type="image/png" href="/img/icon114x114.png" />
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/icon144x144.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/icon114x114.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/icon72x72.png">
-    <link rel="apple-touch-icon-precomposed" href="img/icon57x57.png">
+    <link rel="shortcut icon" href="images/nbr_skieur.ico">
+    <link rel="icon" type="image/png" href="images/icon114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/icon144x144.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/icon114x114.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/icon72x72.png">
+    <link rel="apple-touch-icon-precomposed" href="images/icon57x57.png">
     <meta charset="UTF-8">
 
     <!-- Styles -->
@@ -37,41 +37,14 @@
 <body layout="row">
 
     <!-- Side-bar menu -->
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" layout="column" md-is-locked-open="$mdMedia('gt-sm')">
-        <!-- Side-bar header -->
-        <md-toolbar md-theme="deep-orange" layout-align="center center">
-            <div layout="row" layout-fill layout-align="center center">
-                <div flex class="headerPadding">Meny</div>
-            </div>
-        </md-toolbar>
-
-        <!-- Side-bar content -->
-        <md-content class="md-padding nrbDark" layout="column" flex>
-            <!-- Side-bar content button list -->
-            <md-button ng-repeat="b in menuButtonObject" class="menuButton" ng-class="{selected: menuSelectedIndex==$index}" ng-click="focusSection()" ng-href="{{b.target}}" ng-disabled="b.disabled">{{ b.label }}</md-button>
-            <div flex layout="column" layout-align="end center">
-                <div style="width: 70%">
-                    <img src="images/nbr.png" width="100%" class="logo">
-                </div>
-            </div>
-        </md-content>
-    </md-sidenav>
+    <ng-include src="'js/components/sidenav/sidenav.html'"></ng-include>
 
     <!-- Page Content -->
-    <div layout="column" layout-fill class="nbrLighter">
+    <div layout="column" layout-fill>
         <!-- Page Content header -->
-        <md-toolbar md-theme="deep-orange" layout-align="center center">
-            <div class="md-toolbar-tools" tabindex="-1" role="button" ng-click="openMenu()">
-                <button title="toggleMenuButton" class="md-icon-button md-button" aria-label="Toggle Menu" hide-gt-sm role="tab">
-                    <md-icon class="hamburger" md-svg-src="img/icons/ic_menu_48px.svg" aria-hidden="true"></md-icon>
-                </button>
-                <div class="fill-height" layout="row" flex>
-                    Nittedal Banquet Racers
-                </div>
-            </div>
-        </md-toolbar>
+        <ng-include src="'js/components/toolbar/toolbar.html'"></ng-include>
 
-        <!-- Page Content body -->
+        <!-- Page Content body handled by the routing-->
         <md-content ng-view layout="column" flex></md-content>
     </div>
 </body>
@@ -83,6 +56,12 @@
 <script type="text/javascript" src="js/services/dataservice.js"></script>
 <script type="text/javascript" src="js/app.config.js"></script>
 <script type="text/javascript" src="js/app.run.js"></script>
+<script type="text/javascript" src="js/components/calendar/calendar.js"></script>
+<script type="text/javascript" src="js/components/hero/hero.js"></script>
 <script type="text/javascript" src="js/components/landing/landing.js"></script>
+<script type="text/javascript" src="js/components/message/message.js"></script>
+<script type="text/javascript" src="js/components/sidenav/sidenav.js"></script>
+<script type="text/javascript" src="js/components/toolbar/toolbar.js"></script>
+<script type="text/javascript" src="js/components/where/where.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
 </html>

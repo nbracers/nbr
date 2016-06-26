@@ -1,0 +1,12 @@
+@import "../../../scss/colors";
+
+.sidenav-menuButton {
+  border-radius: 0 !important;
+  margin-bottom: 16px;
+  color: $color-white;
+}
+
+.sidenav-menuButton.selected {
+  background-color: $color-orange !important;
+  color: $color-darkgrey;
+}

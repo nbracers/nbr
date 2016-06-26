@@ -1,0 +1,26 @@
+<md-sidenav class="md-sidenav-left" md-whiteframe="3"
+            md-component-id="left"
+            layout-fill="true" layout="column"
+            md-is-locked-open="$mdMedia('gt-sm')">
+    <!-- Side-bar header -->
+    <md-toolbar md-theme="deep-orange" layout-align="center center">
+        <div layout="row" layout-fill layout-padding="true" layout-align="center center">
+            <div flex class="headerPadding">Meny</div>
+        </div>
+    </md-toolbar>
+
+    <!-- Side-bar content -->
+    <md-content class="nbr-darkbackground" layout="column" layout-padding="true" flex ng-controller="SidenavController as sidenavC">
+        <!-- Side-bar content button list -->
+        <md-button ng-repeat="b in sidenavC.menuButtons" class="sidenav-menuButton"
+                   ng-class="{selected: sidenavC.dataService.getSelectedMenuIndex()==$index}"
+                   ng-click="sidenavC.dataService.changeMenuIndex($index)"
+                   ng-href="{{b.target}}"
+                   ng-disabled="b.disabled">{{ b.label }}</md-button>
+        <div flex layout="column" layout-align="end center">
+            <div style="width: 70%">
+                <img src="images/nbr.png" width="100%" class="logo">
+            </div>
+        </div>
+    </md-content>
+</md-sidenav>
