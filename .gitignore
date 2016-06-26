@@ -1,5 +1,0 @@
-.idea/*
-node_modules/*
-public/bower_components/*
-.env
-.DS_Store
