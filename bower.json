@@ -1,0 +1,21 @@
+{
+  "name": "nbr-client",
+  "version": "0.0.1",
+  "authors": [
+    "Dominique Bye-Ribaut <domribaut@gmail.com>",
+    "Jeremy Toussaint <jeremyt@uio.im>"
+  ],
+  "private": true,
+  "description": "NBR application",
+  "dependencies": {
+    "angular": "1.5.5",
+    "angular-route": "1.5.5",
+    "angular-aria": "1.5.5",
+    "angular-animate": "1.5.5",
+    "angular-material": "^1.0.7",
+    "moment": "^2.13.0"
+  },
+  "resolutions": {
+    "angular": "1.5.5"
+  }
+}

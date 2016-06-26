@@ -10,4 +10,11 @@
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/config/common.js" />
+    <file url="file://$PROJECT_DIR$/config/message_manager.js" />
+    <file url="file://$PROJECT_DIR$/config/passport.js" />
+    <file url="file://$PROJECT_DIR$/config/token_manager.js" />
+    <file url="file://$PROJECT_DIR$/config/utilities.js" />
+  </component>
 </project>
